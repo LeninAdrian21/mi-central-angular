@@ -1,0 +1,90 @@
+<div *ngIf="addVentas.value.monto == '' && id" class="carga">
+  <mat-spinner></mat-spinner>
+</div>
+<div *ngIf="addVentas.value.monto !== '' || !id" class="container">
+  <mat-card class="card card-register">
+      <mat-toolbar color="primary" >
+          <span class="card__title">{{this.title}}</span>
+      </mat-toolbar>
+      <form [formGroup]="addVentas" (submit)="addVenta()">
+        <div class="card__form">
+          <mat-form-field  appearance="fill">
+            <mat-label>Monto</mat-label>
+            <input matInput type="number" placeholder="Monto" formControlName="monto"  required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Monto Total</mat-label>
+            <input matInput type="number" placeholder="Monto Total" formControlName="monto_total"  required="true">
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Fecha</mat-label>
+            <input  matInput type="date"  formControlName="fecha" >
+          </mat-form-field>
+          <mat-slide-toggle formControlName="status">Status</mat-slide-toggle>
+          <mat-form-field  appearance="fill">
+            <mat-label>Clasificacion</mat-label>
+            <input matInput type="text" placeholder="Clasificacion" formControlName="clasificacion"  required="true">
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Fecha de entrega</mat-label>
+            <input  matInput type="date"  formControlName="fecha_entrega" >
+          </mat-form-field>
+          <mat-slide-toggle formControlName="entrega_pendiente">Entrega Pendiente</mat-slide-toggle>
+          <mat-slide-toggle formControlName="pagada">Venta Pagada</mat-slide-toggle>
+          <mat-form-field appearance="fill" >
+            <mat-label>Nombre de usuario</mat-label>
+            <mat-select name="usuario_id" formControlName="nombre_usuario">
+              <mat-option *ngFor="let usuario of usuarios$ | async" value={{usuario.id}}>
+                {{usuario.nombre}} {{usuario.ap_paterno}} {{usuario.ap_materno}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="fill" >
+            <mat-label>Nombre del local</mat-label>
+            <mat-select formControlName="nombre_local">
+              <mat-option *ngFor="let local of  locales$ | async" value={{local.id}}>
+                 {{local.nombre}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="fill" >
+            <mat-label>Lugar de origen de la ruta</mat-label>
+            <mat-select formControlName="lugar_origen_ruta">
+              <mat-option *ngFor="let ruta of  rutas$ | async" value={{ruta.id}}>
+                 {{ruta.lugar_origen}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="fill" >
+            <mat-label>Nombre del vendedor</mat-label>
+            <mat-select formControlName="nombre_vendedor">
+              <mat-option *ngFor="let vendedor of  vendedores$ | async" value={{vendedor.id}}>
+                 {{vendedor.nombre}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="fill" >
+            <mat-label>Cantidad del carrito</mat-label>
+            <mat-select formControlName="cantidad_carrito">
+              <mat-option *ngFor="let carrito of  carritos$ | async" value={{carrito.id}}>
+                 {{carrito.cantidad}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="fill" >
+            <mat-label>Numero de tarjeta</mat-label>
+            <mat-select formControlName="numero_tarjeta_metodo_pago">
+              <mat-option *ngFor="let metodoPago of  metodoPago$ | async" value={{metodoPago.id}}>
+                 {{metodoPago.numero_tarjeta}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="flex">
+          <button mat-raised-button type="submit" color="primary" class="btn-register" >
+              {{this.btn}}
+          </button>
+        </div>
+      </form>
+  </mat-card>
+</div>

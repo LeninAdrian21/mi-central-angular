@@ -1,0 +1,89 @@
+<div *ngIf="addProveedores.value.nombre == '' && id" class="carga">
+  <mat-spinner></mat-spinner>
+</div>
+<div *ngIf="addProveedores.value.nombre !== '' || !id" class="container">
+  <mat-card class="card card-register">
+      <mat-toolbar color="primary" >
+          <span class="card__title">{{this.title}}</span>
+      </mat-toolbar>
+      <form [formGroup]="addProveedores" (submit)="addProveedor()">
+        <div class="card__form">
+          <mat-form-field  appearance="fill">
+            <mat-label>Nombre</mat-label>
+            <input matInput type="text" placeholder="Nombre" formControlName="nombre"  required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Razon Social</mat-label>
+            <input matInput type="text" placeholder="Razon Social" formControlName="razon_social"  required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>RFC</mat-label>
+            <input matInput type="text" placeholder="RFC" formControlName="rfc"  required="true">
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Fecha de alta</mat-label>
+            <input  matInput type="datetime" formControlName="fecha_alta" >
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Calle</mat-label>
+            <input matInput type="text" placeholder="Calle" formControlName="calle"  required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Numero</mat-label>
+            <input matInput type="number" placeholder="Numero" formControlName="numero"  required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Colonia</mat-label>
+            <input matInput type="text" placeholder="Colonia" formControlName="colonia"  required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Codigo Postal</mat-label>
+            <input matInput type="number" placeholder="Codigo Postal" formControlName="cp"  required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Municipio</mat-label>
+            <input matInput type="text" placeholder="Municipio" formControlName="municipio"  required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Ciudad</mat-label>
+            <input matInput type="text" placeholder="Ciudad" formControlName="ciudad"  required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Pais</mat-label>
+            <input matInput type="text" placeholder="Pais" formControlName="pais"  required="true">
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Visita Programada</mat-label>
+            <input  matInput type="date" formControlName="fecha_alta" >
+          </mat-form-field>
+
+          <mat-slide-toggle class="card__status" color="warn" formControlName="status">Status</mat-slide-toggle>
+          <mat-form-field appearance="fill" >
+            <mat-label>Nombre del producto</mat-label>
+            <mat-select formControlName="producto_nombre">
+              <mat-option *ngFor="let producto of productos$ | async" value={{producto.id}}>
+                {{producto.nombre}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="fill" >
+            <mat-label>Costo de la compra</mat-label>
+            <mat-select formControlName="id_compra">
+              <mat-option *ngFor="let compra of  compras$ | async" value={{compra.id}}>
+                 {{compra.costo}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="flex">
+          <button mat-raised-button type="submit" color="primary" class="btn-register" >
+              {{this.btn}}
+          </button>
+        </div>
+      </form>
+  </mat-card>
+</div>
+
+
+
+

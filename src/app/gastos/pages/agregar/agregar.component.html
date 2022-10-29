@@ -1,0 +1,52 @@
+<div *ngIf="addGastos.value.fecha == '' && id" class="carga">
+  <mat-spinner></mat-spinner>
+</div>
+<div  *ngIf="addGastos.value.fecha !== '' || !id" class="container">
+  <mat-card class="card card-register">
+      <mat-toolbar color="primary" class=>
+          <span class="card__title">{{title}}</span>
+      </mat-toolbar>
+      <form [formGroup]="addGastos" (submit)="addGasto()">
+        <div class="card__form">
+          <mat-form-field appearance="fill">
+            <mat-label>Fecha</mat-label>
+            <input matInput type="date" formControlName="fecha" required>
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Monto</mat-label>
+            <input matInput type="number" placeholder="Monto"  name="monto" formControlName="monto"  required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Categoria</mat-label>
+            <input matInput type="text" placeholder="Categoria"  name="categoria" formControlName="categoria"  required="true">
+          </mat-form-field>
+          <mat-slide-toggle class="card__status" formControlName="status">Status</mat-slide-toggle>
+          <mat-form-field appearance="fill">
+            <mat-label>Descripcion</mat-label>
+            <textarea matInput placeholder="Descripcion" name="descripcion" formControlName="descripcion" required="true"></textarea>
+          </mat-form-field>
+          <mat-form-field appearance="fill" >
+            <mat-label>Nombre de usuario</mat-label>
+            <mat-select name="usuario_id" formControlName="id_usuario">
+              <mat-option *ngFor="let usuario of usuarios$ | async" value={{usuario.id}}>
+                {{usuario.nombre}} {{usuario.ap_paterno}} {{usuario.ap_materno}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="fill" >
+            <mat-label>Numero de serie del camion</mat-label>
+            <mat-select name="credito_id" formControlName="id_camion">
+              <mat-option *ngFor="let camion of  camiones$ | async" value={{camion.id}}>
+                {{camion.num_serie}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="flex">
+          <button mat-raised-button type="submit" color="primary" class="btn-register">
+              {{this.btn}}
+          </button>
+        </div>
+      </form>
+  </mat-card>
+</div>

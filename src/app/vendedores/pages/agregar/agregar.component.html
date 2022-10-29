@@ -1,0 +1,32 @@
+<div *ngIf="addVendedores.value.nombre == '' && id" class="carga">
+  <mat-spinner></mat-spinner>
+</div>
+<div *ngIf="addVendedores.value.nombre !== '' || !id" class="container">
+  <mat-card class="card card-register">
+      <mat-toolbar color="primary" >
+          <span class="card__title">{{this.title}}</span>
+      </mat-toolbar>
+      <form [formGroup]="addVendedores" (submit)="addVendedor()">
+        <div class="card__form">
+          <mat-form-field  appearance="fill">
+            <mat-label>Nombre</mat-label>
+            <input matInput type="text" placeholder="Nombre" formControlName="nombre"  required="true">
+          </mat-form-field>
+          <mat-form-field appearance="fill" >
+            <mat-label>Monto de la venta</mat-label>
+            <mat-select name="credito_id" formControlName="monto_venta">
+              <mat-option *ngFor="let venta of  ventas$ | async" value={{venta.id}}>
+                 {{venta.monto}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="flex">
+          <button mat-raised-button type="submit" color="primary" class="btn-register" >
+              {{this.btn}}
+          </button>
+        </div>
+      </form>
+  </mat-card>
+</div>
+

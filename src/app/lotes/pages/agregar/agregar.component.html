@@ -1,0 +1,57 @@
+<div *ngIf="addLotes.value.Codigo_interno == '' && id" class="carga">
+  <mat-spinner></mat-spinner>
+</div>
+<div *ngIf="addLotes.value.Codigo_interno !== '' || !id" class="container">
+  <mat-card class="card card-register">
+      <mat-toolbar color="primary" >
+          <span class="card__title">{{this.title}}</span>
+      </mat-toolbar>
+      <form [formGroup]="addLotes" (submit)="addLote()">
+        <div class="card__form">
+          <mat-form-field  appearance="fill">
+            <mat-label>Codigo interno</mat-label>
+            <input matInput type="number" placeholder="Codigo interno"  formControlName="Codigo_interno"  required="true">
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Fecha de arrivo</mat-label>
+            <input  matInput type="date"formControlName="fecha_arrivo" >
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Fecha de caducidad</mat-label>
+            <input  matInput type="date"formControlName="fecha_caducidad" >
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Fecha de adquisicion</mat-label>
+            <input  matInput type="date"formControlName="fecha_adquisio" >
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Costo</mat-label>
+            <input matInput type="number" placeholder="Costo"  formControlName="costo"  required="true">
+          </mat-form-field>
+          <mat-form-field appearance="fill" >
+            <mat-label>Costo de la compra</mat-label>
+            <mat-select formControlName="costo_compra">
+              <mat-option *ngFor="let compra of  compras$ | async" value={{compra.id}}>
+                 {{compra.costo}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <!--[ngClass]="{none: this.visible_usuario}" -->
+          <mat-form-field appearance="fill" >
+            <mat-label>Nombre del producto</mat-label>
+            <mat-select formControlName="nombre_producto">
+              <mat-option *ngFor="let producto of productos$ | async" value={{producto.id}}>
+                {{producto.nombre}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="flex">
+          <button mat-raised-button type="submit" color="primary" class="btn-register" >
+              {{this.btn}}
+          </button>
+        </div>
+      </form>
+  </mat-card>
+</div>
+

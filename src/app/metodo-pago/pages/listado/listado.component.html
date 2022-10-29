@@ -1,0 +1,140 @@
+<h1 class="title">Listar {{this.title}}</h1>
+<div class="flex">
+  <div class="field">
+    <mat-form-field appearance="standard" class="width-100">
+      <mat-label>Filter</mat-label>
+      <input matInput (keyup)="applyFilter( $event)" placeholder="Buscar" #input>
+    </mat-form-field>
+  </div>
+  <button  mat-raised-button color="primary" (click)="Refresh()">
+    Limpiar
+  </button>
+  <button  mat-raised-button color="primary" routerLink="/metodo-pago/agregar">
+    <mat-icon >add </mat-icon>
+    Agregar
+  </button>
+</div>
+<div  class="contenedor">
+  <table mat-table [dataSource]="this.metodoPago$" class="table">
+    <!-- Position Column -->
+    <ng-container matColumnDef={{displayedColumns[0]}}>
+      <th mat-header-cell *matHeaderCellDef> Id </th>
+      <td mat-cell *matCellDef="let element" class="id"> {{element[displayedColumns[0]]}} </td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef={{displayedColumns[1]}}>
+      <th mat-header-cell *matHeaderCellDef> Numero de tarjeta</th>
+      <td mat-cell *matCellDef="let element"> {{element[displayedColumns[1]]}} </td>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef={{displayedColumns[2]}}>
+      <th mat-header-cell *matHeaderCellDef> mes </th>
+      <td mat-cell *matCellDef="let element"> {{element[displayedColumns[2]]}} </td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef={{displayedColumns[3]}}>
+      <th mat-header-cell *matHeaderCellDef> Año </th>
+      <td mat-cell *matCellDef="let element"> {{element[displayedColumns[3]]}} </td>
+    </ng-container>
+    <ng-container matColumnDef={{displayedColumns[4]}}>
+      <th mat-header-cell *matHeaderCellDef> CVC </th>
+      <td mat-cell *matCellDef="let element"> {{element[displayedColumns[4]]}} </td>
+    </ng-container>
+    <ng-container matColumnDef={{displayedColumns[5]}}>
+      <th mat-header-cell *matHeaderCellDef> Titular </th>
+      <td mat-cell *matCellDef="let element"> {{element[displayedColumns[5]]}} </td>
+    </ng-container>
+    <ng-container matColumnDef={{displayedColumns[6]}}>
+      <th mat-header-cell *matHeaderCellDef> Fecha de expedicion </th>
+      <td mat-cell *matCellDef="let element"> {{element[displayedColumns[6]]}} </td>
+    </ng-container>
+    <ng-container matColumnDef={{displayedColumns[7]}}>
+      <th mat-header-cell *matHeaderCellDef> Fecha de ingreso </th>
+      <td mat-cell *matCellDef="let element"> {{element[displayedColumns[7]]}} </td>
+    </ng-container>
+    <ng-container matColumnDef={{displayedColumns[8]}}>
+      <th mat-header-cell *matHeaderCellDef> Folio </th>
+      <td mat-cell *matCellDef="let element"> {{element[displayedColumns[8]]}} </td>
+    </ng-container>
+    <ng-container matColumnDef={{displayedColumns[9]}}>
+      <th mat-header-cell *matHeaderCellDef> Referencia </th>
+      <td mat-cell *matCellDef="let element"> {{element[displayedColumns[9]]}} </td>
+    </ng-container>
+    <ng-container matColumnDef={{displayedColumns[10]}}>
+      <th mat-header-cell *matHeaderCellDef> Tipo </th>
+      <td mat-cell *matCellDef="let element">{{element[displayedColumns[10]]}} </td>
+    </ng-container>
+    <ng-container matColumnDef={{displayedColumns[11]}}>
+      <th mat-header-cell *matHeaderCellDef> Descripcion </th>
+      <td mat-cell *matCellDef="let element" class="descripcion"> {{element[displayedColumns[11]]}} </td>
+    </ng-container>
+    <ng-container matColumnDef={{displayedColumns[12]}}>
+      <th mat-header-cell *matHeaderCellDef> Nombre de usuario  </th>
+      <td mat-cell *matCellDef="let element" class="lista">
+        <p *ngIf="element.usuario">
+          {{element.usuario.nombre}} {{element.usuario.ap_paterno}} {{element.usuario.ap_materno}}
+          <button  mat-mini-fab color="primary" (click)="openDialog(element.usuario.id,'usuarios','Usuario','Usuarios')" class="info">
+            <mat-icon>filter_list</mat-icon>
+          </button>
+        </p>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef={{displayedColumns[13]}}>
+      <th mat-header-cell *matHeaderCellDef> Id de la venta </th>
+      <td mat-cell *matCellDef="let element" class="lista">
+        <p *ngIf="element.venta">
+          {{element.venta.id}}
+          <button  mat-mini-fab color="primary" (click)="openDialog(element.venta.id,'ventas','Venta','Ventas')" class="info">
+            <mat-icon>filter_list</mat-icon>
+          </button>
+        </p>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef={{displayedColumns[14]}}>
+      <th mat-header-cell *matHeaderCellDef> Limite del credito </th>
+      <td mat-cell *matCellDef="let element" class="lista">
+        <p *ngFor="let credito of element.creditos" class="placa">
+          {{credito.limite}}
+          <button  mat-mini-fab color="primary" (click)="openDialog(credito.id,'creditos','Credito','Creditos')" class="info">
+            <mat-icon>filter_list</mat-icon>
+          </button>
+        </p>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef={{displayedColumns[15]}}>
+      <th mat-header-cell *matHeaderCellDef> Id de la compra </th>
+      <td mat-cell *matCellDef="let element" class="lista">
+        <p *ngFor="let compra of element.compras" class="placa">
+          {{compra.id}}
+           <button  mat-mini-fab color="primary" (click)="openDialog(compra.id,'compras','Compras','Compras')" class="info">
+             <mat-icon>filter_list</mat-icon>
+           </button>
+         </p>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="acciones">
+      <th mat-header-cell *matHeaderCellDef class="text-center"> Acciones </th>
+      <td mat-cell *matCellDef="let element">
+        <div class="acciones">
+          <button mat-mini-fab color="acess" [routerLink]="['/metodo-pago/editar/'+ element.id]">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-mini-fab color="primary" (click)="Delete(element.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    <!-- Row shown when there is no matching data. -->
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+    </tr>
+  </table>
+</div>

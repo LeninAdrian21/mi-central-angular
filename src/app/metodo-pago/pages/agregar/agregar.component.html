@@ -1,0 +1,96 @@
+<div *ngIf="addMetodosPago.value.numero_tarjeta == '' && id" class="carga">
+  <mat-spinner></mat-spinner>
+</div>
+<div *ngIf="addMetodosPago.value.numero_tarjeta !== '' || !id" class="container">
+  <mat-card class="card card-register">
+      <mat-toolbar color="primary" class=>
+          <span class="card__title">{{title}}</span>
+      </mat-toolbar>
+      <form [formGroup]="addMetodosPago" (submit)="addMetodoPago()">
+        <div class="card__form">
+          <mat-form-field  appearance="fill">
+            <mat-label>Numero de tarjeta</mat-label>
+            <input matInput type="number" placeholder="Numero de tarjeta"  formControlName="numero_tarjeta"  required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Mes</mat-label>
+            <input matInput type="text" placeholder="Mes"  formControlName="mes"  required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Año</mat-label>
+            <input matInput type="text" placeholder="Año"  formControlName="anio"  required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>CVC</mat-label>
+            <input matInput type="number" placeholder="CVC"  formControlName="cvc"  required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Titula</mat-label>
+            <input matInput type="text" placeholder="Titular"  formControlName="titular"  required="true">
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Fecha de expedicion</mat-label>
+            <input matInput type="date" formControlName="fecha_expedicion">
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Fecha de ingreso</mat-label>
+            <input matInput type="date" formControlName="fecha_ingreso">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Folio</mat-label>
+            <input matInput type="number" placeholder="Folio"  formControlName="folio"  required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Tipo</mat-label>
+            <input matInput type="text" placeholder="Tipo"  formControlName="tipo"  required="true">
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Referencia</mat-label>
+            <textarea matInput placeholder="Referencia" formControlName="referencia"  required="true"></textarea>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Descripcion </mat-label>
+            <textarea matInput placeholder="Descripcion" formControlName="descripcion"  required="true"></textarea>
+          </mat-form-field>
+          <mat-form-field appearance="fill" >
+            <mat-label>Nombre de usuario</mat-label>
+            <mat-select name="usuario_id" formControlName="id_usuario">
+              <mat-option *ngFor="let usuario of usuarios$ | async" value={{usuario.id}}>
+                {{usuario.nombre}} {{usuario.ap_paterno}} {{usuario.ap_materno}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="fill" >
+            <mat-label>Monto de la venta</mat-label>
+            <mat-select name="usuario_id" formControlName="id_venta">
+              <mat-option *ngFor="let venta of ventas$ | async" value={{venta.id}}>
+                {{venta.monto}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="fill" >
+            <mat-label>Limite de credito</mat-label>
+            <mat-select name="usuario_id" formControlName="id_creditos">
+              <mat-option *ngFor="let credito of creditos$ | async" value={{credito.id}}>
+                {{credito.limite}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="fill" >
+            <mat-label>Costo de la compra</mat-label>
+            <mat-select name="usuario_id" formControlName="id_compras">
+              <mat-option *ngFor="let compra of compras$ | async" value={{compra.id}}>
+                {{compra.costo}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="flex">
+          <button mat-raised-button type="submit" color="primary" class="btn-register">
+              {{this.btn}}
+          </button>
+        </div>
+      </form>
+  </mat-card>
+</div>
+

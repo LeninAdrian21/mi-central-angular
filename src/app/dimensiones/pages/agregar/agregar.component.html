@@ -1,0 +1,43 @@
+<div *ngIf="addDimensiones.value.nombre == '' && id" class="carga">
+  <mat-spinner></mat-spinner>
+</div>
+<div *ngIf="addDimensiones.value.nombre !== '' || !id" class="container">
+  <mat-card class="card card-register">
+      <mat-toolbar color="primary" class=>
+          <span class="card__title">{{title}}</span>
+      </mat-toolbar>
+      <form [formGroup]="addDimensiones" (submit) = "addDimension()">
+        <div class="card__form">
+          <mat-form-field  appearance="fill">
+            <mat-label>Nombre</mat-label>
+            <input matInput type="text" placeholder="Nombre"  name="Nombre" formControlName="Nombre"  required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Ancho</mat-label>
+            <input matInput type="number" placeholder="Ancho"  name="ancho" formControlName="ancho"  required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Alto</mat-label>
+            <input matInput type="number" placeholder="Alto"  name="alto" formControlName="alto"  required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Largo</mat-label>
+            <input matInput type="number" placeholder="Largo"  name="largo" formControlName="largo"  required="true">
+          </mat-form-field>
+          <mat-form-field appearance="fill" >
+            <mat-label>Nombre del producto</mat-label>
+            <mat-select name="credito_id" formControlName="id_productos">
+              <mat-option *ngFor="let producto of  productos$ | async" value={{producto.id}}>
+                 {{producto.nombre}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="flex">
+          <button mat-raised-button type="submit" color="primary" class="btn-register">
+             {{this.btn}}
+          </button>
+        </div>
+      </form>
+  </mat-card>
+</div>

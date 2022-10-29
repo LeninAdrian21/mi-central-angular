@@ -1,0 +1,52 @@
+$color-white:#fff;
+@mixin bold {
+  font-weight: 500;
+}
+@mixin color ($color) {
+  color: $color;
+}
+@mixin decoration-none {
+  text-decoration: none;
+}
+@mixin desktop(){
+  @media screen and (min-width: 768px) {
+    @content;
+  }
+}
+@mixin flex ($justify, $align) {
+  display: flex;
+  justify-content: $justify;
+  align-items: $align;
+}
+@mixin flex-justify ($justify) {
+  justify-content: $justify;
+}
+@mixin grid ($columns, $gap) {
+  display: grid;
+  grid-template-columns: repeat($columns, 1fr);
+  grid-gap: $gap;
+}
+@mixin font-size($size) {
+  font-size: $size;
+}
+@mixin margin-auto  {
+  margin: auto;
+}
+@mixin margin-top($size) {
+  margin-top: $size;
+}
+@mixin margin($size) {
+  margin: $size;
+}
+@mixin padding($padding) {
+  padding: $padding;
+}
+@mixin padding-top($padding) {
+  padding-top: $padding;
+}
+@mixin text-align($align) {
+  text-align: $align;
+}
+@mixin width($width) {
+  width: $width;
+}

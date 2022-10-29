@@ -1,0 +1,91 @@
+<div *ngIf="addRutas.value.descripcion == '' && id" class="carga">
+  <mat-spinner></mat-spinner>
+</div>
+<div *ngIf="addRutas.value.descripcion !== '' || !id" class="container">
+  <mat-card class="card card-register">
+      <mat-toolbar color="primary" >
+          <span class="card__title">{{this.title}}</span>
+      </mat-toolbar>
+      <form [formGroup]="addRutas" (submit)="addRuta()">
+        <div class="card__form">
+          <mat-form-field appearance="fill">
+            <mat-label>Descripcion</mat-label>
+            <textarea matInput placeholder="Descripcion" formControlName="descripcion"></textarea>
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Lugar de origen</mat-label>
+            <input matInput type="text" placeholder="Lugar de origen"formControlName="lugar_origen"  required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Destino</mat-label>
+            <input matInput type="text" placeholder="Destino"formControlName="destino"  required="true">
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Fecha de salida</mat-label>
+            <input  matInput type="date" formControlName="fecha_salida" >
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Fecha de llegada</mat-label>
+            <input  matInput type="date" formControlName="fecha_llegada" >
+          </mat-form-field>
+          <mat-slide-toggle class="card__status" color="warn" formControlName="ruta_ciclica">Ruta Ciclica</mat-slide-toggle>
+          <mat-form-field appearance="fill">
+            <mat-label>Referencia</mat-label>
+            <textarea matInput placeholder="Referencia" formControlName="referencia"></textarea>
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Nombre del que recibe la mercancia</mat-label>
+            <input matInput type="text" placeholder="Nombre del que recibe la mercancia" formControlName="nombre_mercancia_recibida"  required="true">
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Comentarios</mat-label>
+            <textarea matInput placeholder="Comentarios" formControlName="comentarios"></textarea>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Estado</mat-label>
+            <mat-select formControlName="estado" required="true">
+              <mat-option  value="Completada">
+                Completada
+              </mat-option>
+              <mat-option  value="Demora">
+                Demora
+              </mat-option>
+              <mat-option  value="Recibida">
+                Recibida
+              </mat-option>
+              <mat-option  value="Devolución">
+                Devolución
+              </mat-option>
+              <!-- <mat-option  value="Otro">
+                Otro
+              </mat-option> -->
+            </mat-select>
+          </mat-form-field>
+          <!-- [ngClass]="{none: this.visible_credito}" -->
+          <mat-form-field appearance="fill" >
+            <mat-label>Monto de la venta</mat-label>
+            <mat-select  formControlName="monto_venta">
+              <mat-option *ngFor="let venta of  ventas$ | async" value={{venta.id}}>
+                 {{venta.monto}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <!--[ngClass]="{none: this.visible_usuario}" -->
+          <mat-form-field appearance="fill" >
+            <mat-label>Numero de serie del camion</mat-label>
+            <mat-select  formControlName="num_serie_camion">
+              <mat-option *ngFor="let camion of camiones$ | async" value={{camion.id}}>
+                {{camion.num_serie}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="flex">
+          <button mat-raised-button type="submit" color="primary" class="btn-register" >
+              {{this.btn}}
+          </button>
+        </div>
+      </form>
+  </mat-card>
+</div>
+

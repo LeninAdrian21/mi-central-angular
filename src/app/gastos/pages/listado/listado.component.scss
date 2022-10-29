@@ -1,0 +1,11 @@
+@import 'styles';
+@include table(160px);
+.table{
+  width: 120%;
+}
+.nombre-usuario{
+  max-width: 180px;
+}
+.info{
+  margin: 0 0 0 5px;
+}

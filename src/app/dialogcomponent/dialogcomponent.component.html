@@ -1,0 +1,21 @@
+<h1 mat-dialog-title>{{this.data.title}}</h1>
+  <div>
+    <ul>
+      <li *ngFor="let columns of table[this.data.table].data ; let i = index ">
+        <div *ngIf="columns">
+          <div *ngIf="columns == 'placas'" class="lista-placas">
+              <pre *ngIf="dataId" class="contenedor-placas">{{table[this.data.table].campo[i]}}: <span *ngFor="let placa of dataId[columns]" class="placas"><span *ngIf="placa.activa == true">{{placa.placa}}</span></span></pre>
+          </div>
+          <pre *ngIf="dataId && columns != 'placas'">{{table[this.data.table].campo[i]}}: {{dataId[columns]}}</pre>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">Close</button>
+  </div>
+
+
+
+<br><br>
+<!-- {{dataId | json}} -->

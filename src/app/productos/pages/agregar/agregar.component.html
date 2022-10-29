@@ -1,0 +1,109 @@
+<div *ngIf="addProductos.value.nombre == '' && id" class="carga">
+  <mat-spinner></mat-spinner>
+</div>
+<div *ngIf="addProductos.value.nombre !== '' || !id" class="container">
+  <mat-card class="card card-register">
+      <mat-toolbar color="primary" class=>
+          <span class="card__title">{{title}}</span>
+      </mat-toolbar>
+      <form [formGroup]="addProductos" (submit)="addProducto()" enctype="multipart/form-data">
+        <div class="card__form">
+          <mat-form-field  appearance="fill">
+            <mat-label>Nombre</mat-label>
+            <input matInput type="text" placeholder="Nombre"  name="" formControlName="nombre"  required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Codigo de barras</mat-label>
+            <input matInput type="number" placeholder=""  formControlName="codigo_barras"  required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Codigo interno</mat-label>
+            <input matInput type="number" placeholder="Codigo Interno"  formControlName="codigo_interno"  required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Peso neto</mat-label>
+            <input matInput type="number" placeholder="Peso neto"  formControlName="peso_neto"  required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Presentacion</mat-label>
+            <input matInput type="text" placeholder="Presentacion"  formControlName="presentacion"  required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Marca</mat-label>
+            <input matInput type="text" placeholder=""  formControlName="marca"  required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Precio</mat-label>
+            <input matInput type="text" placeholder="Precio"  formControlName="precio"  required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Costo</mat-label>
+            <input matInput type="number" placeholder="Costo"   formControlName="costo"  required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Inventario disponible</mat-label>
+            <input matInput type="number" placeholder="Inventario disponible"  name="" formControlName="inventario_disp"  required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Valor minimo</mat-label>
+            <input matInput type="number" placeholder="Valor minimo"  formControlName="value_min"  required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Venta en gramos</mat-label>
+            <input matInput type="text" placeholder="Venta en gramos"  name="" formControlName="venta_gramos"  required="true">
+          </mat-form-field>
+          <mat-slide-toggle class="card__status" color="warn" formControlName="status">Status</mat-slide-toggle>
+          <mat-form-field appearance="fill">
+            <mat-label>Descripcion generica</mat-label>
+            <textarea matInput placeholder="Descripcion generica" formControlName="descripcion_generica"  required="true"></textarea>
+          </mat-form-field>
+          <mat-form-field appearance="fill" >
+            <mat-label>Nombre (Dimension) </mat-label>
+            <mat-select name="credito_id" formControlName="id_dimension">
+              <mat-option *ngFor="let dimension of  dimensiones$ | async" value={{dimension.id}}>
+                 {{dimension.Nombre}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="fill" >
+            <mat-label>Codigo interno del lote</mat-label>
+            <mat-select name="credito_id" formControlName="id_lote">
+              <mat-option *ngFor="let lote of  lotes$ | async" value={{lote.id}}>
+                 {{lote.Codigo_interno}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="fill" >
+            <mat-label>Id de la promocion</mat-label>
+            <mat-select name="credito_id" formControlName="id_promociones">
+              <mat-option *ngFor="let promocion of  promociones$ | async" value={{promocion.id}}>
+                 {{promocion.id}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="fill" >
+            <mat-label>Nombre del proveedor</mat-label>
+            <mat-select name="credito_id" formControlName="id_proveedor">
+              <mat-option *ngFor="let proveedor of  proveedores$ | async" value={{proveedor.id}}>
+                 {{proveedor.nombre}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="fill" >
+            <mat-label>Id del carrito</mat-label>
+            <mat-select name="credito_id" formControlName="id_carritos">
+              <mat-option *ngFor="let carrito of  carritos$ | async" value={{carrito.id}}>
+                 {{carrito.id}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="flex">
+          <button mat-raised-button type="submit" color="primary" class="btn-register">
+              {{this.btn}}
+          </button>
+        </div>
+      </form>
+  </mat-card>
+</div>
+

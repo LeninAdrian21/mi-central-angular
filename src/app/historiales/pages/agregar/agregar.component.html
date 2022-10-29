@@ -1,0 +1,49 @@
+<div *ngIf="addHistoriales.value.fecha == '' && id" class="carga">
+  <mat-spinner></mat-spinner>
+</div>
+<div *ngIf="addHistoriales.value.fecha !== '' || !id" class="container">
+  <mat-card class="card card-register">
+      <mat-toolbar color="primary" class=>
+          <span class="card__title">{{title}}</span>
+      </mat-toolbar>
+      <form [formGroup]="addHistoriales" (submit)="addHistorial()">
+        <div class="card__form">
+          <mat-form-field appearance="fill">
+            <mat-label>Fecha</mat-label>
+            <input matInput type="date" formControlName="fecha">
+          </mat-form-field>
+          <mat-slide-toggle class="card__status" color="warn" formControlName="status">Status</mat-slide-toggle>
+          <mat-form-field  appearance="fill">
+            <mat-label>Hora de inicio</mat-label>
+            <input matInput type="time" placeholder="Hora de inicio"  name="hora_inicio" formControlName="hora_inicio" required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Hora de fin </mat-label>
+            <input matInput type="time" placeholder="Hora de fin"  name="hora_fin" formControlName="hora_fin" required="true">
+          </mat-form-field>
+          <mat-form-field appearance="fill" >
+            <mat-label>Nombre de usuario</mat-label>
+            <mat-select name="usuario_id" formControlName="id_usuario">
+              <mat-option *ngFor="let usuario of usuarios$ | async" value={{usuario.id}}>
+                {{usuario.nombre}} {{usuario.ap_paterno}} {{usuario.ap_materno}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="fill" >
+          <mat-label>Numero de serie del camion</mat-label>
+            <mat-select name="usuario_id" formControlName="id_camiones">
+              <mat-option *ngFor="let camion of camiones$ | async" value={{camion.id}}>
+                {{camion.num_serie}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="flex">
+          <button mat-raised-button type="submit" color="primary" class="btn-register">
+              {{this.btn}}
+          </button>
+        </div>
+      </form>
+  </mat-card>
+</div>
+

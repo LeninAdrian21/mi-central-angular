@@ -1,0 +1,36 @@
+
+<mat-sidenav-container fullscreen>
+  <mat-sidenav #sidenav mode="push">
+    <mat-toolbar color="primary">
+        <span>Menu</span>
+        <span class="spacer"></span>
+        <button mat-icon-button (click)="sidenav.toggle()">
+          <mat-icon>menu</mat-icon>
+        </button>
+    </mat-toolbar>
+    <mat-nav-list>
+        <a *ngFor="let data of navData" [routerLink]="[data.routerLink]" mat-list-item (click)="sidenav.toggle()">
+          <div *ngFor="let permiso of data.permiso">
+            <div *ngIf="permiso == 'Administrator'" class="nav">
+              <mat-icon>{{data.icon}}</mat-icon>
+              <div class="nav__label">{{data.label}}</div>
+            </div>
+          </div>
+
+        </a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-toolbar>
+    <button mat-icon-button (click)="sidenav.toggle()">
+      <mat-icon >menu</mat-icon>
+    </button>
+    <div class="width-100">
+      <h1 class="text-center">Mi central</h1>
+    </div>
+    <span class="spacer"></span>
+    <button mat-button (click)="Logout()" >
+      Logout
+    </button>
+  </mat-toolbar>
+  <router-outlet></router-outlet>
+</mat-sidenav-container>

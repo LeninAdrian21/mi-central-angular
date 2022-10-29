@@ -1,0 +1,105 @@
+<div *ngIf="addLocales.value.nombre == '' && id" class="carga">
+  <mat-spinner></mat-spinner>
+</div>
+<div *ngIf="addLocales.value.nombre !== '' || !id" class="container">
+  <mat-card class="card card-register">
+      <mat-toolbar color="primary" class=>
+          <span class="card__title">{{title}}</span>
+      </mat-toolbar>
+      <form [formGroup]="addLocales" (submit)="addLocal()">
+        <div class="card__form">
+          <mat-form-field  appearance="fill">
+            <mat-label>Nombre</mat-label>
+            <input matInput type="text" placeholder="Nombre"  name="" formControlName="nombre"  required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Alias</mat-label>
+            <input matInput type="text" placeholder="Alias"  name="alias" formControlName="alias"  required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Razon Social</mat-label>
+            <input matInput type="text" placeholder="Razon Social"  name="razon_social" formControlName="razon_social"  required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>RFC</mat-label>
+            <input matInput type="text" placeholder="RFC"  name="" formControlName="rfc"  required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Fecha alta</mat-label>
+            <input matInput type="date" placeholder="Fecha alta"  name="fecha_alta" formControlName="fecha_alta"  required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Calle</mat-label>
+            <input matInput type="text" placeholder="Calle"  name="calle" formControlName="calle"  required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Colonia</mat-label>
+            <input matInput type="text" placeholder="Colonia"  name="colonia" formControlName="Colonia"  required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Numero exterior</mat-label>
+            <input matInput type="number" placeholder="Numero exterior"  name="numero_ext" formControlName="numero_ext"  required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Municipio</mat-label>
+            <input matInput type="text" placeholder="Municipio"  name="municipio" formControlName="Municipio"  required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Numero interior</mat-label>
+            <input matInput type="number" placeholder=""  name="" formControlName="numero_int"  required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Ciudad</mat-label>
+            <input matInput type="text" placeholder="Ciudad"  name="Ciudad" formControlName="ciudad"  required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Codigo Postal</mat-label>
+            <input matInput type="number" placeholder="Codigo postal"  name="cp" formControlName="cp"  required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Latitud</mat-label>
+            <input matInput type="text" placeholder="Latitud"  name="latitud" formControlName="latitud"  required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Longitud</mat-label>
+            <input matInput type="text" placeholder="Longitud"  name="longitud" formControlName="longitud"  required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Telefono</mat-label>
+            <input matInput type="number" placeholder="Telefono"  name="telefono" formControlName="telefono"  required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Telefono Celular</mat-label>
+            <input matInput type="number" placeholder=""  name="" formControlName="telefono_cel"  required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Giro</mat-label>
+            <input matInput type="text" placeholder="Giro"  name="giro" formControlName="giro"  required="true">
+          </mat-form-field>
+          <mat-slide-toggle class="card__status" color="warn" formControlName="status">Status</mat-slide-toggle>
+          <mat-form-field appearance="fill" >
+            <mat-label>Monto de venta</mat-label>
+            <mat-select  formControlName="id_ventas">
+              <mat-option *ngFor="let venta of ventas$ | async" value={{venta.id}}>
+               {{venta.monto}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="fill" >
+            <mat-label>Nombre de usuario</mat-label>
+            <mat-select  formControlName="id_usuario">
+              <mat-option *ngFor="let usuario of usuarios$ | async" value={{usuario.id}}>
+                {{usuario.nombre}} {{usuario.ap_paterno}} {{usuario.ap_materno}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="flex">
+          <button mat-raised-button type="submit" color="primary" class="btn-register">
+              {{this.btn}}
+          </button>
+        </div>
+      </form>
+  </mat-card>
+</div>
+
