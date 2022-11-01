@@ -37,7 +37,7 @@
             <mat-label>Codigo interno</mat-label>
             <mat-select name="usuario_id" formControlName="id_lote">
               <mat-option *ngFor="let lote of lotes$ | async" value={{lote.id}}>
-               {{lote.Codigo_interno}}
+               {{lote.codigo_interno}}
               </mat-option>
             </mat-select>
           </mat-form-field>
@@ -57,4 +57,9 @@
         </div>
       </form>
   </mat-card>
+</div>
+<div class="cargando" *ngIf="this.carga == 'true'">
+  <div class="spinner">
+    <mat-spinner></mat-spinner>
+  </div>
 </div>

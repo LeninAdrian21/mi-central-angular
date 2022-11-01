@@ -16,6 +16,7 @@ export class ListadoComponent implements OnInit {
   title: string = table.Camiones.title;
   camiones$ = this.service.camiones$;
   displayedColumns: string[] = table.Camiones.columns;
+  rol:any;
   constructor(
     private service: GetdataService,
     private crud: CrudService,
@@ -27,7 +28,7 @@ export class ListadoComponent implements OnInit {
       this.crud.addCampo = false;
       return location.reload();
     }
-
+    this.rol = localStorage.getItem('rol');
   }
   applyFilter(event: Event) {
       const filterValue = (event.target as HTMLInputElement).value;

@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CrudService } from 'src/app/services/crud.service';
-import { GetCrudService } from 'src/app/services/get-crud.service';
 import { comprasForm } from 'src/functions/form';
 import { Add, compraId, Update } from 'src/functions/functions';
 import { CompraService } from '../../service/compra.service';
@@ -22,9 +21,11 @@ export class AgregarComponent implements OnInit {
   lotes$ = this.get.lotes$;
   proveedores$ = this.get.proveedores$;
   body:any;
+  carga:any;
   constructor(private service:CrudService, private formBuilder:FormBuilder, private router:Router, private route:ActivatedRoute, private get:CompraService) { }
 
   ngOnInit(): void {
+    this.carga = localStorage.getItem('carga');
     this.id = this.route.snapshot.params['id'];
     this.addCompras = this.formBuilder.group(comprasForm)
     if (this.id){
@@ -68,6 +69,8 @@ export class AgregarComponent implements OnInit {
     }
     console.log(this.body);
     if (this.btn =="Actualizar"){
+      localStorage.setItem('carga','true');
+      this.carga = localStorage.getItem('carga');
       return Update('compras',this.id,this.body,this.router, this.service,'Compra actualizada con exito','/compras/listar')
     }
     // this.service.add('compras',this.addCompras.value,this.jwt,this.token).subscribe(

@@ -2,6 +2,13 @@
 const token = localStorage.getItem('token');
 //Dialog
 
+export function NavData(nav:any, data:any, rol:string){
+  nav.forEach((element:any) => {
+    if(element.permiso.includes(rol)){
+      data.push(element);
+    }
+  });
+}
 export function openDialog(id:string,url:string,title:string,table:string,dialog:any,component:any){
   dialog.open(component, {
     height:'550px',width:'500px',
@@ -120,6 +127,7 @@ export function carritoId(service:any, url:any,formgroup:any){
 export function compraId(service:any, url:any,formgroup:any){
   service.get(url,token).subscribe(
     (data:any) => {
+      console.log(data);
       formgroup.patchValue({
         costo:data.costo,
         fecha_pedido: data.fecha_pedido,
@@ -127,9 +135,9 @@ export function compraId(service:any, url:any,formgroup:any){
         fecha_llegada: data.fecha_llegada,
         status: data.status
       })
-      if(data.metodos_de_pago){
+      if(data.metodo_pago){
         formgroup.patchValue({
-          id_metodoPago:data.metodos_de_pago.id
+          id_metodoPago:data.metodo_pago.id
         })
       }
       if(data.lote){
@@ -324,32 +332,33 @@ export function localesId(service:any, url:any,formgroup:any){
 export function lotesId(service:any, url:any,formgroup:any){
   service.get(url,token).subscribe(
     (data:any) => {
-      const {
-        Codigo_interno,
-        fecha_arrivo,
-        fecha_caducidad,
-        fecha_adquisio,
-        costo,
-        compras,
-        productos
-      } = data;
-      formgroup.patchValue({
-        Codigo_interno,
-        fecha_arrivo,
-        fecha_caducidad,
-        fecha_adquisio,
-        costo,
-      })
-      if(compras.length > 0){
-        formgroup.patchValue({
-          costo_compra:compras[0].id
-        })
-      }
-      if(productos.length > 0){
-        formgroup.patchValue({
-          nombre_producto:productos[0].id
-        })
-      }
+      console.log(data);
+      // const {
+      //   Codigo_interno,
+      //   fecha_arrivo,
+      //   fecha_caducidad,
+      //   fecha_adquisio,
+      //   costo,
+      //   compras,
+      //   productos
+      // } = data;
+      // formgroup.patchValue({
+      //   Codigo_interno,
+      //   fecha_arrivo,
+      //   fecha_caducidad,
+      //   fecha_adquisio,
+      //   costo,
+      // })
+      // if(compras.length > 0){
+      //   formgroup.patchValue({
+      //     costo_compra:compras[0].id
+      //   })
+      // }
+      // if(productos.length > 0){
+      //   formgroup.patchValue({
+      //     nombre_producto:productos[0].id
+      //   })
+      // }
     },
     (error:any) => {
       console.log(error);
@@ -863,6 +872,7 @@ export function Update(url:any, id:any,body:any,router:any,service:any, mensaje:
     }
   );
 }
+
 export function Delete(id:string,service:any,url:string ){
   service.delete(url, id,token).subscribe(
     (data:any) => {

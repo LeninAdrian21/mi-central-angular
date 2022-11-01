@@ -27,7 +27,7 @@ export class AgregarComponent implements OnInit {
     if (this.id){
       this.btn = "Actualizar";
       this.title = "Actualizar Lotes";
-      lotesId(this.service,'lotes/'+this.id, this.addLotes);
+      lotesId(this.service,'lotes/'+ this.id, this.addLotes);
     }
   }
   addLote(){
@@ -58,7 +58,7 @@ export class AgregarComponent implements OnInit {
       }
       this.body = Object.assign(this.body, productos)
     }
-    if(this.btn =="Actualizar"){
+    if(this.btn == "Actualizar"){
       return Update('lotes',this.id,this.body,this.router,this.service,'Lote actualizado con exito','/lotes/listar');
     }
     Add('lotes',this.body,this.service,this.router,'Lote agregado correctamente','/lotes/listar');

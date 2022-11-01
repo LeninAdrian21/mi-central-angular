@@ -9,92 +9,108 @@ export const navData =[
     routerLink: '/camiones/listado',
     label: 'Camiones',
     icon: 'label',
-    permiso:['Administrator','Delivery man']
+    permiso:['Administrator']
   },
   {
     routerLink: '/carritos/listado',
     label: 'Carritos',
     icon: 'label',
-    permiso:['Administrator','Delivery man']
+    permiso:['Administrator']
   },
   {
     routerLink: '/compras/listado',
     label: 'Compras',
-    icon: 'label'
+    icon: 'label',
+     permiso:['Administrator']
   },
   {
     routerLink: '/creditos/listado',
     label: 'Creditos',
-    icon: 'label'
+    icon: 'label',
+     permiso:['Administrator']
   },
   {
     routerLink: '/dimensiones/listado',
     label: 'Dimensiones',
-    icon: 'label'
+    icon: 'label',
+     permiso:['Administrator']
   },
   {
     routerLink: '/gastos/listado',
     label: 'Gastos',
-    icon: 'label'
+    icon: 'label',
+     permiso:['Administrator']
   },
   {
     routerLink: '/historiales/listado',
     label: 'Historiales',
-    icon: 'label'
+    icon: 'label',
+     permiso:['Administrator']
   },
   {
     routerLink: '/locales/listado',
     label: 'Locales',
-    icon: 'label'
+    icon: 'label',
+     permiso:['Administrator']
   },
   {
     routerLink: '/lotes/listado',
     label: 'Lotes',
-    icon: 'label'
+    icon: 'label',
+     permiso:['Administrator', 'Delivery man']
   },
   {
     routerLink: '/metodo-pago/listado',
     label: 'Metodo de Pago',
-    icon: 'label'
+    icon: 'label',
+     permiso:['Administrator']
   },
   {
     routerLink: '/productos/listado',
     label: 'Productos',
-    icon: 'label'
+    icon: 'label',
+     permiso:['Administrator']
   },
   {
     routerLink: '/promociones/listado',
     label: 'Promociones',
-    icon: 'label'
+    icon: 'label',
+     permiso:['Administrator']
   },
   {
     routerLink: '/proveedores/listado',
     label: 'Proveedores',
-    icon: 'label'
+    icon: 'label',
+     permiso:['Administrator']
   },
   {
     routerLink: '/rutas/listado',
     label: 'Rutas',
-    icon: 'label'
+    icon: 'label',
+     permiso:['Administrator']
   },
   {
     routerLink: '/tipo-rol/listado',
     label: 'Tipo de Rol',
-    icon: 'label'
+    icon: 'label',
+     permiso:['Administrator']
   },
   {
     routerLink: '/usuarios/listado',
     label: 'Usuarios',
-    icon: 'label'
+    icon: 'label',
+     permiso:['Administrator']
   },
   {
     routerLink: '/vendedores/listado',
     label: 'Vendedores',
-    icon: 'label'
+    icon: 'label',
+     permiso:['Administrator']
   },
   {
     routerLink: '/ventas/listado',
     label: 'Ventas',
-    icon: 'label'
+    icon: 'label',
+     permiso:['Administrator']
   }
 ]

@@ -88,6 +88,12 @@
     justify-content: center;
     align-items: center;
   }
+  .carga2{
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   .container{
     @include desktop(){
       @include width(1000px);

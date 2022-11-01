@@ -1,11 +1,7 @@
 @import 'styles';
 @include abonos;
 
-.nav{
-  display: flex;
-  align-items: center;
-  justify-content:center;
-}
-.nav__label{
-  margin: 0 0 0 10px;
+.nav__title{
+  text-decoration: none;
+  color: white;
 }

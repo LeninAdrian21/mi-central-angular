@@ -1,3 +1,4 @@
+import { CoreModule } from './core/core.module';
 import { DialogcomponentComponent } from './dialogcomponent/dialogcomponent.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -29,7 +30,8 @@ import { ToastrModule } from 'ngx-toastr';
     HttpClientModule,
     MaterialModule,
     ReactiveFormsModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    CoreModule
   ],
   providers: [],
   bootstrap: [AppComponent]

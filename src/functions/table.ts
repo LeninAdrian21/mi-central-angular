@@ -55,8 +55,8 @@ export const table ={
   },
   Lotes:{
     title:'Lotes',
-    columns:['id','Codigo_interno','fecha_arrivo','fecha_caducidad','fecha_adquisio','costo','costo_compra','nombre_producto','acciones'],
-    data:['id','Codigo_interno','fecha_arrivo','fecha_caducidad','fecha_adquisio','costo'],
+    columns:['id','codigo_interno','fecha_arrivo','fecha_caducidad','fecha_adquisicion','costo','costo_compra','nombre_producto','acciones'],
+    data:['id','codigo_interno','fecha_arrivo','fecha_caducidad','fecha_adquisicion','costo'],
     campo:['Id','Codigo interno','Fecha de arrivo','Fecha de caducidad','Fecha de adquisición','Costo']
   },
   MetodoPago:{
