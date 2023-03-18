@@ -1,11 +1,10 @@
-import { proveedoresForm } from './../../../../functions/form';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { CrudService } from 'src/app/services/crud.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AbonoService } from 'src/app/abonos/service/abono.service';
-import { Add, proveedoresId, Update } from 'src/functions/functions';
 import { ProveedorService } from '../../service/proveedor.service';
+import { proveedoresForm } from '../../functions/form';
+import { Proveedor } from '../../functions/functions';
 
 @Component({
   selector: 'app-agregar',
@@ -13,54 +12,52 @@ import { ProveedorService } from '../../service/proveedor.service';
   styleUrls: ['./agregar.component.scss']
 })
 export class AgregarComponent implements OnInit {
+   // Formaulario
   productos$ = this.get.productos$;
   compras$ = this.get.compras$;
-  addProveedores!:FormGroup;
+  formProveedores!:FormGroup;
+  // el id y el cuerpo de la peticion
   id: any;
+  //texto dinamicos
   btn: string = 'Agregar';
   title: string = "Agregar Proveedor";
-  body:any;
-  constructor(private service:CrudService,private formBuilder:FormBuilder,private router:Router, private route:ActivatedRoute,private get:ProveedorService ) { }
+  // Cambios en la interfaz;
+  cargaOptions = false;
+  submitted = false;
+  // boton de Loading en la interfas
+  addUpdate = false;
+  constructor( private formBuilder: FormBuilder,
+    private get:ProveedorService,
+    private service:CrudService,
+    private route: ActivatedRoute,
+    private router: Router ) { }
   ngOnInit(): void {
-    this.id = this.route.snapshot.params['id'];
-    this.addProveedores = this.formBuilder.group(proveedoresForm);
+    this.id =  this.route.snapshot.params['id'];
+    this.formProveedores = this.formBuilder.group(proveedoresForm);
     if(this.id){
       this.btn = "Actualizar";
-      this.title = "Actualizar Proveedor";
-      proveedoresId(this.service,'proveedors/'+ this.id, this.addProveedores);
+      this.title = "Actualizar proveedor";
+      Proveedor.ProveedorId(this.service,'proveedors/'+this.id,this.formProveedores);
+      setTimeout(()=>{
+        this.cargaOptions = true;
+      }, 10000)
     }
+    setTimeout(()=>{
+      this.cargaOptions = true;
+    }, 10000)
   }
-  addProveedor(){
-    if(!this.addProveedores.valid){
-      return alert('Faltan campos por llenar y/o no son validos');
+  formProveedor(){
+    this.submitted = true;
+    if(this.formProveedores.invalid){
+      Proveedor.Mensaje('Formulario invalido')
+      return;
     }
-    const {productos_nombre, id_compra} = this.addProveedores.value;
-    delete this.addProveedores.value.productos_nombre;
-    delete this.addProveedores.value.id_compras;
-    this.body = Object.assign(this.addProveedores.value);
-    if(productos_nombre){
-      const productos ={
-        productos:[
-          {
-            _id:productos_nombre
-          }
-        ]
-      }
-      this.body = Object.assign(this.body, productos);
+    const {id_productos, id_compras} = this.formProveedores.value;
+    this.addUpdate = true;
+    if(this.btn == 'Actualizar'){
+      Proveedor.update(this.service,this.id,this.router,this.formProveedores,id_productos, id_compras);
+      return;
     }
-    if(id_compra){
-      const compras ={
-        compras: [
-          {
-            _id:id_compra
-          }
-        ]
-      }
-      this.body = Object.assign(this.body, compras);
-    }
-    if(this.btn =="Actualizar"){
-      return Update('proveedors',this.id,this.body,this.router,this.service,'Proveedor actualizado con exito','/proveedores/listar');
-    }
-    Add('proveedors',this.body,this.service,this.router,'Proveedor agregado correctamente','/proveedores/listar');
+    Proveedor.add(this.service,this.router,this.formProveedores,id_productos, id_compras);
   }
 }

@@ -4,14 +4,11 @@ import { ListadoComponent } from './pages/listado/listado.component';
 import { AbonosRoutingModule } from './abonos-routing.module';
 import { MaterialModule } from '../material/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AgregarComponent } from './pages/agregar/agregar.component';
-
-
-
+import { FormAbonosComponent } from './pages/form-abonos/form-abonos.component';
 @NgModule({
   declarations: [
     ListadoComponent,
-    AgregarComponent
+    FormAbonosComponent,
   ],
   imports: [
     CommonModule,

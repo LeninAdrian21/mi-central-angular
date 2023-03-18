@@ -2,11 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CrudService } from 'src/app/services/crud.service';
-import { GetCrudService } from 'src/app/services/get-crud.service';
-import { GetdataService } from 'src/app/services/getdata.service';
-import { vendedoresForm } from 'src/functions/form';
-import { Add, Update, VendedoresId } from 'src/functions/functions';
 import { VendedorService } from '../../service/vendedor.service';
+import { Vendedor } from '../../functions/functions';
+import { vendedoresForm } from '../../functions/form';
 
 @Component({
   selector: 'app-agregar',
@@ -14,45 +12,56 @@ import { VendedorService } from '../../service/vendedor.service';
   styleUrls: ['./agregar.component.scss']
 })
 export class AgregarComponent implements OnInit {
+  // Formaulario
   ventas$ = this.get.ventas$;
-  addVendedores!:FormGroup;
+  formVendedores!:FormGroup;
+  // el id y el cuerpo de la peticion
   id:any;
+  //texto dinamicos
   btn: string = "Agregar";
   title: string = "Agregar Vendedores";
-  body:any;
-  constructor(private service:CrudService,private formBuilder:FormBuilder,private router:Router, private route:ActivatedRoute, private get:VendedorService) { }
+  // Cambios en la interfaz;
+  cargaOptions = false;
+  submitted = false;
+  // boton de Loading en la interfas
+  addUpdate = false;
+  constructor(
+    private formBuilder: FormBuilder,
+    private get:VendedorService,
+    private service:CrudService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
 
-    this.id = this.route.snapshot.params['id'];
-    this.addVendedores = this.formBuilder.group(vendedoresForm);
-    if (this.id){
+    this.id =  this.route.snapshot.params['id'];
+    this.formVendedores = this.formBuilder.group(vendedoresForm);
+    if(this.id){
       this.btn = "Actualizar";
-      this.title = "Actualizar Vendedor";
-      VendedoresId(this.service,'vendedor-s/'+this.id, this.addVendedores);
+      this.title = "Actualizar Abono";
+      Vendedor.VendedoresId(this.service,'vendedores/'+this.id,this.formVendedores);
+      setTimeout(()=>{
+        this.cargaOptions = true;
+      }, 10000)
     }
+    setTimeout(()=>{
+      this.cargaOptions = true;
+    }, 10000)
   }
-  addVendedor(){
-    if (!this.addVendedores.valid){
-      return alert('Faltan campos por llenar y/o no son validos');
+  formVendedor(){
+    this.submitted = true;
+    if (this.formVendedores.invalid){
+      Vendedor.Mensaje('Formulario invalido')
+      return;
     }
-    const {monto_venta} = this.addVendedores.value;
-    delete this.addVendedores.value.monto_venta;
-    this.body = Object.assign(this.addVendedores.value);
-    if(monto_venta){
-      const ventas = {
-        ventas:[
-          {
-            _id:monto_venta
-          }
-        ]
-      }
-      this.body = Object.assign(this.body, ventas);
+    const {id_ventas} = this.formVendedores.value;
+    this.addUpdate = true;
+    if(this.btn == 'Actualizar'){
+      Vendedor.update(this.service,this.id,this.router,this.formVendedores,id_ventas);
+      return;
     }
-    if(this.btn =="Actualizar"){
-      return Update('vendedor-s',this.id,this.body,this.router,this.service,'Vendedor actualizado con exito','/vendedores/listar');
-    }
-    Add('vendedor-s',this.body,this.service,this.router,'Vendedor agregado correctamente','/vendedores/listar');
+    Vendedor.add(this.service,this.router,this.formVendedores,id_ventas);
   }
 
 }

@@ -1,4 +1,4 @@
-<div *ngIf="addRutas.value.descripcion == '' && id" class="carga">
+<!-- <div *ngIf="addRutas.value.descripcion == '' && id" class="carga">
   <mat-spinner></mat-spinner>
 </div>
 <div *ngIf="addRutas.value.descripcion !== '' || !id" class="container">
@@ -59,19 +59,19 @@
               <!-- <mat-option  value="Otro">
                 Otro
               </mat-option> -->
-            </mat-select>
-          </mat-form-field>
+            <!-- </mat-select>
+          </mat-form-field> -->
           <!-- [ngClass]="{none: this.visible_credito}" -->
-          <mat-form-field appearance="fill" >
+          <!-- <mat-form-field appearance="fill" >
             <mat-label>Monto de la venta</mat-label>
             <mat-select  formControlName="monto_venta">
               <mat-option *ngFor="let venta of  ventas$ | async" value={{venta.id}}>
                  {{venta.monto}}
               </mat-option>
             </mat-select>
-          </mat-form-field>
+          </mat-form-field> -->
           <!--[ngClass]="{none: this.visible_usuario}" -->
-          <mat-form-field appearance="fill" >
+          <!-- <mat-form-field appearance="fill" >
             <mat-label>Numero de serie del camion</mat-label>
             <mat-select  formControlName="num_serie_camion">
               <mat-option *ngFor="let camion of camiones$ | async" value={{camion.id}}>
@@ -88,4 +88,4 @@
       </form>
   </mat-card>
 </div>
-
+ -->

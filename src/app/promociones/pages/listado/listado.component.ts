@@ -1,63 +1,66 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { map } from 'rxjs';
 import { DialogcomponentComponent } from 'src/app/dialogcomponent/dialogcomponent.component';
-import { PopUpComponent } from 'src/app/pop-up/pop-up.component';
 import { CrudService } from 'src/app/services/crud.service';
-import { GetdataService } from 'src/app/services/getdata.service';
-import { deleteDialog, openDialog } from 'src/functions/functions';
 import { table } from 'src/functions/table';
+import { DataPromocionesService } from '../../service/data-promociones.service';
+import { Promocion } from '../../functions/functions';
 @Component({
   selector: 'app-listado',
   templateUrl: './listado.component.html',
   styleUrls: ['./listado.component.scss']
 })
 export class ListadoComponent implements OnInit {
-  title:string = table.Promociones.title;
-  promociones$ = this.service.promociones$;
-  displayedColumns: string[] = table.Promociones.columns;
+  filter:any;
+  $promociones = this.data.promociones$;
+  dataPromociones:any[] = [];
+  displayedColumns:string[] = table.Promociones.columns;
+  dataSource = new MatTableDataSource<any>([]);
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+  }
   constructor(
-    private service: GetdataService,
-    private crud: CrudService,
-    private dialog: MatDialog
+    private data:DataPromocionesService, private service: CrudService, private dialog:MatDialog
   ){}
   ngOnInit(): void {
-    if (this.crud.addCampo == true) {
-      this.crud.addCampo = false;
+    if(this.service.addCampo == true){
+      this.service.addCampo = false;
       return location.reload();
     }
+    this.Listar();
   }
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.promociones$ = this.promociones$.pipe(
-      map((promociones) =>
-        promociones.filter(
-          (promocion: {
-            fecha_creacion:any,
-            fecha_vigencia:any,
-            valor_descuento:any,
-            codigo_ref:any,
-            condicin:any
-            id:any;
-          }) =>
-            promocion.id.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-            promocion.fecha_creacion.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-            promociones.fecha_vigencia.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-            promociones.valor_descuento.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-            promociones.codigo_ref.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-            promociones.condicion.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1
-        )
-      )
-    );
+  applyFilter(event:any){
+    Promocion.ApplyFilter(event,this.dataSource)
   }
-  Refresh() {
-    location.reload();
+  Refresh(){
+    this.dataSource.data = this.dataPromociones;
+    this.filter = '';
   }
-  Delete(id: string) {
-    deleteDialog(id,this.crud,'promociones',this.dialog,PopUpComponent);
+  Listar(){
+    this.$promociones.subscribe(element =>{
+      element.forEach((element:any, index:any) => {
+        let data = {
+          no:index + 1,
+          id:element.id,
+          fecha_creacion:element.fecha_creacion,
+          fecha_vigencia:element.fecha_vigencia,
+          valor_descuento:element.valor_descuento,
+          codigo_ref:element.codigo_ref,
+          condicion:element.condicion,
+          productos:element.productos
+        }
+        this.dataPromociones.push(data);
+      });
+      this.dataSource.data = this.dataPromociones;
+    });
   }
-  openDialog(id: string, url: string, title: string, table: string) {
-    openDialog(id,url,title,table,this.dialog,DialogcomponentComponent);
+  openDialog(id:string, url:string,title:string, table:string){
+    Promocion.OpenDialog(id,url,title,table,this.dialog,DialogcomponentComponent);
+  }
+  Delete(id:string){
+    Promocion.delete(id,this.service);
   }
 }

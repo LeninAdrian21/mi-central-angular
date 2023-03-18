@@ -15,8 +15,8 @@ export class VentaService {
   private usuariosSubject = new BehaviorSubject<any>([]);
   usuarios$ = this.usuariosSubject.asObservable();
   private vendedorSubject = new BehaviorSubject<any>([]);
-  private metodoPagoSubject = new BehaviorSubject<any>([]);
-  metodoPago$ = this.metodoPagoSubject.asObservable();
+  private metodosPagoSubject = new BehaviorSubject<any>([]);
+  metodosPago$ = this.metodosPagoSubject.asObservable();
   vendedor$ = this.vendedorSubject.asObservable();
   jwt: any = localStorage.getItem('jwt');
   token: any = localStorage.getItem('token');
@@ -53,7 +53,7 @@ export class VentaService {
   metodoPago(){
     this.service.get('metodos-de-pagos', this.token).subscribe(
       (data: any) => {
-        this.metodoPagoSubject.next(data);
+        this.metodosPagoSubject.next(data);
       },
       (error) => {
         console.log(error);

@@ -1,4 +1,4 @@
-import { HttpClient,HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient,HttpErrorResponse} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { throwError as observableThrowError} from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -6,7 +6,6 @@ import { catchError } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class AuthService {
-
   constructor(private http:HttpClient) { }
   handleError(error: HttpErrorResponse) {
     return observableThrowError(error.message );
@@ -18,14 +17,16 @@ export class AuthService {
         catchError(this.handleError)
       );
   }
-  Register(body:any) {
-    const userHeaders = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*Access-Control-Allow-Origin: http://localhost:4200',
-      'Authorization': 'Bearer ' + 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxOTQyZmM2MWJmODM1NGZjOGY0YzlkYiIsImlhdCI6MTY2MzE5NjYyMSwiZXhwIjoxNjYzODAxNDIxLCJhdWQiOiJhdWRpZW5jZSIsImlzcyI6Imlzc3VlciJ9.b6BtrJ28uPZ6MBi4GToHIICR5ftjTgI0_Icn5k-zwAg'
-    });
+  Refresh(user:any) {
     return this.http
-               .post('/api/usuarios', body, {headers: userHeaders})
+      .post('/api/usuarios/refresh', user)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+  Register(body:any) {
+    return this.http
+               .post('/api/usuarios', body)
                 .pipe(
                   catchError(this.handleError)
                 );

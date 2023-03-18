@@ -1,6 +1,6 @@
-import { VariablesService } from './service/variables.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { VariablesService } from './services/variables.service';
 
 
 
@@ -9,6 +9,6 @@ import { CommonModule } from '@angular/common';
   imports: [
     CommonModule
   ],
-  providers:[VariablesService]
+  providers:[VariablesService ]
 })
 export class CoreModule { }

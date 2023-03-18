@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
+import Swal from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,13 @@ export class AccessGuard implements CanActivate {
     if(access === 'true'){
       return true
     }
-    alert('No tienes permiso en esta ruta')
+    Swal.fire({
+      position: 'center',
+      icon: 'error',
+      title: 'No tienes permiso en esta ruta',
+      showConfirmButton: false,
+      timer: 1500
+    });
     this.router.navigate(['/home']);
     return false
   }

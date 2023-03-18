@@ -1,56 +1,67 @@
 import { MatDialog } from '@angular/material/dialog';
-import { Component, OnInit } from '@angular/core';
-import { map } from 'rxjs';
-import { PopUpComponent } from 'src/app/pop-up/pop-up.component';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CrudService } from 'src/app/services/crud.service';
-import { GetdataService } from 'src/app/services/getdata.service';
-import { deleteDialog, deleteDialogMostrar, openDialog } from 'src/functions/functions';
 import { table } from 'src/functions/table';
 import { DialogcomponentComponent } from 'src/app/dialogcomponent/dialogcomponent.component';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { DataCreditosService } from '../../service/data-creditos.service';
+import { Credito } from '../../functions/functions';
 @Component({
   selector: 'app-listado',
   templateUrl: './listado.component.html',
   styleUrls: ['./listado.component.scss']
 })
 export class ListadoComponent implements OnInit {
-
-  title: string = table.Creditos.title;
-  creditos$ = this.service.creditos$;
-  displayedColumns: string[] = table.Creditos.columns;
-  constructor( private service:GetdataService, private crud:CrudService,private dialog:MatDialog) { }
+  filter:any;
+  $creditos = this.data.creditos$;
+  dataCreditos:any[] = [];
+  displayedColumns:string[] = table.Creditos.columns;
+  dataSource = new MatTableDataSource<any>([]);
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+  }
+  constructor(private data:DataCreditosService, private service: CrudService, private dialog:MatDialog) { }
   ngOnInit(): void {
-    if (this.crud.addCampo == true){
-      this.crud.addCampo = false;
+    if (this.service.addCampo == true){
+      this.service.addCampo = false;
       return location.reload();
     }
+    this.Listar();
   }
   applyFilter(event: Event) {
-      const filterValue = (event.target as HTMLInputElement).value;
-      this.creditos$ = this.creditos$.pipe(
-        map(creditos => creditos.filter((credito: {
-          limite:any;
-          Fecha_alta:any;
-          fecha_baja:any;
-          vigencia:any;
-          intereses:any;
-          status:any;
-          id:any;
-        }) => credito.id.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-        credito.limite.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-        credito.Fecha_alta.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-        credito.fecha_baja.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-        credito.vigencia.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-        credito.intereses.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-        credito.status.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1)));
-    }
-    Refresh(){
-      location.reload();
-    }
-    Delete(id:string){
-      // deleteDialog(id,this.crud,'creditos',this.dialog,PopUpComponent)
-      deleteDialogMostrar(id, this.crud,'creditos','Credito',this.dialog,PopUpComponent);
-    }
-    openDialog(id: string, url: string, title: string, table: string) {
-      openDialog(id,url,title,table,this.dialog,DialogcomponentComponent);
-    }
+    Credito.ApplyFilter(event,this.dataSource);
+  }
+  Refresh(){
+    this.dataSource.data = this.dataCreditos;
+    this.filter = '';
+  }
+  Listar(){
+    this.$creditos.subscribe(element =>{
+      element.forEach((element:any, index:any) => {
+        let data = {
+          no:index + 1,
+          id:element.id,
+          limite:element.limite,
+          fecha_alta:element.fecha_alta,
+          fecha_baja:element.fecha_baja,
+          vigencia:element.vigencia,
+          intereses:element.intereses,
+          status:element.status,
+          usuario:element.usuario,
+          metodo_pago:element.metodo_pago,
+          abonos:element.abonos
+        }
+        this.dataCreditos.push(data);
+      });
+      this.dataSource.data = this.dataCreditos;
+    });
+  }
+  openDialog(id:string, url:string,title:string, table:string){
+    Credito.OpenDialog(id,url,title,table,this.dialog,DialogcomponentComponent);
+  }
+  Delete(id:string){
+    Credito.delete(id,this.service);
+  }
 }

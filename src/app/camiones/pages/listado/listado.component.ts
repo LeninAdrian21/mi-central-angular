@@ -1,56 +1,76 @@
-import { Component, OnInit } from '@angular/core';
-import { GetdataService } from './../../../services/getdata.service';
-import { map } from 'rxjs';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { CrudService } from 'src/app/services/crud.service';
-import { table } from 'src/functions/table';
-import { Delete, deleteDialog, openDialog } from 'src/functions/functions';
+import { table } from 'src/app/dialogcomponent/functions/functions';
+import { Camion } from '../../functions/functions';
+import { DataCamionesService } from '../../service/data-camiones.service';
 import { MatDialog } from '@angular/material/dialog';
-import { PopUpComponent } from 'src/app/pop-up/pop-up.component';
 import { DialogcomponentComponent } from 'src/app/dialogcomponent/dialogcomponent.component';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-listado',
   templateUrl: './listado.component.html',
   styleUrls: ['./listado.component.scss']
 })
 export class ListadoComponent implements OnInit {
-  title: string = table.Camiones.title;
-  camiones$ = this.service.camiones$;
+  filter:any;
+  $camiones = this.data.camiones$;
+  dataCamiones:any[] =[];
   displayedColumns: string[] = table.Camiones.columns;
-  rol:any;
-  constructor(
-    private service: GetdataService,
-    private crud: CrudService,
-    private dialog: MatDialog
-  ){}
+  dataSource = new MatTableDataSource<any>([]);
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+  }
+  constructor(private data:DataCamionesService, private service: CrudService,private dialog: MatDialog) { }
+
   ngOnInit(): void {
-    localStorage.removeItem('add');
-    if (this.crud.addCampo == true){
-      this.crud.addCampo = false;
+    if (this.service.addCampo == true) {
+      this.service.addCampo = false;
       return location.reload();
     }
-    this.rol = localStorage.getItem('rol');
+    this.Listar();
   }
-  applyFilter(event: Event) {
-      const filterValue = (event.target as HTMLInputElement).value;
-      this.camiones$ = this.camiones$.pipe(
-        map(camiones => camiones.filter((camion: {
-          num_serie: any;
-          placas: any;
-          niv:any,
-          id: any;
-        }) => camion.id.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1
-        || camion.num_serie.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1
-        || camion.placas.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1
-        || camion.niv.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1)));
-    }
+  applyFilter(event:any){
+    Camion.ApplyFilter(event,this.dataSource);
+  }
   Refresh(){
-    location.reload();
+    this.dataSource.data = this.dataCamiones;
+    this.filter = '';
+  }
+  Listar(){
+    this.$camiones.subscribe(element=>{
+      element.forEach((element:any, index:any) => {
+        const {placas} = element;
+        let placa_activa:any;
+        if(placas){
+          placas.forEach((placa:any) => {
+            if(placa.activa){
+              placa_activa = placa;
+            }
+          });
+        }
+        let data = {
+          no:index + 1,
+          id:element.id,
+          num_serie:element.num_serie,
+          niv:element.niv,
+          placas:placa_activa,
+          historial:element.historial,
+          rutas:element.rutas,
+          gastos:element.gastos,
+          usuario:element.usuario
+        };
+        this.dataCamiones.push(data);
+      });
+      this.dataSource.data = this.dataCamiones;
+    })
+  }
+  openDialog(id:string, url:string, title:string, table:string){
+    Camion.openDialog(id,url,title,table,this.dialog,DialogcomponentComponent)
   }
   Delete(id:string){
-    deleteDialog(id,this.crud,'camiones',this.dialog,PopUpComponent)
-  }
-  openDialog(id: string, url: string, title: string, table: string) {
-    openDialog(id,url,title,table,this.dialog,DialogcomponentComponent);
+    Camion.delete(id,this.service);
   }
 }
-

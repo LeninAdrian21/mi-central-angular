@@ -1,5 +1,5 @@
-
 import { Component, OnInit } from '@angular/core';
+
 
 @Component({
   selector: 'app-home',
@@ -7,7 +7,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  constructor() { }
+  data:any;
+  constructor()
+  {
+    // this.data$ = core.JwtObservable;
+    // core.JwtObservable.subscribe((jwt:any)=>{
+    //   console.log(jwt)
+    //   this.data = jwt
+    // });
+  }
 
   ngOnInit(): void {
 

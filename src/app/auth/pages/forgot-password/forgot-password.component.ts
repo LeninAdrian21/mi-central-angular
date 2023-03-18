@@ -10,13 +10,15 @@ import { AuthService } from '../../services/auth.service';
 })
 export class ForgotPasswordComponent implements OnInit {
   forgotPasswordForm!: FormGroup;
+  siteKey:string ="6LeDZVkkAAAAAAieZFHU4io4Qec9n2BPOBB-Jt3c";
   constructor( private formBuilder:FormBuilder,private service:AuthService, private router:Router) { }
   ngOnInit(): void {
     this.forgotPasswordForm = this.formBuilder.group({
       email: ['',[Validators.required, Validators.email]],
+      recaptcha: ['', Validators.required]
     })
   }
-  Login() {
+  ForgotPassword() {
     this.forgotPasswordForm.value.email = this.forgotPasswordForm.value.email.toLowerCase();
     if(this.forgotPasswordForm.invalid){
       return alert('Formulario invalido');

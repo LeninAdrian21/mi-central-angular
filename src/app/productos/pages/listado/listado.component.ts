@@ -1,70 +1,77 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { map } from 'rxjs';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { DialogcomponentComponent } from 'src/app/dialogcomponent/dialogcomponent.component';
-import { PopUpComponent } from 'src/app/pop-up/pop-up.component';
 import { CrudService } from 'src/app/services/crud.service';
-import { GetdataService } from 'src/app/services/getdata.service';
-import { deleteDialog, openDialog } from 'src/functions/functions';
 import { table } from 'src/functions/table';
+import { Producto } from '../../functions/functions';
+import { DataProductosService } from '../../service/data-productos.service';
 @Component({
   selector: 'app-listado',
   templateUrl: './listado.component.html',
   styleUrls: ['./listado.component.scss']
 })
 export class ListadoComponent implements OnInit {
-  title: string = table.Productos.title;
-  productos$ = this.service.productos$;
-  displayedColumns: string[] = table.Productos.columns;
-  constructor( private service:GetdataService, private crud:CrudService, private dialog: MatDialog) { }
+  filter:any;
+  $productos = this.data.productos$;
+  dataProductos:any[] = [];
+  displayedColumns:string[] = table.Productos.columns;
+  dataSource = new MatTableDataSource<any>([]);
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+  }
+  constructor( private data:DataProductosService, private service: CrudService, private dialog:MatDialog ) { }
   ngOnInit(): void {
-    if(this.crud.addCampo == true){
-      this.crud.addCampo = false;
+    if(this.service.addCampo == true){
+      this.service.addCampo = false;
       return location.reload();
     }
+    this.Listar();
   }
   applyFilter(event: Event) {
-      const filterValue = (event.target as HTMLInputElement).value;
-      //filtrat todo, id del abono, la cantidad del abono, fecha de abono y  estado de abonoen el observable de otroabonos$
-      this.productos$ = this.productos$.pipe(
-        map(productos => productos.filter((producto: {
-          nombre: any;
-          codigo_barras: any;
-          codigo_interno: any;
-          peso_neto: any;
-          presentacion: any;
-          marca: any;
-          descripcion_generica: any;
-          precio: any;
-          costo: any;
-          inventario_disp: any;
-          value_min: any;
-          status: any;
-          venta_gramos: any;
-          id: any;}) =>
-          producto.id.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-          producto.nombre.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-          producto.codigo_barras.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-          producto.codigo_interno.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-          producto.peso_neto.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-          producto.presentacion.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-          producto.marca.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-          producto.descripcion_generica.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-          producto.precio.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-          producto.costo.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-          producto.inventario_disp.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-          producto.value_min.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-          producto.status.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-          producto.venta_gramos.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1
-          )));
-    }
-    Refresh(){
-      location.reload();
-    }
-    Delete(id: string) {
-      deleteDialog(id,this.crud,'productos',this.dialog,PopUpComponent);
-    }
-    openDialog(id: string, url: string, title: string, table: string) {
-      openDialog(id,url,title,table,this.dialog,DialogcomponentComponent);
-    }
+    Producto.ApplyFilter(event,this.dataSource)
+  }
+  Refresh(){
+    this.dataSource.data = this.dataProductos;
+    this.filter = '';
+  }
+  Listar(){
+    this.$productos.subscribe(element =>{
+      element.forEach((element:any, index:any) => {
+        console.log(element);
+        let data = {
+          no:index + 1,
+          id:element.id,
+          nombre:element.nombre,
+          codigo_barras:element.codigo_barras,
+          codigo_interno:element.codigo_interno,
+          peso_neto:element.peso_neto,
+          presentacion:element.presentacion,
+          marca:element.marca,
+          descripcion_generica:element.descripcion_generica,
+          precio:element.precio,
+          costo:element.costo,
+          inventario_disp:element.inventario_disp,
+          valor_min:element.value_min,
+          status:element.status,
+          venta_gramos:element.venta_gramos,
+          dimension:element.dimension,
+          lotes:element.lotes,
+          proveedor:element.proveedor,
+          promociones:element.promociones,
+          carritos:element.carritos
+        }
+        this.dataProductos.push(data);
+      });
+      this.dataSource.data = this.dataProductos;
+    });
+  }
+  openDialog(id:string, url:string,title:string, table:string){
+    Producto.OpenDialog(id,url,title,table,this.dialog,DialogcomponentComponent);
+  }
+  Delete(id:string){
+    Producto.delete(id,this.service);
+  }
 }

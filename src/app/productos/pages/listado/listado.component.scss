@@ -1,15 +1,4 @@
-@import 'styles';
-@include table(180px);
+.tabla{
+  width: 300%;
+}
 
-.table{
-  width: 250%;
-}
-.imagen{
-  max-width: 50px;
-  padding: 5px 5px 0 5px;
-}
-.img{
-  max-width: 90px;
-  height: 85px;
-  border-radius: 50%;
-}

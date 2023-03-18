@@ -1,55 +1,66 @@
 import { MatDialog } from '@angular/material/dialog';
-import { Component, OnInit } from '@angular/core';
-import { map } from 'rxjs';
-import { PopUpComponent } from 'src/app/pop-up/pop-up.component';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CrudService } from 'src/app/services/crud.service';
-import { GetdataService } from 'src/app/services/getdata.service';
-import { deleteDialog, openDialog } from 'src/functions/functions';
 import { table } from 'src/functions/table';
 import { DialogcomponentComponent } from 'src/app/dialogcomponent/dialogcomponent.component';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { DataGastosService } from '../../service/data-gastos.service';
+import { Gasto } from '../../functions/functions';
 @Component({
   selector: 'app-listado',
   templateUrl: './listado.component.html',
   styleUrls: ['./listado.component.scss']
 })
 export class ListadoComponent implements OnInit {
-  title: string = table.Gastos.title;
-  gastos$ = this.service.gastos$;
-  displayedColumns: string[] = table.Gastos.columns;
-  constructor( private service:GetdataService, private crud:CrudService, private dialog : MatDialog) { }
+  filter:any;
+  $gastos = this.data.gastos$;
+  dataGastos:any[] = [];
+  displayedColumns:string[] = table.Gastos.columns;
+  dataSource = new MatTableDataSource<any>([]);
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+  }
+  constructor(private data:DataGastosService, private service: CrudService, private dialog:MatDialog ){}
   ngOnInit(): void {
-    if(this.crud.addCampo == true){
-      this.crud.addCampo = false;
+    if(this.service.addCampo == true){
+      this.service.addCampo = false;
       return location.reload();
     }
+    this.Listar();
   }
   applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.gastos$ = this.gastos$.pipe(
-      map((gastos) =>
-      gastos.filter(
-        (gasto: {
-        descripcion:any;
-        fecha:any;
-        monto:any;
-        categoria:any;
-        status:any;
-        id:any;
-      }) => gasto.id.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-      gasto.descripcion.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-      gasto.fecha.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-      gasto.monto.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-      gasto.categoria.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-      gasto.status.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1
-      )));
+    Gasto.ApplyFilter(event, this.dataSource);
+  }
+  Listar(){
+    this.$gastos.subscribe(element =>{
+      element.forEach((element:any, index:any) => {
+        let data = {
+          no:index + 1,
+          id:element.id,
+          descripcion:element.descripcion,
+          fecha:element.fecha,
+          monto:element.monto,
+          categoria:element.categoria,
+          status:element.status,
+          usuario:element.usuario,
+          camiones:element.camions
+        }
+        this.dataGastos.push(data);
+      });
+      this.dataSource.data = this.dataGastos;
+    });
+
   }
   Refresh(){
-    location.reload();
+    this.dataSource.data = this.dataGastos;
+    this.filter = '';
+  }
+  openDialog(id:string, url:string,title:string, table:string){
+    Gasto.OpenDialog(id,url,title,table,this.dialog,DialogcomponentComponent);
   }
   Delete(id:string){
-    deleteDialog(id,this.crud,'gastos',this.dialog,PopUpComponent)
-  }
-  openDialog(id: string, url: string, title: string, table: string) {
-    openDialog(id,url,title,table,this.dialog,DialogcomponentComponent);
+    Gasto.delete(id,this.service);
   }
 }

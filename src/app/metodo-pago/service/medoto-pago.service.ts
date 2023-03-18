@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { CrudService } from 'src/app/services/crud.service';
+import Swal from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root'
@@ -21,28 +22,6 @@ export class MedotoPagoService {
     this.usuarios();
     this.ventas();
   }
-  creditos(){
-    this.service.get('creditos', this.token).subscribe(
-      (data: any) => {
-        this.creditosSubject.next(data);
-      },
-      (error) => {
-        console.log(error);
-        alert('Error');
-      }
-    );
-  }
-  compras(){
-    this.service.get('compras',  this.token).subscribe(
-      (data: any) => {
-        this.comprasSubject.next(data);
-      },
-      (error) => {
-        console.log(error);
-        alert('Error');
-      }
-    );
-  }
   usuarios(){
     this.service.get('usuarios',  this.token).subscribe(
       (data: any) => {
@@ -50,7 +29,11 @@ export class MedotoPagoService {
       },
       (error) => {
         console.log(error);
-        alert('Error');
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Error al mostrar los usuarios en el formulario',
+        })
       }
     );
   }
@@ -61,7 +44,41 @@ export class MedotoPagoService {
       },
       (error) => {
         console.log(error);
-        alert('Error');
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Error a mostrar las ventas en el formulario',
+        })
+      }
+    );
+  }
+  compras(){
+    this.service.get('compras',  this.token).subscribe(
+      (data: any) => {
+        this.comprasSubject.next(data);
+      },
+      (error) => {
+        console.log(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Error al mostrar las compras en el formulario',
+        })
+      }
+    );
+  }
+  creditos(){
+    this.service.get('creditos', this.token).subscribe(
+      (data: any) => {
+        this.creditosSubject.next(data);
+      },
+      (error) => {
+        console.log(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Error al mostrar los creditos en el formulario',
+        })
       }
     );
   }

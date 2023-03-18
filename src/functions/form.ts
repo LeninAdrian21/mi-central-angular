@@ -1,35 +1,5 @@
 import { FormBuilder, Validators } from '@angular/forms';
-export const registerForm = {
-  nombre: ['',[Validators.required, Validators.minLength(3)]],
-  ap_paterno: ['',[Validators.required, Validators.minLength(3)]],
-  ap_materno: ['',[Validators.required, Validators.minLength(3)]],
-  fecha_nac: ['',[Validators.required]],
-  genero: ['',[Validators.required]],
-  fecha_ins: ['',[Validators.required]],
-  fecha_alta: ['',[Validators.required]],
-  rfc: ['',[Validators.required,  Validators.minLength(14), Validators.maxLength(14)]],
-  curp: ['',[Validators.required, Validators.minLength(18), Validators.maxLength(18)]],
-  nss: ['',[Validators.required, Validators.minLength(8), Validators.maxLength(8)]],
-  tel_cel: ['',[Validators.required, Validators.maxLength(10)]],
-  email: ['',[Validators.required, Validators.email]],
-  password: ['',[Validators.required, Validators.minLength(6)]],
-  tipo_sangre: ['',[Validators.required]],
-  licencia: ['',[Validators.required]],
-  alergias: ['',[Validators.required]],
-  padecimientos: ['',[Validators.required]],
-  nacionalidad: ['',[Validators.required]],
-  calle: ['',[Validators.required]],
-  numero: ['',[Validators.required]],
-  colonia: ['',[Validators.required]],
-  cp: ['',[Validators.required]],
-  municipio: ['',[Validators.required]],
-  ciudad: ['',[Validators.required]],
-  pais: ['',[Validators.required]],
-  ref_dir: ['',[Validators.required]],
-  _id: ['',[Validators.required]],
-  status: ['',[Validators.required]],
-  comment: ['',[Validators.required]],
-}
+
 export const abonosForm = {
   cantidad_abono: ['',[Validators.required]],
   fecha_abono: [{value: '', disabled: true},  Validators.required],
@@ -37,15 +7,23 @@ export const abonosForm = {
   credito_id: [''],
   usuario_id:  [''],
 }
-// export const camionesForm = {
-//   num_serie: ['',[Validators.required]],
-//   niv:['',[Validators.required]],
-//   placas:FormBuilder.array([FormBuilder.group({
-//     placa:['',[Validators.required]],
-//     activa:['',[Validators.required]],
-//     estado:['',[Validators.required]]
-//   })]),
-// }
+export const camionesForm = (formBuilder:any) =>{
+  return {
+    num_serie: ['',[Validators.required]],
+    niv:['',[Validators.required]],
+    id_historial:[''],
+    id_gastos:[''],
+    id_rutas:[''],
+    id_usuario:[''],
+    placas:formBuilder.array([]),
+    addplacas:formBuilder.array([]),
+  }
+}
+export const addPlaca = {
+  placa: ['',[ Validators.required,Validators.minLength(6),Validators.maxLength(6)]],
+  activa: [false,  Validators.required],
+  estado: ['',[ Validators.required,Validators.minLength(5), Validators.maxLength(17)]],
+}
 export const carritosForm = {
   cantidad: ['',[Validators.required]],
   id_productos:[''],
@@ -59,11 +37,12 @@ export const comprasForm = {
   status: ['',[Validators.required]],
   id_metodoPago:[''],
   id_lote:[''],
-  id_proveedor:['']
+  id_proveedor:[''],
+  id_usuario:['']
 }
 export const creditosForm = {
   limite: ['',[Validators.required]],
-  Fecha_alta: ['',[Validators.required]],
+  fecha_alta: ['',[Validators.required]],
   fecha_baja: ['',[Validators.required]],
   vigencia: ['',[Validators.required]],
   intereses: ['',[Validators.required]],
@@ -170,7 +149,7 @@ export const promocionesForm ={
   valor_descuento:['',[Validators.required]],
   codigo_ref:['',[Validators.required]],
   condicion:['',[Validators.required]],
-  producto_nombre:['']
+  id_productos:['']
 }
 export const proveedoresForm = {
   nombre:['',[Validators.required]],
@@ -186,8 +165,8 @@ export const proveedoresForm = {
   pais:['',[Validators.required]],
   visita_programada:['',[Validators.required]],
   status:['',[Validators.required]],
-  producto_nombre:[''],
-  id_compra:[''],
+  id_productos:[''],
+  id_compras:[''],
 }
 export const rutasForm = {
   descripcion:['',[Validators.required]],
@@ -198,8 +177,8 @@ export const rutasForm = {
   ruta_ciclica:[false,[Validators.required]],
   referencia:['',[Validators.required]],nombre_mercancia_recibida:['',[Validators.required]],comentarios:['',[Validators.required]],
   estado:['',[Validators.required]],
-  monto_venta:[''],
-  num_serie_camion:['']
+  id_ventas:[''],
+  id_camiones:['']
 }
 export const usuariosForm = {
   nombre: ['',[Validators.required, Validators.minLength(3)]],

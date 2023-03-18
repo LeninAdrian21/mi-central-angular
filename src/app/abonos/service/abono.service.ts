@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { CrudService } from 'src/app/services/crud.service';
+import Swal from 'sweetalert2';
 @Injectable({
   providedIn: 'root'
 })
@@ -19,9 +20,13 @@ export class AbonoService {
       (data: any) => {
         this.creditosSubject.next(data);
       },
-      (error) => {
+      (error) => { 
         console.log(error);
-        alert('Error');
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Error a mostrar los creditos en el formulario',
+        })
       }
     );
   }
@@ -32,7 +37,11 @@ export class AbonoService {
       },
       (error) => {
         console.log(error);
-        alert('Error');
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Error a mostrar los usuarios en el formulario',
+        })
       }
     );
   }

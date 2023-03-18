@@ -1,77 +1,67 @@
-import { VariablesService } from './../../../core/service/variables.service';
-import { Validators } from '@angular/forms';
-import { GetdataService } from './../../../services/getdata.service';
-import { Component, OnInit } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CrudService } from 'src/app/services/crud.service';
 import { table } from 'src/functions/table';
+import { DataAbonosService } from '../../service/data-abonos.service';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { Abono } from '../../function/functions';
 import { DialogcomponentComponent } from 'src/app/dialogcomponent/dialogcomponent.component';
-import { deleteDialogMostrar, openDialog } from 'src/functions/functions';
-import { PopUpComponent } from 'src/app/pop-up/pop-up.component';
+import { Observable } from 'rxjs';
 @Component({
-  selector: 'app-listado',
+    selector: 'app-listado',
   templateUrl: './listado.component.html',
   styleUrls: ['./listado.component.scss'],
 })
 export class ListadoComponent implements OnInit {
-  private data$:Observable<any>;
-  title: string = table.Abonos.title;
-  abonos$ = this.service.abonos$;
-  displayedColumns: string[] = table.Abonos.columns;
-  public rol:any;
-  mensaje:any = 'Hola soy un mensaje'
-  constructor(
-    private service: GetdataService,
-    private crud: CrudService,
-    private dialog: MatDialog,
-    private variables: VariablesService
-  ){
-    this.data$ = variables.DataValidatorObservable;
+  data$:Observable<any> | undefined;
+  filter:any;
+  $abonos = this.data.abonos$;
+  dataAbonos:any[] = [];
+  refresh:any = localStorage.getItem('refresh');
+  displayedColumns:string[] = table.Abonos.columns;
+  dataSource = new MatTableDataSource<any>([]);
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+  }
+  constructor(private data:DataAbonosService, private service: CrudService, private dialog:MatDialog,  ){
   }
   ngOnInit(): void {
-    if (this.crud.addCampo == true) {
-      this.crud.addCampo = false;
+    if(this.service.addCampo == true){
+      this.service.addCampo = false;
       return location.reload();
     }
-    this.data$.subscribe(data =>{
-      this.rol = data.rol;
-    })
+    this.Listar();
+    console.log(this.paginator)
   }
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.abonos$ = this.abonos$.pipe(
-      map((abonos) =>
-        abonos.filter(
-          (abono: {
-            estado_abono: any;
-            fecha_abono: any;
-            cantidad_abono: any;
-            id:any;
-          }) =>
-            abono.id.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1||
-            abono.cantidad_abono.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-            abono.fecha_abono.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-            abono.estado_abono.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase())!== -1
-        )
-      )
-    );
+  applyFilter(event:any){
+    Abono.ApplyFilter(event,this.dataSource)
   }
-  Fecha(string:any){
-    const fecha = new Date(string);
-    let hora = fecha.toLocaleTimeString();
-    let fecha2 = string.split('T');
-    return `${string} --- ${fecha2[0]}, ${hora}`;
-    // solo se puede buscar por la fecha
+  Refresh(){
+    this.dataSource.data = this.dataAbonos;
+    this.filter = '';
   }
-  Refresh() {
-    location.reload();
+  Listar(){
+    this.$abonos.subscribe(element =>{
+      element.forEach((element:any, index:any) => {
+        let data = {
+          no:index + 1,
+          cantidad_abono:element.cantidad_abono,
+          fecha_abono:Abono.Fecha(element.fecha_abono),
+          estado_abono:element.estado_abono,
+          credito:element.credito,
+          usuario:element.usuario
+        }
+        this.dataAbonos.push(data);
+      });
+      this.dataSource.data = this.dataAbonos;
+    });
   }
-  Delete(id: string) {
-    // deleteDialog(id,this.crud,'abonos',this.dialog,PopUpComponent);
-    deleteDialogMostrar(id, this.crud,'abonos','Abono',this.dialog,PopUpComponent);
+  openDialog(id:string, url:string,title:string, table:string){
+    Abono.OpenDialog(id,url,title,table,this.dialog,DialogcomponentComponent);
   }
-  openDialog(id: string, url: string, title: string, table: string) {
-    openDialog(id,url,title,table,this.dialog,DialogcomponentComponent);
+  Delete(id:string){
+    Abono.delete(id,this.service);
   }
 }

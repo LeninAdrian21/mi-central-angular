@@ -19,8 +19,20 @@ export class CrudService {
     });
     return headers;
   }
+  Refresh = (refresh:string) => {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*Access-Control-Allow-Origin: http://localhost:4200',
+      'refresh': refresh
+    });
+    return headers;
+  }
   handleError(error: HttpErrorResponse) {
     return observableThrowError(error.message || 'Server error');
+  }
+  public refresh(url:string,  refresh:any) {
+    return this.http.get('/api/'+ url, {headers: this.Refresh(refresh)})
+    .pipe(catchError(this.handleError));
   }
   public get(url:string,  token:string) {
     return this.http.get('/api/'+ url, {headers: this.Headers( token)})

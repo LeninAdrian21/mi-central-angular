@@ -1,0 +1,306 @@
+ <div  class="carga row w-100  justify-content-center align-content-center" *ngIf="!cargaOptions && btn=='Agregar' || btn == 'Actualizar' && !cargaOptions">
+  <mat-spinner></mat-spinner>
+</div>
+<!--  -->
+<!-- Card de fomulario -->
+<div class="container pt-5" *ngIf="cargaOptions">
+  <mat-card >
+    <mat-toolbar class="justify-content-center bg-warning" >
+      <h1>{{title}}</h1>
+    </mat-toolbar>
+    <form [formGroup]="formLocales" (submit)="formLocal()" class="w-100">
+      <div class="row mt-3">
+        <!-- Nombre -->
+        <div class="form-group  col-4">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Nombre</mat-label>
+            <input matInput type="text"
+             placeholder="Nombre" formControlName="nombre">
+          </mat-form-field>
+          <!--  -->
+          <div *ngIf="submitted && formLocales.controls.nombre.errors">
+            <!--  -->
+            <mat-error *ngIf="submitted && formLocales.controls.nombre.errors.required" class="text-danger">
+              Nombre requerido
+            </mat-error>
+          </div>
+
+        </div>
+        <!-- Alias -->
+        <div class="form-group  col-4">
+          <mat-form-field  appearance="fill">
+            <mat-label>Alias</mat-label>
+            <input matInput type="text" placeholder="Alias"  name="alias" formControlName="alias">
+          </mat-form-field>
+          <!--  -->
+          <div *ngIf="submitted && formLocales.controls.alias.errors">
+            <!--  -->
+            <mat-error *ngIf="submitted && formLocales.controls.alias.errors.required" class="text-danger">
+              Alias requerido
+            </mat-error>
+          </div>
+        </div>
+        <!-- Razon Social -->
+        <div class="form-group  col-4">
+          <mat-form-field  appearance="fill">
+            <mat-label>Razon Social</mat-label>
+            <input matInput type="text" placeholder="Razon Social"  name="razon_social" formControlName="razon_social">
+          </mat-form-field>
+          <!--  -->
+          <div *ngIf="submitted && formLocales.controls.razon_social.errors">
+            <!--  -->
+            <mat-error *ngIf="submitted && formLocales.controls.razon_social.errors.required" class="text-danger">
+              Razon Social requerida
+            </mat-error>
+          </div>
+        </div>
+        <!-- RFC -->
+        <div class="form-group  col-4">
+          <mat-form-field  appearance="fill">
+            <mat-label>RFC</mat-label>
+            <input matInput type="text" placeholder="RFC"  name="rfc" formControlName="rfc">
+          </mat-form-field>
+          <!--  -->
+          <div *ngIf="submitted && formLocales.controls.rfc.errors">
+            <!--  -->
+            <mat-error *ngIf="submitted && formLocales.controls.rfc.errors.required" class="text-danger">
+              Razon Social requerida
+            </mat-error>
+            <!--  -->
+            <mat-error *ngIf="submitted && formLocales.controls.rfc.errors.minlength" class="text-danger">
+              El minimo de caracteres son 14
+            </mat-error>
+            <mat-error *ngIf="submitted && formLocales.controls.rfc.errors.minlength" class="text-danger">
+              El maximo de caracteres son 14
+            </mat-error>
+          </div>
+        </div>
+        <!-- Fecha de alta -->
+        <div class="form-group  col-4">
+          <mat-form-field  appearance="fill">
+            <mat-label>Fecha alta</mat-label>
+            <input matInput type="date" placeholder="Fecha alta"  name="fecha_alta" formControlName="fecha_alta">
+          </mat-form-field>
+          <!--  -->
+          <div *ngIf="submitted && formLocales.controls.fecha_alta.errors">
+            <!--  -->
+            <mat-error *ngIf="submitted && formLocales.controls.fecha_alta.errors.required" class="text-danger">
+              Fecha de alta requerida
+            </mat-error>
+          </div>
+        </div>
+        <!-- Calle -->
+        <div class="form-group  col-4">
+          <mat-form-field  appearance="fill">
+            <mat-label>Calle</mat-label>
+            <input matInput type="text" placeholder="Calle"  name="calle" formControlName="calle"  required="true">
+          </mat-form-field>
+          <!--  -->
+          <div *ngIf="submitted && formLocales.controls.calle.errors">
+            <!--  -->
+            <mat-error *ngIf="submitted && formLocales.controls.calle.errors.required" class="text-danger">
+              Calle requerida
+            </mat-error>
+          </div>
+        </div>
+        <!-- Colonia -->
+        <div class="form-group  col-4">
+          <mat-form-field  appearance="fill">
+            <mat-label>Colonia</mat-label>
+            <input matInput type="text" placeholder="Colonia"  name="colonia" formControlName="colonia">
+          </mat-form-field>
+          <!--  -->
+          <div *ngIf="submitted && formLocales.controls.colonia.errors">
+            <!--  -->
+            <mat-error *ngIf="submitted && formLocales.controls.colonia.errors.required" class="text-danger">
+              Colonia requerida
+            </mat-error>
+          </div>
+        </div>
+        <!-- Numero exteriro -->
+        <div class="form-group  col-4">
+          <mat-form-field  appearance="fill">
+            <mat-label>Numero exterior</mat-label>
+            <input matInput type="number" placeholder="Numero exterior"  name="numero_ext" formControlName="numero_ext">
+          </mat-form-field>
+          <!--  -->
+          <div *ngIf="submitted && formLocales.controls.numero_ext.errors">
+            <!--  -->
+            <mat-error *ngIf="submitted && formLocales.controls.numero_ext.errors.required" class="text-danger">
+              Numero exterior requerido
+            </mat-error>
+          </div>
+        </div>
+        <!-- Municipio -->
+        <div class="form-group  col-4">
+          <mat-form-field  appearance="fill">
+            <mat-label>Municipio</mat-label>
+            <input matInput type="text" placeholder="Municipio"  name="municipio" formControlName="municipio"  required="true">
+          </mat-form-field>
+          <!--  -->
+          <div *ngIf="submitted && formLocales.controls.municipio.errors">
+            <!--  -->
+            <mat-error *ngIf="submitted && formLocales.controls.municipio.errors.required" class="text-danger">
+              Municipio requerido
+            </mat-error>
+          </div>
+        </div>
+        <!-- Numero interior -->
+        <div class="form-group  col-4">
+          <mat-form-field  appearance="fill">
+            <mat-label>Numero interior</mat-label>
+            <input matInput type="number" placeholder=""  name="" formControlName="numero_int"  required="true">
+          </mat-form-field>
+          <!--  -->
+          <div *ngIf="submitted && formLocales.controls.numero_int.errors">
+            <!--  -->
+            <mat-error *ngIf="submitted && formLocales.controls.numero_int.errors.required" class="text-danger">
+              Numero interior requerido
+            </mat-error>
+          </div>
+        </div>
+        <!-- Ciudad -->
+        <div class="form-group  col-4">
+          <mat-form-field  appearance="fill">
+            <mat-label>Ciudad</mat-label>
+            <input matInput type="text" placeholder="Ciudad"  name="Ciudad" formControlName="ciudad"  required="true">
+          </mat-form-field>
+          <!--  -->
+          <div *ngIf="submitted && formLocales.controls.ciudad.errors">
+            <!--  -->
+            <mat-error *ngIf="submitted && formLocales.controls.ciudad.errors.required" class="text-danger">
+              Ciudad requerida
+            </mat-error>
+          </div>
+        </div>
+        <!-- Codigo Postal -->
+        <div class="form-group  col-4">
+          <mat-form-field  appearance="fill">
+            <mat-label>Codigo Postal</mat-label>
+            <input matInput type="number" placeholder="Codigo postal"  name="cp" formControlName="cp"  required="true">
+          </mat-form-field>
+          <!--  -->
+          <div *ngIf="submitted && formLocales.controls.cp.errors">
+            <!--  -->
+            <mat-error *ngIf="submitted && formLocales.controls.cp.errors.required" class="text-danger">
+              Codigo Postal requerido
+            </mat-error>
+          </div>
+        </div>
+        <!-- Latitud -->
+        <div class="form-group  col-4">
+          <mat-form-field  appearance="fill">
+            <mat-label>Latitud</mat-label>
+            <input matInput type="text" placeholder="Latitud"  name="latitud" formControlName="latitud"  required="true">
+          </mat-form-field>
+          <!--  -->
+          <div *ngIf="submitted && formLocales.controls.latitud.errors">
+            <!--  -->
+            <mat-error *ngIf="submitted && formLocales.controls.latitud.errors.required" class="text-danger">
+              Latitud requerida
+            </mat-error>
+          </div>
+        </div>
+        <!-- Longitud -->
+        <div class="form-group  col-4">
+          <mat-form-field  appearance="fill">
+            <mat-label>Longitud</mat-label>
+            <input matInput type="text" placeholder="Longitud"  name="longitud" formControlName="longitud"  required="true">
+          </mat-form-field>
+          <!--  -->
+          <div *ngIf="submitted && formLocales.controls.longitud.errors">
+            <!--  -->
+            <mat-error *ngIf="submitted && formLocales.controls.longitud.errors.required" class="text-danger">
+              Longitud requerida
+            </mat-error>
+          </div>
+        </div>
+        <!-- Telefono -->
+        <div class="form-group  col-4">
+          <mat-form-field  appearance="fill">
+            <mat-label>Telefono</mat-label>
+            <input matInput type="number" placeholder="Telefono"  name="telefono" formControlName="telefono"  required="true">
+          </mat-form-field>
+          <!--  -->
+          <div *ngIf="submitted && formLocales.controls.telefono.errors">
+            <!--  -->
+            <mat-error *ngIf="submitted && formLocales.controls.telefono.errors.required" class="text-danger">
+              Telefono requerido
+            </mat-error>
+          </div>
+        </div>
+        <!-- Telefono Celular -->
+        <div class="form-group  col-4">
+          <mat-form-field  appearance="fill">
+            <mat-label>Telefono Celular</mat-label>
+            <input matInput type="number" placeholder=""  name="" formControlName="telefono_cel"  required="true">
+          </mat-form-field>
+          <!--  -->
+          <div *ngIf="submitted && formLocales.controls.telefono_cel.errors">
+            <!--  -->
+            <mat-error *ngIf="submitted && formLocales.controls.telefono_cel.errors.required" class="text-danger">
+              Telefono celular requerida
+            </mat-error>
+          </div>
+        </div>
+        <!-- Giro -->
+        <div class="form-group  col-4">
+          <mat-form-field  appearance="fill">
+            <mat-label>Giro</mat-label>
+            <input matInput type="text" placeholder="Giro"  name="giro" formControlName="giro"  required="true">
+          </mat-form-field>
+          <!--  -->
+          <div *ngIf="submitted && formLocales.controls.giro.errors">
+            <!--  -->
+            <mat-error *ngIf="submitted && formLocales.controls.giro.errors.required" class="text-danger">
+              Giro requerido
+            </mat-error>
+          </div>
+        </div>
+        <!-- Status -->
+        <div class="form-group  col-4">
+          <mat-slide-toggle class="card__status" color="warn" formControlName="status">Status</mat-slide-toggle>
+        </div>
+
+        <!-- Id Ventas -->
+        <div class="form-group col-4">
+          <mat-form-field appearance="fill" >
+            <mat-label>Monto de venta</mat-label>
+            <mat-select  formControlName="id_ventas">
+              <mat-option *ngFor="let venta of ventas$ | async" value={{venta.id}}>
+               {{venta.monto}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+        </div>
+        <!--Id Usuario -->
+        <div class="form-group  col-4">
+          <mat-form-field appearance="fill" >
+            <mat-label>Nombre de usuario</mat-label>
+            <mat-select  formControlName="id_usuario">
+              <mat-option *ngFor="let usuario of usuarios$ | async" value={{usuario.id}}>
+                {{usuario.nombre}} {{usuario.ap_paterno}} {{usuario.ap_materno}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- Button Agregar/Actualizar-->
+      <div class="row justify-content-center" *ngIf="!addUpdate">
+        <button mat-raised-button type="submit" color="warn" class="w-100 mb-3 mt-3 col-4">
+          {{btn}}
+        </button>
+      </div>
+      <!-- Buton de loading -->
+      <div class="row justify-content-center" *ngIf="addUpdate">
+        <button mat-raised-button disabled class="w-100 col-4 bg-warning mb-3 mt-3">
+            <span class="spinner-grow spinner-grow-sm c-black"  role="status" aria-hidden="true"></span>
+            <span class="spinner-grow spinner-grow-sm aria-hidden c-black"></span>
+            <span class="c-black">loading...</span>
+        </button>
+      </div>
+    </form>
+  </mat-card>
+</div>

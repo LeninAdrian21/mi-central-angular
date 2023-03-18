@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { map } from 'rxjs';
 import { DialogcomponentComponent } from 'src/app/dialogcomponent/dialogcomponent.component';
@@ -8,67 +9,69 @@ import { CrudService } from 'src/app/services/crud.service';
 import { GetdataService } from 'src/app/services/getdata.service';
 import { deleteDialog, openDialog } from 'src/functions/functions';
 import { table } from 'src/functions/table';
+import { Ruta } from '../../functions/functions';
+import { DataRutasService } from '../../service/data-rutas.service';
 @Component({
   selector: 'app-listado',
   templateUrl: './listado.component.html',
   styleUrls: ['./listado.component.scss']
 })
 export class ListadoComponent implements OnInit {
-  title: string= table.Rutas.title;
-  rutas$ = this.service.rutas$;
-  displayedColumns: string[] = table.Rutas.columns;
+  filter:any;
+  $rutas = this.data.rutas$;
+  dataRutas:any[] = [];
+  displayedColumns:string[] = table.Rutas.columns;
+  dataSource = new MatTableDataSource<any>([]);
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+  }
   constructor(
-    private service: GetdataService,
-    private crud: CrudService,
-    private dialog: MatDialog
+    private data:DataRutasService, private service: CrudService, private dialog:MatDialog
   ){}
   ngOnInit(): void {
-    if (this.crud.addCampo == true) {
-      this.crud.addCampo = false;
+    if(this.service.addCampo == true){
+      this.service.addCampo = false;
       return location.reload();
     }
+    this.Listar();
   }
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    // this.dataSource.filter = filterValue.trim().toLowerCase();
-    this.rutas$ = this.rutas$.pipe(
-      map((rutas)=>
-        rutas.filter(
-          (ruta:{
-            id:any,
-            descripcion:any,
-            lugar_origen:any,
-            destino:any,
-            fecha_salida:any,
-            fecha_llegada:any,
-            ruta_ciclica:any,
-            referencia:any,
-            nombre_mercancia_recibida:any,
-            comentarios:any,
-            estado:any
-          }) =>
-            ruta.id.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-            ruta.descripcion.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-            ruta.lugar_origen.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-            ruta.destino.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1||
-            ruta.fecha_salida.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1||
-            ruta.fecha_llegada.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1||
-            ruta.ruta_ciclica.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1||
-            ruta.referencia.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1||
-            ruta.nombre_mercancia_recibida.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1||
-            ruta.comentarios.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1||
-            ruta.estado.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1
-        )
-      )
-    )
+  applyFilter(event:any){
+    Ruta.ApplyFilter(event,this.dataSource)
   }
-  Refresh() {
-    location.reload();
+  Refresh(){
+    this.dataSource.data = this.dataRutas;
+    this.filter = '';
   }
-  Delete(id: string) {
-    deleteDialog(id,this.crud,'rutas',this.dialog,PopUpComponent);
+  Listar(){
+    this.$rutas.subscribe(element =>{
+      element.forEach((element:any, index:any) => {
+        let data = {
+          no:index + 1,
+          id:element.id,
+          descripcion:element.descripcion,
+          lugar_origen:element.lugar_origen,
+          destino:element.destino,
+          fecha_salida:element.fecha_salida,
+          fecha_llegada:element.fecha_llegada,
+          ruta_ciclica:element.ruta_ciclica,
+          referencia:element.referencia,
+          nombre_mercancia_recibida:element.nombre_mercancia_recibida,
+          comentarios:element.comentarios,
+          estado:element.estado,
+          ventas:element.ventas,
+          camiones:element.camiones,
+
+        }
+        this.dataRutas.push(data);
+      });
+      this.dataSource.data = this.dataRutas;
+    });
   }
-  openDialog(id: string, url: string, title: string, table: string) {
-    openDialog(id,url,title,table,this.dialog,DialogcomponentComponent);
+  openDialog(id:string, url:string,title:string, table:string){
+    Ruta.OpenDialog(id,url,title,table,this.dialog,DialogcomponentComponent);
+  }
+  Delete(id:string){
+    Ruta.delete(id,this.service);
   }
 }

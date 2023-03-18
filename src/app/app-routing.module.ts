@@ -1,8 +1,10 @@
 import { AccessGuard } from './protect/access.guard';
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes, CanActivate } from '@angular/router';
 import { ProtectGuard } from './protect/protect.guard';
 import { AdministratorGuard } from './protect/administrator.guard';
+import { environment } from 'src/environments/environment';
+import { HasRoleGuard } from './protect/has-role.guard';
 
 const routes: Routes = [
   {
@@ -16,7 +18,11 @@ const routes: Routes = [
   {
     path:'abonos',
     loadChildren: () => import('./abonos/abonos.module').then(m => m.AbonosModule),
-    canActivate: [ProtectGuard, AdministratorGuard, AccessGuard]
+    canLoad:[HasRoleGuard],
+    canActivate:[HasRoleGuard],
+    data:{
+      AllRoles:[environment.Administrador]
+    }
   },
   {
     path:'camiones',

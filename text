@@ -1,0 +1,86 @@
+<div class="container">
+  <div class="row">
+    <div class="col m-auto pt-4">
+      <mat-card>
+        <mat-toolbar color="primary"  class="justify-content-center">
+          <h1>{{title}}</h1>
+        </mat-toolbar>
+          <mat-card-content>
+            <form [formGroup]="formCamiones" (submit)="formCamion()">
+              <!-- Contenedor de inputs -->
+              <div class="row m-1">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Favorite food</mat-label>
+                  <input matInput placeholder="Ex. Pizza" value="Sushi">
+                </mat-form-field>
+                <!-- Input de numero de serie -->
+                <div class="form-group p-0
+                mt-3 pr-2 col-4">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Favorite food</mat-label>
+                    <input matInput  formControlName="numSerie" placeholder="Numero de serie">
+                  </mat-form-field>
+                  <div *ngIf="submitted && formCamiones.controls.numSerie.errors" class="text-danger">
+                    <div *ngIf="submitted && formCamiones.controls.numSerie.errors.required">
+                      Numero de serie es requerido
+                    </div>
+                    <!--  -->
+                    <div *ngIf="submitted && formCamiones.controls.numSerie.errors.minlength">
+                      El minimo de datos son 17
+                    </div>
+                    <!--  -->
+                    <div *ngIf="submitted && formCamiones.controls.numSerie.errors.maxlength">
+                      El maximo de datos son 17
+                    </div>
+                  </div>
+                  <!--  -->
+                </div>
+                <!--  -->
+                <!-- <label for="numSerie">Numero de serie</label>
+                  <input formControlName="numSerie" type="text" class="form-control" id="numSerie" [ngClass]="{'is-invalid':submitted && formCamiones.controls.numSerie.errors}" placeholder="Numero de serie"> -->
+
+
+                <!--Input numero de identificacion vehicular -->
+                <div class="form-group p-0 mt-3 pr-2 col-4">
+                  <label for="niv">Numero de identificacion Vehicular</label>
+                  <input formControlName="niv" type="text" class="form-control" id="niv" [ngClass]="{'is-invalid':submitted && formCamiones.controls.numSerie.errors}" placeholder="NIV">
+                  <!--  -->
+                  <div *ngIf="submitted && formCamiones.controls.niv.errors" class="text-danger">
+                    <div *ngIf="submitted && formCamiones.controls.niv.errors.required">
+                      Numero de serie es requerido
+                    </div>
+                    <div *ngIf="submitted && formCamiones.controls.niv.errors.minlength">
+                      El minimo de datos son 17
+                    </div>
+                    <div *ngIf="submitted && formCamiones.controls.niv.errors.maxlength">
+                      El maximo de datos son 17
+                    </div>
+                  </div>
+                  <!--  -->
+                  <div *ngIf="submitted && formCamiones.value.numSerie !== formCamiones.value.niv" class="text-danger">
+                    El numero de serie y el niv deben ser iguales
+                  </div>
+                  <!--  -->
+                  {{formCamiones.controls.niv.errors | json}}
+                  {{formCamiones.value.numSerie == formCamiones.value.niv}}
+                </div>
+                <!--  -->
+              </div>
+
+              <div class="row justify-content-center">
+                <button mat-raised-button type="submit" color="primary" >
+                  {{btn}}
+                </button>
+              </div>
+
+            </form>
+          </mat-card-content>
+          <!-- <mat-card-actions align="start">
+              <button mat-button (click)="onAction1">Action1</button>
+
+          </mat-card-actions> -->
+
+      </mat-card>
+    </div>
+  </div>
+</div>

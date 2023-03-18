@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ListadoComponent } from './pages/listado/listado.component';
-import { AgregarComponent } from './pages/agregar/agregar.component';
+import {  FormLocalesComponent } from './pages/form-locales/form-locales.component';
 import { MaterialModule } from '../material/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LocalesRoutingModule } from './locales-routing.module';
@@ -11,7 +11,7 @@ import { LocalesRoutingModule } from './locales-routing.module';
 @NgModule({
   declarations: [
     ListadoComponent,
-    AgregarComponent
+    FormLocalesComponent
   ],
   imports: [
     CommonModule,

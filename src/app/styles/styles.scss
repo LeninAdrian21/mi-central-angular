@@ -2,8 +2,9 @@
 
 @mixin acciones{
   .acciones{
+    padding: 0;
     @include flex(space-around, center);
-    @include width(100%);
+    @include width(120%);
     @include padding(5px 0);
   }
 }
@@ -117,7 +118,7 @@
       @include desktop(){
         @include grid(3, 10px);
         .btn{
-          grid-row-end: 12;
+          grid-row-end: 13;
           grid-column-start: 2;
         }
         .comment{
@@ -172,5 +173,11 @@
     text-align: center;
   }
 }
+// .carga{
+//   height: 85%;
+// }
+// .c-black{
+//   color:black;
+// }
 
 

@@ -11,11 +11,13 @@ import { AuthService } from '../../services/auth.service';
 export class ChangePasswordComponent implements OnInit {
   ChangePasswordForm!: FormGroup;
   tokenEmail:any;
+  siteKey:string ="6LeDZVkkAAAAAAieZFHU4io4Qec9n2BPOBB-Jt3c";
   constructor(private router:Router, private service:AuthService, private formBuilder:FormBuilder) { }
   ngOnInit(): void {
     this.ChangePasswordForm = this.formBuilder.group({
       new_password:['',[Validators.required, Validators.minLength(6)]],
-      confirm_password:['',[Validators.required, Validators.minLength(6)]]
+      confirm_password:['',[Validators.required, Validators.minLength(6)]],
+      recaptcha: ['', Validators.required]
     });
     this.tokenEmail = localStorage.getItem('tokenEmail');
   }

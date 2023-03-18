@@ -9,8 +9,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
 import { EmailValidatorComponent } from './pages/email-validator/email-validator.component';
 import { ChangePasswordComponent } from './pages/change-password/change-password.component';
-
-
+import { NgxCaptchaModule } from 'ngx-captcha';
 
 @NgModule({
   declarations: [
@@ -26,7 +25,8 @@ import { ChangePasswordComponent } from './pages/change-password/change-password
     MaterialModule,
     FormsModule,
     FlexLayoutModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxCaptchaModule
   ]
 })
 export class AuthModule { }

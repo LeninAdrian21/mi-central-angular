@@ -1,0 +1,21 @@
+import { Validators } from "@angular/forms";
+export const productosForm = {
+  nombre:['',[Validators.required]],
+  codigo_barras:['',[Validators.required]],
+  codigo_interno:['',[Validators.required]],
+  peso_neto:['',[Validators.required]],
+  presentacion:['',[Validators.required]],
+  marca:['',[Validators.required]],
+  descripcion_generica:['',[Validators.required]],
+  precio:['',[Validators.required]],
+  costo:['',[Validators.required]],
+  inventario_disp:['',[Validators.required]],
+  value_min:['',[Validators.required]],
+  status:[false],
+  venta_gramos:['',[Validators.required]],
+  id_dimension:[''],
+  id_lotes:[''],
+  id_proveedor:[''],
+  id_carritos:[''],
+  id_promociones:[''],
+}

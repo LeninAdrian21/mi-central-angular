@@ -12,6 +12,8 @@ import {MatListModule} from '@angular/material/list';
 import {MatTableModule} from '@angular/material/table';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { MatNativeDateModule } from '@angular/material/core';
+import {MatPaginatorModule} from '@angular/material/paginator';
 @NgModule({
   declarations: [],
   imports: [
@@ -20,7 +22,6 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     MatCardModule,
     MatToolbarModule,
     MatButtonModule,
-    MatDatepickerModule,
     MatSelectModule,
     MatSlideToggleModule,
     MatSidenavModule,
@@ -28,6 +29,9 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     MatListModule,
     MatTableModule,
     MatDialogModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatPaginatorModule
   ],
   exports: [
     MatInputModule,
@@ -42,7 +46,8 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     MatListModule,
     MatTableModule,
     MatDialogModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatPaginatorModule
   ]
 })
 export class MaterialModule { }

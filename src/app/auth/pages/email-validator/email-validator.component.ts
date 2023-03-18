@@ -14,7 +14,6 @@ export class EmailValidatorComponent implements OnInit {
 
   ngOnInit(): void {
     this.tokenEmail = this.route.snapshot.params['jwt'];
-
     this.emailValidator(this.tokenEmail);
   }
   emailValidator(tokenEmail:any){

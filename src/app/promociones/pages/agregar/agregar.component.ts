@@ -2,10 +2,10 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { CrudService } from 'src/app/services/crud.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AbonoService } from 'src/app/abonos/service/abono.service';
-import { promocionesForm } from 'src/functions/form';
 import { Add, promocionesId, Update } from 'src/functions/functions';
 import { PromocionService } from '../../service/promocion.service';
+import { promocionesForm } from '../../functions/form';
+import { Promocion } from '../../functions/functions';
 
 @Component({
   selector: 'app-agregar',
@@ -13,43 +13,47 @@ import { PromocionService } from '../../service/promocion.service';
   styleUrls: ['./agregar.component.scss']
 })
 export class AgregarComponent implements OnInit {
-  addPromociones!:FormGroup;
+  productos$ = this.get.productos$;
+  formPromociones!: FormGroup;
+  // el id y el cuerpo de la peticion
   id:any;
+  //texto dinamicos
   btn:string="Agregar";
   title:string = "Agregr Promocion";
-  body:any;
-  productos$ = this.get.productos$;
-  constructor(private service:CrudService,private formBuilder:FormBuilder,private router:Router, private route:ActivatedRoute, private get:PromocionService ) { }
+  // Cambios en la interfaz;
+  cargaOptions = false;
+  submitted = false;
+  // boton de Loading en la interfas
+  addUpdate = false;
+  constructor(
+    private formBuilder: FormBuilder,
+    private get:PromocionService,
+    private service:CrudService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
     this.id = this.route.snapshot.params['id'];
-    this.addPromociones = this.formBuilder.group(promocionesForm);
+    this.formPromociones = this.formBuilder.group(promocionesForm);
     if (this.id){
       this.btn = "Actualizar";
       this.title = "Actualizar Promocion";
-      promocionesId(this.service,'promociones/'+ this.id,this.addPromociones);
+      promocionesId(this.service,'promociones/'+ this.id,this.formPromociones);
     }
   }
-  addPromocion(){
-    if (!this.addPromociones.valid){
-      return alert('Faltan campos por llenar y/o no son validos');
+  formPromocion(){
+    this.submitted = true;
+    if (this.formPromociones.invalid){
+      Promocion.Mensaje('Formulario invalido')
+      return;
     }
-    const {producto_nombre} = this.addPromociones.value;
-    delete this.addPromociones.value.producto_nombre
-    this.body = Object.assign(this.addPromociones.value);
-    if(producto_nombre){
-      const productos = {
-        productos:[
-          {
-            _id:producto_nombre
-          }
-        ]
-      }
-      this.body = Object.assign(this.body, productos)
+    const {id_productos} = this.formPromociones.value;
+    this.addUpdate = true;
+    if(this.btn == 'Actualizar'){
+      Promocion.update(this.service,this.id,this.router,this.formPromociones,id_productos);
+      return;
     }
-    if(this.btn =="Actualizar"){
-      return Update('promociones',this.id,this.body,this.router,this.service,'Promocion actualizado con exito','/promociones/listar');
-    }
-    Add('promociones',this.body,this.service,this.router,'Promocion agregado correctamente','/abonos/listar');
+    Promocion.add(this.service,this.router,this.formPromociones,id_productos);
   }
 }

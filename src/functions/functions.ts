@@ -2,13 +2,7 @@
 const token = localStorage.getItem('token');
 //Dialog
 
-export function NavData(nav:any, data:any, rol:string){
-  nav.forEach((element:any) => {
-    if(element.permiso.includes(rol)){
-      data.push(element);
-    }
-  });
-}
+
 export function openDialog(id:string,url:string,title:string,table:string,dialog:any,component:any){
   dialog.open(component, {
     height:'550px',width:'500px',
@@ -60,6 +54,7 @@ export function abonoId(service:any,url:any, formGroup:any){
 export function camionId(service:any, url:any,formgroup:any, formBuilder:any, Validators:any, getplacas:any){
   service.get(url,token).subscribe(
     (data:any) => {
+      console.log(data);
       const {placas} = data;
       formgroup.patchValue({
         num_serie:data.num_serie,
@@ -67,7 +62,7 @@ export function camionId(service:any, url:any,formgroup:any, formBuilder:any, Va
       })
       placas.forEach((element: any) => {
         const placaFormGroup = formBuilder.group({
-          placa: [element.placa,[Validators.required]],
+          placa: [element.placa,[Validators.required,Validators.minLength(6),Validators.maxLength(6)]],
           activa: [element.activa,[Validators.required]],
           estado: [element.estado,[Validators.required,  Validators.minLength(4),, Validators.maxLength(17)]],
         });
@@ -160,10 +155,10 @@ export function compraId(service:any, url:any,formgroup:any){
 export function creditoId(service:any, url:any,formgroup:any){
   service.get(url,token).subscribe(
     (data:any) => {
-      const {limite,Fecha_alta,fecha_baja,vigencia,intereses,status,usuario,metodos_de_pago,abonos} = data;
+      const {limite,fecha_alta,fecha_baja,vigencia,intereses,status,usuario,metodos_de_pago,abonos} = data;
       formgroup.patchValue({
         limite,
-        Fecha_alta,
+        fecha_alta,
         fecha_baja,
         vigencia,
         intereses,
@@ -194,9 +189,9 @@ export function creditoId(service:any, url:any,formgroup:any){
 export function dimensionesId(service:any, url:any,formgroup:any){
   service.get(url,token).subscribe(
     (data:any) => {
-      const {Nombre,ancho,alto,largo,productos} = data;
+      const {nombre,ancho,alto,largo,productos} = data;
       formgroup.patchValue({
-        Nombre,
+        nombre,
         ancho,
         alto,
         largo
@@ -216,7 +211,7 @@ export function dimensionesId(service:any, url:any,formgroup:any){
 export function gastosId(service:any, url:any,formgroup:any){
   service.get(url,token).subscribe(
     (data:any) => {
-      const {descripcion,fecha,monto,categoria,status,usuario,camion} = data;
+      const {descripcion,fecha,monto,categoria,status,usuario,camions} = data;
       formgroup.patchValue({
         descripcion,
         fecha,
@@ -229,9 +224,9 @@ export function gastosId(service:any, url:any,formgroup:any){
           id_usuario:usuario.id
         })
       }
-      if(camion){
+      if(camions.length > 0){
         formgroup.patchValue({
-          id_camion:camion.id
+          id_camiones:camions[0].id
         })
       }
     },
@@ -333,32 +328,32 @@ export function lotesId(service:any, url:any,formgroup:any){
   service.get(url,token).subscribe(
     (data:any) => {
       console.log(data);
-      // const {
-      //   Codigo_interno,
-      //   fecha_arrivo,
-      //   fecha_caducidad,
-      //   fecha_adquisio,
-      //   costo,
-      //   compras,
-      //   productos
-      // } = data;
-      // formgroup.patchValue({
-      //   Codigo_interno,
-      //   fecha_arrivo,
-      //   fecha_caducidad,
-      //   fecha_adquisio,
-      //   costo,
-      // })
-      // if(compras.length > 0){
-      //   formgroup.patchValue({
-      //     costo_compra:compras[0].id
-      //   })
-      // }
-      // if(productos.length > 0){
-      //   formgroup.patchValue({
-      //     nombre_producto:productos[0].id
-      //   })
-      // }
+      const {
+        codigo_interno,
+        fecha_arrivo,
+        fecha_caducidad,
+        fecha_adquisio,
+        costo,
+        compras,
+        productos
+      } = data;
+      formgroup.patchValue({
+        codigo_interno,
+        fecha_arrivo,
+        fecha_caducidad,
+        fecha_adquisio,
+        costo,
+      })
+      if(compras.length > 0){
+        formgroup.patchValue({
+          costo_compra:compras[0].id
+        })
+      }
+      if(productos.length > 0){
+        formgroup.patchValue({
+          nombre_producto:productos[0].id
+        })
+      }
     },
     (error:any) => {
       console.log(error);
@@ -666,10 +661,10 @@ export function usuariosId(service:any, url:any,formgroup:any){
         carritos,
         creditos,
         gastos,
-        historials,
-        local,
+        historiales,
+        locals,
         ventas,
-        metodos_de_pagos,
+        metodo_pagos,
         tipo_rol
       } = data;
       formgroup.patchValue({
@@ -701,14 +696,19 @@ export function usuariosId(service:any, url:any,formgroup:any){
         status,
         comment,
       })
+      if(tipo_rol){
+        formgroup.patchValue({
+          id_tipo_rol: tipo_rol.id
+        })
+      }
       if(gastos.length > 0){
         formgroup.patchValue({
           monto_gasto:gastos[0].id
         })
       }
-      if(local.length > 0){
+      if(locals.length > 0){
         formgroup.patchValue({
-          nombre_local:local[0].id
+          nombre_local:locals[0].id
         })
       }
       if(ventas.length > 0){
@@ -736,19 +736,14 @@ export function usuariosId(service:any, url:any,formgroup:any){
           limite_credito:creditos[0].id
         })
       }
-      if(historials.length > 0){
+      if(historiales.length > 0){
         formgroup.patchValue({
-          fecha_historial:historials[0].id
+          fecha_historial:historiales[0].id
         })
       }
-      if(metodos_de_pagos.length > 0){
+      if(metodo_pagos.length > 0){
         formgroup.patchValue({
-          numero_tarjeta_metodo_pago:metodos_de_pagos[0].id
-        })
-      }
-      if(tipo_rol){
-        formgroup.patchValue({
-          rol_id: tipo_rol.id
+          numero_tarjeta_metodo_pago:metodo_pagos[0].id
         })
       }
     },
@@ -890,6 +885,7 @@ export function deleteMostrar(id:string, service:any, url:string){
   const body = {
     mostrar:false
   }
+  console.log(id,service,url);
   service.update(url, id, body,token).subscribe(
     (data:any) => {
       alert('Se ha eliminado correctamente');
@@ -904,6 +900,7 @@ export function deleteMostrar(id:string, service:any, url:string){
 export function deleteDialogMostrar(id:string,service:any,url:any,title:any,dialog:any,component:any){
   dialog.open(component, {
     height:'230px',width:'520px',
+
     data:{
       id,
       service,
@@ -913,3 +910,5 @@ export function deleteDialogMostrar(id:string,service:any,url:any,title:any,dial
     }
   });
 }
+
+

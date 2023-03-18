@@ -1,60 +1,39 @@
 import { Router } from '@angular/router';
 import { AuthService } from './../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { registerForm } from 'src/functions/form';
+import { FormGroup, FormBuilder} from '@angular/forms';
+import { Register } from '../../functions/form';
+import Swal from 'sweetalert2';
+import { Auth } from '../../functions/functions';
 @Component({
   selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss']
+  templateUrl: './register.component.html'
 })
 export class RegisterComponent implements OnInit {
-
   registerForm!: FormGroup;
   body:any;
   status: any;
-  constructor(private service:AuthService, private router:Router, private formBuilder:FormBuilder) { }
+  siteKey:string ="6LeDZVkkAAAAAAieZFHU4io4Qec9n2BPOBB-Jt3c";
+  submitted = false;
+  constructor(
+    private formBuilder:FormBuilder,
+    private service:AuthService, private router:Router, ) { }
 
   ngOnInit(): void {
-    this.registerForm = this.formBuilder.group(registerForm)
-    this.loadStatus();
+    this.registerForm = this.formBuilder.group(Register);
   }
   Register() {
-    const rol ={
-      tipo_rol:{
-        _id: this.registerForm.value._id,
-      }
+    this.submitted = true;
+    if(this.registerForm.invalid){
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Faltan datos en el formulario',
+      });
+      return
     }
-    delete this.registerForm.value._id;
-    if(this.registerForm.value.status == ''){
-      this.registerForm.value.status = false;
-    }
-
-    if (this.registerForm.valid) {
-      const body = Object.assign(this.registerForm.value, rol);
-      this.registerForm.value.nss = this.registerForm.value.nss.toString();
-      this.registerForm.value.tel_cel = this.registerForm.value.tel_cel.toString();
-      this.registerForm.value.numero = this.registerForm.value.numero.toString();
-      this.registerForm.value.cp = this.registerForm.value.cp.toString();
-      this.service.Register(body).subscribe(
-        (data) => {
-          console.log(data);
-          alert("Usuario registrado correctamente");
-          this.router.navigate(['/auth/login']);
-        },(error) => {
-          console.log(error);
-          alert('Error al registrar');
-        });
-    }else{
-      alert('Faltan campos por llenar y/o no son validos');
-    }
+    this.body = Auth.Relations(this.registerForm);
+    console.log(this.body);
+    Auth.register(this.service,this.body,this.router);
   }
-  loadStatus(){
-    this.registerForm.patchValue(
-      {
-        status: false
-      }
-    );
-  }
-
 }

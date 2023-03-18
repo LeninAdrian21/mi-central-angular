@@ -30,7 +30,7 @@ export class CreditoService {
     );
   }
   metodoPagos() {
-    this.service.get('metodos-de-pagos',  this.token).subscribe(
+    this.service.get('metodo-pagos',  this.token).subscribe(
       (data: any) => {
         this.metodoPagoSubject.next(data);
       },

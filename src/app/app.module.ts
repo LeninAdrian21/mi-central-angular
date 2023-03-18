@@ -1,4 +1,3 @@
-import { CoreModule } from './core/core.module';
 import { DialogcomponentComponent } from './dialogcomponent/dialogcomponent.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -13,6 +12,11 @@ import { GraphQLModule } from './graphql.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PopUpComponent } from './pop-up/pop-up.component';
 import { ToastrModule } from 'ngx-toastr';
+import { NgxCaptchaModule } from 'ngx-captcha';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { RECAPTCHA_V3_SITE_KEY, RecaptchaV3Module } from "ng-recaptcha";
+import { CoreModule } from './core/core.module';
+import { environment } from 'src/environments/environment';
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,10 +34,18 @@ import { ToastrModule } from 'ngx-toastr';
     HttpClientModule,
     MaterialModule,
     ReactiveFormsModule,
+    NgxCaptchaModule,
     ToastrModule.forRoot(),
+    RecaptchaV3Module,
+    NgbModule,
     CoreModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: RECAPTCHA_V3_SITE_KEY,
+      useValue: environment.useValue
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

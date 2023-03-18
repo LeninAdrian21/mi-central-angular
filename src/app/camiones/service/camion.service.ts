@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { CrudService } from 'src/app/services/crud.service';
+import Swal from 'sweetalert2';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -9,18 +11,17 @@ export class CamionService {
   gastos$ = this.gastosSubject.asObservable();
   private historialesSubject = new BehaviorSubject<any>([]);
   historiales$ = this.historialesSubject.asObservable();
-  private usuariosSubject = new BehaviorSubject<any>([]);
-  usuarios$ = this.usuariosSubject.asObservable();
+  private usuarioSubject = new BehaviorSubject<any>([]);
+  usuario$ = this.usuarioSubject.asObservable();
   private rutasSubject = new BehaviorSubject<any>([]);
   rutas$ = this.rutasSubject.asObservable();
   token: any = localStorage.getItem('token');
   constructor(private service: CrudService) {
     this.gastos();
     this.historiales();
-    this.usuarios();
+    this.usuario();
     this.rutas();
   }
-
   gastos(){
     this.service.get('gastos',this.token).subscribe(
       (data: any) => {
@@ -28,18 +29,26 @@ export class CamionService {
       },
       (error) => {
         console.log(error);
-        alert('Error');
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Error a mostrar los gastos en el formulario',
+        })
       }
     );
   }
   historiales(){
-    this.service.get('historials',  this.token).subscribe(
+    this.service.get('historials',this.token).subscribe(
       (data: any) => {
         this.historialesSubject.next(data);
       },
       (error) => {
         console.log(error);
-        alert('Error');
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Error a mostrar los historiales en el formulario',
+        })
       }
     );
   }
@@ -50,18 +59,26 @@ export class CamionService {
       },
       (error) => {
         console.log(error);
-        alert('Error');
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Error a mostrar las rutas en el formulario',
+        })
       }
     );
   }
-  usuarios(){
+  usuario(){
     this.service.get('usuarios',  this.token).subscribe(
       (data: any) => {
-        this.usuariosSubject.next(data);
+        this.usuarioSubject.next(data);
       },
       (error) => {
         console.log(error);
-        alert('Error');
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Error a mostrar los usuarios en el formulario',
+        })
       }
     );
   }

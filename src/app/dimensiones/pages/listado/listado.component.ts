@@ -1,51 +1,65 @@
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { deleteDialog, openDialog } from 'src/functions/functions';
-import { Component, OnInit } from '@angular/core';
-import { map } from 'rxjs';
-import { PopUpComponent } from 'src/app/pop-up/pop-up.component';
 import { CrudService } from 'src/app/services/crud.service';
-import { GetdataService } from 'src/app/services/getdata.service';
 import { table } from 'src/functions/table';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
 import { DialogcomponentComponent } from 'src/app/dialogcomponent/dialogcomponent.component';
+import { DataDimensionesService } from '../../service/data-dimensiones.service';
+import { Dimension } from '../../functions/functions';
 @Component({
   selector: 'app-listado',
   templateUrl: './listado.component.html',
   styleUrls: ['./listado.component.scss']
 })
 export class ListadoComponent implements OnInit {
-  title: string = table.Dimensiones.title;
-  dimensiones$ = this.service.dimensiones$;
-  displayedColumns: string[] = table.Dimensiones.columns;
-  constructor( private service:GetdataService, private crud:CrudService, private dialog : MatDialog) { }
+  filter:any;
+  $dimensiones = this.data.dimensiones$;
+  dataDimensiones:any[] = [];
+  displayedColumns:string[] = table.Dimensiones.columns;
+  dataSource = new MatTableDataSource<any>([]);
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+  }
+  constructor( private data:DataDimensionesService, private service: CrudService, private dialog:MatDialog) { }
   ngOnInit(): void {
-    if (this.crud.addCampo == true){
-      this.crud.addCampo = false;
+    if(this.service.addCampo == true){
+      this.service.addCampo = false;
       return location.reload();
     }
+    this.Listar();
   }
   applyFilter(event: Event) {
-      const filterValue = (event.target as HTMLInputElement).value;
-      this.dimensiones$ = this.dimensiones$.pipe(
-        map(dimensiones => dimensiones.filter((dimension: {
-          Nombre:any;
-          ancho:any;
-          alto:any;
-          largo:any;
-          id:any;
-        }) => dimension.id.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-        dimension.Nombre.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-        dimension.ancho.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-        dimension.alto.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-        dimension.largo.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 )));
-    }
-    Refresh(){
-      location.reload();
-    }
-    Delete(id:string){
+    Dimension.ApplyFilter(event,this.dataSource)
 
-      deleteDialog(id,this.crud,'dimensiones',this.dialog,PopUpComponent);
+  }
+  Refresh(){
+    this.dataSource.data = this.dataDimensiones;
+    this.filter = '';
+  }
+  Listar(){
+    this.$dimensiones.subscribe( element =>{
+      element.forEach((element:any, index:any) => {
+        let data = {
+          no:index + 1,
+          id:element.id,
+          nombre: element.nombre,
+          ancho: element.ancho,
+          alto: element.alto,
+          largo: element.largo,
+          productos: element.productos
+        }
+        this.dataDimensiones.push(data);
+      });
+      this.dataSource.data = this.dataDimensiones;
     }
-    openDialog(id: string, url: string, title: string, table: string) {
-      openDialog(id,url,title,table,this.dialog,DialogcomponentComponent);
-    }
+    )
+  }
+  openDialog(id: string, url: string, title: string, table: string) {
+    Dimension.OpenDialog(id,url,title,table,this.dialog,DialogcomponentComponent);
+  }
+  Delete(id:string){
+    Dimension.delete(id,this.service);
+  }
 }

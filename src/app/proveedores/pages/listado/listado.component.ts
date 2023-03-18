@@ -1,81 +1,79 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { map } from 'rxjs';
 import { DialogcomponentComponent } from 'src/app/dialogcomponent/dialogcomponent.component';
-import { PopUpComponent } from 'src/app/pop-up/pop-up.component';
 import { CrudService } from 'src/app/services/crud.service';
-import { GetdataService } from 'src/app/services/getdata.service';
-import { deleteDialog, openDialog } from 'src/functions/functions';
 import { table } from 'src/functions/table';
+import { Proveedor } from '../../functions/functions';
+import { DataProveedoresService } from '../../service/data-proveedores.service';
+
 @Component({
   selector: 'app-listado',
   templateUrl: './listado.component.html',
   styleUrls: ['./listado.component.scss']
 })
 export class ListadoComponent implements OnInit {
-  title: string = table.Proveedores.title;
-  proveedores$ = this.service.proveedores$;
-  displayedColumns: string[] = table.Proveedores.columns;
+  filter:any;
+  $proveedores = this.data.proveedores$;
+  dataProveedores:any[] = [];
+  displayedColumns:string[] = table.Proveedores.columns;
+  dataSource = new MatTableDataSource<any>([]);
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+  }
   constructor(
-    private service: GetdataService,
-    private crud: CrudService,
-    private dialog: MatDialog
+    private data:DataProveedoresService, private service: CrudService, private dialog:MatDialog
   ){}
   ngOnInit(): void {
-    if (this.crud.addCampo == true) {
-      this.crud.addCampo = false;
+    if(this.service.addCampo == true){
+      this.service.addCampo = false;
       return location.reload();
     }
+    this.Listar();
   }
   applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.proveedores$ = this.proveedores$.pipe(
-      map((proveedores) =>
-        proveedores.filter(
-          (proveedor: {
-            nombre: any;
-            razon_social: any;
-            rfc:any;
-            fecha_alta:any;
-            calle:any;
-            numero:any;
-            colonia:any;
-            cp:any;
-            municipio:any;
-            ciudad:any;
-            pais:any;
-            visita_programada:any;
-            status:any;
-            id: any;
-          }) =>
-            proveedor.id.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-            proveedor.nombre.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-            proveedor.razon_social.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-            proveedor.rfc.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-            proveedor.fecha_alta.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-            proveedor.calle.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-            proveedor.numero.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-            proveedor.colonia.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-            proveedor.cp.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-            proveedor.municipio.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-            proveedor.ciudad.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-            proveedor.pais.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-            proveedor.visita_programada.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-            proveedor.status.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1
-        )
-      )
-    );
+    Proveedor.ApplyFilter(event,this.dataSource)
   }
+  Listar(){
+    this.$proveedores.subscribe(element =>{
+      element.forEach((element:any, index:any) => {
+        let data = {
+          no:index + 1,
+          id:element.id,
+          nombre:element.nombre,
+          razon_social:element.razon_social,
+          rfc:element.rfc,
+          fecha_alta:element.fecha_alta,
+          calle:element.calle,
+          numero:element.numero,
+          colonia:element.colonia,
+          cp:element.cp,
+          municipio:element.municipio,
+          ciudad:element.ciudad,
+          pais:element.pais,
+          visita_programada:element.visita_programada,
+          status:element.status,
+          productos:element.productos,
+          compras:element.compras,
+        }
+        this.dataProveedores.push(data);
+      });
+      this.dataSource.data = this.dataProveedores;
+    });
+    // id
 
-  Refresh() {
-    location.reload();
   }
-  Delete(id: string) {
-    deleteDialog(id,this.crud,'proveedors',this.dialog,PopUpComponent);
+  Refresh(){
+    this.dataSource.data = this.dataProveedores;
+    this.filter = '';
   }
-  openDialog(id: string, url: string, title: string, table: string) {
-    openDialog(id,url,title,table,this.dialog,DialogcomponentComponent);
+  openDialog(id:string, url:string,title:string, table:string){
+    Proveedor.OpenDialog(id,url,title,table,this.dialog,DialogcomponentComponent);
+  }
+  Delete(id:string){
+    Proveedor.delete(id,this.service);
   }
   VisitaProgramada(string:string){
     const fecha = new Date(string);
