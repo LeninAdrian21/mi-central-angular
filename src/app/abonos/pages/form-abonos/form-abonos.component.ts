@@ -12,6 +12,7 @@ import { Abono } from '../../function/functions';
   styleUrls: ['./form-abonos.component.scss']
 })
 export class FormAbonosComponent implements OnInit {
+  prueba:string = '';
   // Formaulario
   usuarios$ = this.get.usuarios$;
   creditos$ = this.get.creditos$;
@@ -65,5 +66,8 @@ export class FormAbonosComponent implements OnInit {
       return;
     }
     Abono.add(this.service,this.router,this.formAbonos,id_credito,id_usuario,this.fecha);
+  }
+  Prueba(){
+    console.log(this.prueba);
   }
 }

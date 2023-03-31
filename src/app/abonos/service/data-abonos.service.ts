@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { gql,Apollo } from 'apollo-angular';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, map } from 'rxjs';
 import Swal from 'sweetalert2';
 
 const QUERY = gql`
@@ -8,6 +8,7 @@ query {
   abonos(where:{
     mostrar:true
   }){
+    id
     cantidad_abono
     fecha_abono
     estado_abono
@@ -20,6 +21,38 @@ query {
       nombre
       ap_paterno
       ap_materno
+    }
+  }
+}
+`
+const Pagination = gql`
+query paginationAbonos($start:Int, $limit:Int){
+  paginationAbonos(start:$start, limit:$limit) {
+    totalCount
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    edges {
+      cursor
+      node {
+        id
+        cantidad_abono
+        fecha_abono
+        estado_abono
+        credito{
+          id
+          limite
+        }
+        usuario{
+          id
+          nombre
+          ap_paterno
+          ap_materno
+        }
+      }
     }
   }
 }
@@ -49,5 +82,17 @@ export class DataAbonosService {
         text: 'Error al mostrar los abonos',
       })
     });
+  }
+  GetPaginator(start?: number, limit?:number){
+    return this.apollo.watchQuery({
+      query: Pagination,
+      variables:{
+        start,
+        limit
+      }
+    })
+    .valueChanges.pipe(
+      map((result: any) => result.data.paginationAbonos)
+    );
   }
 }

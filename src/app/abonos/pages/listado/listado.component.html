@@ -11,17 +11,18 @@
                   <div class="col-11">
                     <div class="row justify-content-around">
                       <mat-form-field appearance="standard" class="col-10">
-                        <mat-label>Filter id, cantidad de abono, fecha de abono y estado de abono</mat-label>
-                         <input matInput (keyup)="applyFilter($event)" placeholder="Filter id, cantidad de abono, fecha de abono y estado de abono" [(ngModel)]="filter" #input>
+                        <mat-label>Buscador</mat-label>
+                         <input matInput (keyup)="applyFilter($event)" placeholder="Filter id, cantidad de abono, fecha de abono y estado de abono"
+                          #input>
                       </mat-form-field>
                       <div>
-                        <button mat-raised-button class="bg-secondary mt-3" (click)="Refresh()">
+                        <!-- <button mat-raised-button class="bg-secondary mt-3" (click)="Refresh()">
                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
                           <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z" />
                           <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z" />
                           </svg>
                           Limpiar
-                        </button>
+                        </button> -->
                       </div>
                     </div>
                   </div>
@@ -41,14 +42,14 @@
           <mat-card-content>
             <div class="container-fluid overflow-auto m-auto">
               <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table tabla">
-                <ng-container matColumnDef="no">
+                <!-- <ng-container matColumnDef="no">
                   <th mat-header-cell *matHeaderCellDef class=" text-center"> No. </th>
                   <td mat-cell *matCellDef="let element" class="border-right text-center">
                     <div *ngIf="element.no">
                       {{element.no}}
                     </div>
                   </td>
-                </ng-container>
+                </ng-container> -->
                 <ng-container matColumnDef="cantidad_abono">
                   <th mat-header-cell *matHeaderCellDef class=" text-center"> Cantidad de abono </th>
                   <td mat-cell *matCellDef="let element" class="border-right text-center">
@@ -109,16 +110,19 @@
                   </td>
                 </ng-container>
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row;columns:displayedColumns;"></tr>
-                <tr class="mat-row" *matNoDataRow>
-                  <td class="mat-cell" colspan="4">No data maching the filter "{{input.value}}"</td>
+                <tr mat-row *matRowDef="let row;columns:displayedColumns;">
+                  {{row}}{{displayedColumns}}
                 </tr>
+                <!-- <tr class="mat-row" *matNoDataRow>
+                  <td class="mat-cell" colspan="4">No data maching the filter "{{input.value}}"</td>
+                </tr> -->
               </table>
             </div>
-            <mat-paginator [pageSizeOptions]="[5,10,20,50,100]" showFirstLastButtons
-              aria-label="Select page of periodic elements">
+            <mat-paginator [pageSizeOptions]="[2,3,4,5]" showFirstLastButtons
+               (page) = "pageChanged($event)">
             </mat-paginator>
           </mat-card-content>
+
       </mat-card>
       <!-- <button mat-raised-button class="bg-secondary mt-3" (click)="RefreshToken()">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">

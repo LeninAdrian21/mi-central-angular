@@ -18,13 +18,20 @@ export class NavComponent implements OnInit {
   decoded:any;
   GetRol:any[] = [];
   constructor(private router:Router, private core:VariablesService) {
-
   }
   ngOnInit(): void {
-    this.core.RolObservable.subscribe((data)=>{
+
+    this.core.RolObservable.subscribe(async (data)=>{
       console.log(data);
       NavData(navData, this.nav,data);
     });
+    // setTimeout(() => {
+    //   if(this.nav.length == 0){
+    //     location.reload();
+    //   }
+    // }, 3000);
+
+
   }
   Logout() {
     localStorage.clear();

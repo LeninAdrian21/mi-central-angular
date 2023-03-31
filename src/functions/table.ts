@@ -1,7 +1,7 @@
 export const table ={
   Abonos:{
     title: 'Abonos',
-    columns:['no','cantidad_abono','fecha_abono','estado_abono','usuario','credito','acciones'],
+    columns:['cantidad_abono','fecha_abono','estado_abono','usuario','credito','acciones'],
     data:['id','cantidad_abono','fecha_abono','estado_abono'],
     campo:['Id','Cantidad de abono','Fecha de abono','Estado de abono']
   },
