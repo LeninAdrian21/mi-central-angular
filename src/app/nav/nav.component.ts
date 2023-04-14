@@ -14,7 +14,6 @@ export class NavComponent implements OnInit {
   // private data$:Observable<any>;
   navData: any[] = navData;
   nav:any[] = [];
-  mensaje:any;
   decoded:any;
   GetRol:any[] = [];
   constructor(private router:Router, private core:VariablesService) {
