@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostBinding, HostListener, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CrudService } from 'src/app/services/crud.service';
 import { table } from 'src/functions/table';
@@ -8,6 +8,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Abono } from '../../function/functions';
 import { DialogcomponentComponent } from 'src/app/dialogcomponent/dialogcomponent.component';
 import { Observable, map } from 'rxjs';
+
 @Component({
     selector: 'app-listado',
   templateUrl: './listado.component.html',
@@ -17,6 +18,11 @@ export class ListadoComponent implements OnInit {
   dataSource = new MatTableDataSource<any>();
   displayedColumns: string[] = table.Abonos.columns;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  start = 0;
+  limit = 2;
+  items:any[]=[];
+  totalCount:any;
+  @ViewChild('myTable') myTable!: ElementRef ;
   // sin cambio
   // data$:Observable<any> | undefined;
   // filter:any;
@@ -31,10 +37,39 @@ export class ListadoComponent implements OnInit {
   // ngAfterViewInit() {
   //   this.dataSource.paginator = this.paginator;
   // }
-  constructor(private data:DataAbonosService, private service: CrudService, private dialog:MatDialog,  ){
+  constructor(private data:DataAbonosService, private service: CrudService, private dialog:MatDialog, private elementRef: ElementRef){
   }
+
+  getItems(){
+    this.data.GetPaginator(this.start,this.limit).subscribe(({edges, totalCount}) => {
+      this.totalCount = totalCount;
+      edges.forEach((item: any) => this.items.push(item.node));
+      console.log(this.items);
+      this.dataSource.data = this.items;
+    });
+  }
+  loadMore(){
+    this.start += this.limit;
+    console.log(this.items.length)
+    console.log(this.totalCount)
+    if(this.items.length != this.totalCount){
+      this.getItems();
+    }
+     else{
+    }
+  }
+  // @HostListener('window:scroll',['$event'])
+  // onScroll(event:any){
+  //   const element = this.elementRef.nativeElement;
+  //   const bottom = element.querySelector('#bottom');
+  //   if (bottom.getBoundingClientRect().top <= window.innerHeight) {
+  //     this.loadMore();
+  //   }
+  // }
   ngOnInit(): void {
     this.Paginator()
+    this.getItems();
+
     // sin cambios
     // console.log()
     // if(this.service.addCampo == true){
@@ -50,6 +85,13 @@ export class ListadoComponent implements OnInit {
     // });
     // console.log(this.hasNextPage)
     // console.log(this.hasPreviousPage)
+  }
+  @HostListener("window:scroll")
+  Scroll():void{
+    console.log((window.innerHeight + window.scrollY) >= document.body.offsetHeight)
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+      this.loadMore()
+    }
   }
   applyFilter(event:any){
     // Abono.ApplyFilter(event,this.dataSource)

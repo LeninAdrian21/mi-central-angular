@@ -1,5 +1,5 @@
 import { navData } from './functions/navData';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { NavData } from './functions/functions';
@@ -36,5 +36,12 @@ export class NavComponent implements OnInit {
   Logout() {
     localStorage.clear();
     this.router.navigate(['/auth/login']);
+  }
+  @HostListener('window:scroll')
+  onScroll(event:any) {
+    const alertaDiv = document.getElementById('alerta');
+    if (alertaDiv) {
+      console.log('alerta')
+    }
   }
 }
