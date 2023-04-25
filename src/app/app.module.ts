@@ -17,8 +17,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RECAPTCHA_V3_SITE_KEY, RecaptchaV3Module } from "ng-recaptcha";
 import { CoreModule } from './core/core.module';
 import { environment } from 'src/environments/environment';
-import { AutocompleteLibModule } from 'angular-ng-autocomplete';
-import { InfiniteScrollModule } from "ngx-infinite-scroll";
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,7 +26,7 @@ import { InfiniteScrollModule } from "ngx-infinite-scroll";
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
+    AppRoutingModule, 
     BrowserAnimationsModule,
     FormsModule,
     FlexLayoutModule,
@@ -41,8 +39,6 @@ import { InfiniteScrollModule } from "ngx-infinite-scroll";
     RecaptchaV3Module,
     NgbModule,
     CoreModule,
-    AutocompleteLibModule,
-    InfiniteScrollModule
   ],
   providers: [
     {
