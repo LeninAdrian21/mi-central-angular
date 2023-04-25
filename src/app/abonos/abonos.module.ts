@@ -5,8 +5,6 @@ import { AbonosRoutingModule } from './abonos-routing.module';
 import { MaterialModule } from '../material/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormAbonosComponent } from './pages/form-abonos/form-abonos.component';
-import { AutocompleteLibModule } from 'angular-ng-autocomplete';
-import { InfiniteScrollModule } from "ngx-infinite-scroll";
 @NgModule({
   declarations: [
     ListadoComponent,
@@ -18,8 +16,6 @@ import { InfiniteScrollModule } from "ngx-infinite-scroll";
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
-    AutocompleteLibModule,
-    InfiniteScrollModule
   ]
 })
 export class AbonosModule { }
