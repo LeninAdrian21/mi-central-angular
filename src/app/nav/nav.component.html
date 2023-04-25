@@ -1,5 +1,5 @@
-<!--
-<mat-sidenav-container class="full">
+
+<mat-sidenav-container fullscreen>
   <mat-sidenav #sidenav mode="push">
     <mat-toolbar color="primary">
         <span >Menu</span>
@@ -29,9 +29,9 @@
   </mat-toolbar>
 
   <router-outlet></router-outlet>
-</mat-sidenav-container> -->
+</mat-sidenav-container>
 
-<mat-sidenav-container class="full">
+<!-- <mat-sidenav-container class="full">
   <mat-sidenav #sidenav mode="side">
       <a *ngFor="let data of nav" [routerLink]="[data.routerLink]" mat-list-item (click)="sidenav.toggle()">
         <mat-icon >{{data.icon}}</mat-icon>
@@ -46,6 +46,6 @@
       <span>Título de la página</span>
     </mat-toolbar>
     <!-- contenido principal de la página -->
-  </mat-sidenav-content>
+  <!-- </mat-sidenav-content>
 </mat-sidenav-container>
-<router-outlet></router-outlet>
+<router-outlet></router-outlet> -->

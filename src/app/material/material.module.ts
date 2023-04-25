@@ -12,8 +12,10 @@ import {MatListModule} from '@angular/material/list';
 import {MatTableModule} from '@angular/material/table';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import { MatNativeDateModule } from '@angular/material/core';
+import {MatNativeDateModule } from '@angular/material/core';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 @NgModule({
   declarations: [],
   imports: [
@@ -31,7 +33,8 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     MatDialogModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatAutocompleteModule
   ],
   exports: [
     MatInputModule,
@@ -47,7 +50,9 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     MatTableModule,
     MatDialogModule,
     MatProgressSpinnerModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatAutocompleteModule,
+    MatProgressBarModule
   ]
 })
 export class MaterialModule { }

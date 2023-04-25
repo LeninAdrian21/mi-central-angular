@@ -1,20 +1,20 @@
 import { Injectable } from '@angular/core';
 import { gql,Apollo } from 'apollo-angular';
-import { BehaviorSubject, map } from 'rxjs';
+import { BehaviorSubject, Observable, map } from 'rxjs';
 import Swal from 'sweetalert2';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 const QUERY = gql`
 query {
   abonos(where:{
     mostrar:true
   }){
-    id
     cantidad_abono
     fecha_abono
     estado_abono
     credito{
       id
-      limite
+      intereses
     }
     usuario{
       id
@@ -26,8 +26,23 @@ query {
 }
 `
 const Pagination = gql`
-query paginationAbonos($start:Int, $limit:Int){
-  paginationAbonos(start:$start, limit:$limit) {
+query paginationpayments(
+  $start:Int,
+  $limit:Int,
+  $credit_quantity:Int,
+  $credit_date:DateTime,
+  $quantity_payment:String,
+  $credit:Float,
+  $user:String){
+    paginationpayments(
+      start:$start,
+      limit:$limit,
+      credit_quantity:$credit_quantity,
+      credit_date:$credit_date,
+      quantity_payment:$quantity_payment,
+      credit:$credit,
+      user:$user
+    ) {
     totalCount
     pageInfo {
       hasNextPage
@@ -38,13 +53,12 @@ query paginationAbonos($start:Int, $limit:Int){
     edges {
       cursor
       node {
-        id
         cantidad_abono
         fecha_abono
         estado_abono
         credito{
           id
-          limite
+          intereses
         }
         usuario{
           id
@@ -64,7 +78,7 @@ export class DataAbonosService {
   private abonosSubject = new BehaviorSubject<any>([]);
   abonos$ = this.abonosSubject.asObservable();
 
-  constructor(private apollo: Apollo) {
+  constructor(private apollo: Apollo, private http:HttpClient) {
     this.GetData();
   }
   GetData() {
@@ -83,16 +97,28 @@ export class DataAbonosService {
       })
     });
   }
-  GetPaginator(start?: number, limit?:number){
+  GetPaginator(
+    start: number,
+    limit:number,
+    credit_quantity?:number,
+    credit_date?:string,
+    quantity_payment?:string,
+    credit?:number,
+    user?:string){
     return this.apollo.watchQuery({
       query: Pagination,
       variables:{
         start,
-        limit
+        limit,
+        credit_quantity,
+        credit_date,
+        quantity_payment,
+        credit,
+        user
       }
     })
     .valueChanges.pipe(
-      map((result: any) => result.data.paginationAbonos)
+      map((result: any) => result.data.paginationpayments)
     );
   }
 }

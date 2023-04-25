@@ -9,15 +9,27 @@ function Mensaje(mensaje:string, icon:any = 'error'){
   })
 }
 export const Abono = {
-  ApplyFilter(event:any,dataSource:any){
-    const filterValue = (event.target as HTMLInputElement).value;
-    dataSource.data = dataSource.data.filter(
-      (abono:any)=>
-      abono.id.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-      abono.cantidad_abono.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-      abono.fecha_abono.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-      abono.estado_abono.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1
-    )
+  ListaAutoComplete(data:any, options:any){
+    for(const item of options){
+      for(const key in item){
+        if(key != '__typename' && item[key]){
+          if(key == 'usuario'){
+            if(!data[key].includes(item[key].nombre)){
+              data[key].push(item[key].nombre);
+            }
+          }else if( key == 'credito'){
+            if(!data[key].includes(item[key].intereses)){
+              console.log(item[key].intereses)
+              data[key].push(item[key].intereses);
+            }
+          }else{
+            if(!data[key].includes(item[key])){
+              data[key].push(item[key]);
+            }
+          }
+        }
+      }
+    }
   },
   OpenDialog(id:any,url:any,title:any,table:any,dialog:any,component:any){
     dialog.open(component, {
@@ -29,12 +41,6 @@ export const Abono = {
         table:table
       }
     });
-  },
-  Fecha(string:any){
-    const fecha = new Date(string);
-    let hora = fecha.toLocaleTimeString();
-    let fecha2 = string.split('T');
-    return `${fecha2[0]}, ${hora}`;
   },
   Mensaje(mensaje:string,icon:any ='error'){
     Mensaje(mensaje,icon);

@@ -21,7 +21,6 @@ export class NavComponent implements OnInit {
   ngOnInit(): void {
 
     this.core.RolObservable.subscribe(async (data)=>{
-      console.log(data);
       NavData(navData, this.nav,data);
     });
     // setTimeout(() => {

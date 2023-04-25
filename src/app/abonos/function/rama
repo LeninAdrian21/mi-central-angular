@@ -1,0 +1,81 @@
+ <!-- loadmore() -->
+ // switch(this.keyword){
+    //   case 'cantidad_abono':
+    //     if(this.NextPage){
+
+    //       this.start += this.limit;
+    //       this.value = parseInt(this.busqueda.value)
+    //       this.getPaginator(this.value)
+    //     }
+    //     else{}
+    //   break
+    //   case 'fecha_abono':
+    //     if(this.NextPage){
+    //       this.start += this.limit;
+    //       this.getPaginator(undefined,this.busqueda.value)
+    //     }else{}
+    //   break;
+    //   case 'estado_abono':
+    //     if(this.NextPage){
+    //       this.start += this.limit;
+    //       this.getPaginator(undefined,undefined,this.busqueda.value)
+    //     }else{}
+    //   break;
+    //   case 'credito':
+    //     if(this.NextPage){
+    //       this.start += this.limit;
+    //       this.value = parseInt(this.busqueda.value)
+    //       this.getPaginator(undefined,undefined,undefined,this.value);
+    //     }else{}
+    //   break;
+    //   case 'usuario':
+    //     if(this.NextPage){
+    //       this.start += this.limit;
+    //       this.getPaginator(undefined,undefined,undefined,undefined,this.busqueda.value);
+    //     }else{}
+    //   break
+    //   default:
+    //     if(this.NextPage){
+    //       this.start += this.limit;
+    //       this.getPaginator();
+    //     }else{}
+    //   break;
+    // }
+
+
+//Buscador
+    // switch (this.keyword){
+      //   case 'cantidad_abono':
+      //     this.start = 0;
+      //     this.limit = 2;
+      //     this.items = [];
+      //     this.value = parseInt(this.busqueda.value)
+      //     this.getPaginator(this.value)
+      //   break;
+      //   case 'fecha_abono':
+      //     this.start = 0;
+      //     this.limit = 2;
+      //     this.items = [];
+      //     this.getPaginator(undefined,this.busqueda.value)
+      //   break;
+      //   case 'estado_abono':
+      //     this.start = 0;
+      //     this.limit = 2;
+      //     this.items = [];
+
+      //     this.getPaginator(undefined,undefined,this.busqueda.value)
+      //   break;
+      //   case 'credito':
+      //     this.start = 0;
+      //     this.limit = 2;
+      //     this.items = [];
+      //     this.value = parseInt(this.busqueda.value)
+      //     this.getPaginator(undefined,undefined,undefined,this.value);
+      //   break;
+      //   case 'usuario':
+      //     this.start = 0;
+      //     this.limit = 2;
+      //     this.items = [];
+      //     this.getPaginator(undefined,undefined,undefined,undefined,this.busqueda.value);
+      //   break;
+      // }
