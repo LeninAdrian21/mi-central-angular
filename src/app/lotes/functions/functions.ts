@@ -9,17 +9,28 @@ function Mensaje(mensaje:string, icon:any = 'error'){
   })
 }
 export const Lote ={
-  ApplyFilter(event:any,dataSource:any){
-    const filterValue = (event.target as HTMLInputElement).value;
-    dataSource.data = dataSource.data.filter(
-      (lote:any)=>
-      lote.id.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1||
-      lote.codigo_interno.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1||
-      lote.fecha_arrivo.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1||
-      lote.fecha_caducidad.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1||
-      lote.fecha_adquisicion.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1||
-      lote.costo.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1
-    )
+  ListaAutoComplete(data:any, options:any){
+    for(const item of options){
+      for(const key in item){
+        if(key !== '__typename' && item[key]){
+          // compras costo, products nombre
+          if(key == 'compras'){
+            if(!data[key].includes(item[key].costo)){
+              data[key].push(item[key].costo)
+            }
+          }
+          else if(key == 'products'){
+            if(!data[key].includes(item[key].nombre)){
+              data[key].push(item[key].nombre)
+            }
+          } else {
+            if(!data[key].includes(item[key])){
+              data[key].push(item[key]);
+            }
+          }
+        }
+      }
+    }
   },
   OpenDialog(id:any,url:any,title:any,table:any,dialog:any,component:any){
     dialog.open(component, {

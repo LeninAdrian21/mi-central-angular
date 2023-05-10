@@ -14,9 +14,9 @@ import { DialogcomponentComponent } from 'src/app/dialogcomponent/dialogcomponen
   styleUrls: ['./listado.component.scss']
 })
 export class ListadoComponent implements OnInit {
-  start = 0;
-  limit = 2;
-  $camiones = this.data.camiones$;
+  // start = 0;
+  // limit = 2;
+  // $camiones = this.data.camiones$;
   // filter:any;
   // $camiones = this.data.camiones$;
   // dataCamiones:any[] =[];

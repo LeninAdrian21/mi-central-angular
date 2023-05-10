@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, map } from 'rxjs';
 import Swal from 'sweetalert2';
 const QUERY = gql`
 query{
   metodoPagos{
-    id
     numero_tarjeta
     mes
     anio
@@ -32,6 +31,88 @@ query{
   }
 }
 `;
+const Pagination = gql`
+  query paginationPaymentMethod(
+    $start: Int,
+    $limit: Int,
+    $card_number: String,
+    $month: String,
+    $year: String,
+    $cvc: Int,
+    $holder: String,
+    $invoice: Int,
+    $expedition_date: DateTime,
+    $admission_date: Date,
+    $description: String,
+    $reference: String,
+    $type: String,
+    $shopping_cost: Float,
+    $credits_limit: Int,
+    $username: String,
+    $sale_amount: Float
+  ) {
+    paginationPaymentMethod(
+      start: $start,
+      limit: $limit,
+      card_number: $card_number,
+      month: $month,
+      year: $year,
+      cvc: $cvc,
+      holder: $holder,
+      invoice: $invoice,
+      expedition_date: $expedition_date,
+      admission_date: $admission_date,
+      description: $description,
+      reference: $reference,
+      type: $type,
+      shopping_cost: $shopping_cost,
+      credits_limit: $credits_limit,
+      username: $username,
+      sale_amount: $sale_amount
+    ) {
+      totalCount
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        startCursor
+        endCursor
+      }
+      edges {
+        cursor
+        node {
+          id
+          numero_tarjeta
+          mes
+          anio
+          cvc
+          titular
+          folio
+          fecha_expedicion
+          fecha_ingreso
+          descripcion
+          referencia
+          tipo
+          compras {
+            id
+            costo
+          }
+          creditos {
+            id
+            limite
+          }
+          usuario {
+            id
+            nombre
+          }
+          venta {
+            id
+            monto
+          }
+        }
+      }
+    }
+  }
+`;
 @Injectable({
   providedIn: 'root'
 })
@@ -57,5 +138,49 @@ export class DataMetodosPagoService {
         text: 'Error al mostrar los metodos de pago',
       })
     });
+  }
+  GetPaginator(
+    start: number,
+    limit: number,
+    card_number?: string,
+    month?: string,
+    year?: string,
+    cvc?: number,
+    holder?: string,
+    invoice?: number,
+    expedition_date?: string,
+    admission_date?: string,
+    description?: string,
+    reference?: string,
+    type?: string,
+    shopping_cost?: number,
+    credits_limit?: number,
+    username?: string,
+    sale_amount?: number
+  ) {
+    return this.apollo.watchQuery({
+      query: Pagination,
+      variables: {
+        start,
+        limit,
+        card_number,
+        month,
+        year,
+        cvc,
+        holder,
+        invoice,
+        expedition_date,
+        admission_date,
+        description,
+        reference,
+        type,
+        shopping_cost,
+        credits_limit,
+        username,
+        sale_amount
+      },
+    }).valueChanges.pipe(
+      map((result: any) => result.data.paginationPaymentMethod)
+    );
   }
 }

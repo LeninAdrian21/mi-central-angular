@@ -5,16 +5,15 @@ import Swal from 'sweetalert2';
 const QUERY = gql`
 query{
   carritos{
-    id
     cantidad
     usuario{
-      id
+      nombre
     }
     productos{
-      id
+      nombre
     }
     venta{
-      id
+      monto
     }
   }
 }

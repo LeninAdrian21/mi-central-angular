@@ -1,26 +1,74 @@
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, map } from 'rxjs';
 import Swal from 'sweetalert2';
 const QUERY = gql`
 query {
   lotes{
-    id
     codigo_interno
     fecha_arrivo
     fecha_caducidad
     fecha_adquisicion
     costo
     compras{
-      id
       costo
     }
     products{
-      id
       nombre
     }
   }
 }
+`;
+const Pagination = gql`
+  query paginationLot(
+    $start: Int!,
+    $limit: Int!,
+    $internal_code: Int,
+    $arrival_date: DateTime,
+    $expiration_date: DateTime,
+    $acquisition_date: DateTime,
+    $cost: Float,
+    $shopping_cost:Int,
+    $product_name:String
+  ){
+    paginationLot(
+      start:$start,
+      limit:$limit,
+      internal_code:$internal_code,
+      arrival_date:$arrival_date,
+      expiration_date:$expiration_date,
+      acquisition_date:$acquisition_date,
+      cost:$cost,
+      shopping_cost:$shopping_cost,
+      product_name:$product_name
+    ){
+      totalCount
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        startCursor
+        endCursor
+      }
+      edges {
+        cursor
+        node{
+          codigo_interno
+          fecha_arrivo
+          fecha_caducidad
+          fecha_adquisicion
+          costo
+          compras{
+            id
+            costo
+          }
+          products{
+            id
+            nombre
+          }
+        }
+      }
+    }
+  }
 `
 @Injectable({
   providedIn: 'root'
@@ -47,5 +95,34 @@ export class DataLotesService {
         text: 'Error al mostrar los lotes',
       })
     });
+  }
+  GetPaginator(
+    start: number,
+    limit: number,
+    internal_code?: number,
+    arrival_date?: string,
+    expiration_date?: string,
+    acquisition_date?: string,
+    cost?: any,
+    shopping_cost?:number,
+    product_name?:string
+  ){
+    return this.apollo.watchQuery({
+        query: Pagination,
+        variables:{
+          start,
+          limit,
+          internal_code,
+          arrival_date,
+          expiration_date,
+          acquisition_date,
+          cost,
+          shopping_cost,
+          product_name
+        }
+    })
+    .valueChanges.pipe(
+      map((result:any) => result.data.paginationLot)
+    )
   }
 }

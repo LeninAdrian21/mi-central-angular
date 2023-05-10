@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, map } from 'rxjs';
 import Swal from 'sweetalert2';
 const QUERY = gql`
 query {
   rutas{
-    id
     descripcion
     lugar_origen
     destino
@@ -18,13 +17,84 @@ query {
     estado
     ventas{
       id
+      monto
     }
     camiones{
       id
+      num_serie
     }
   }
 }
-`
+`;
+
+
+const Pagination = gql`
+  query paginationRoute(
+    $start: Int!,
+    $limit: Int!,
+    $description: String,
+    $origin: String,
+    $destination: String,
+    $departure_date: DateTime,
+    $arrival_date: DateTime,
+    $reference: String,
+    $received_goods_name: String,
+    $comments: String,
+    $state: String,
+    $cyclic_route: Boolean,
+    $trucks_serial_number: String,
+    $sales_amount: Float
+  ) {
+    paginationRoute(
+      start: $start,
+      limit: $limit,
+      description: $description,
+      origin: $origin,
+      destination: $destination,
+      departure_date: $departure_date,
+      arrival_date: $arrival_date,
+      reference: $reference,
+      received_goods_name: $received_goods_name,
+      comments: $comments,
+      state: $state,
+      cyclic_route: $cyclic_route,
+      trucks_serial_number: $trucks_serial_number,
+      sales_amount: $sales_amount
+    ) {
+      totalCount
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        startCursor
+        endCursor
+      }
+      edges {
+        cursor
+        node {
+          descripcion
+          lugar_origen
+          destino
+          fecha_salida
+          fecha_llegada
+          referencia
+          nombre_mercancia_recibida
+          comentarios
+          estado
+          ruta_ciclica
+          camiones {
+            id
+            num_serie
+          }
+          ventas {
+            id
+            monto
+          }
+        }
+      }
+    }
+  }
+`;
+
 @Injectable({
   providedIn: 'root'
 })
@@ -49,5 +119,43 @@ export class DataRutasService {
         text: 'Error al mostrar las rutas',
       })
     });
+  }
+  GetPaginator(
+    start: number,
+    limit: number,
+    description?: string,
+    origin?: string,
+    destination?: string,
+    departure_date?: string,
+    arrival_date?: string,
+    reference?: string,
+    received_goods_name?: string,
+    comments?: string,
+    state?: string,
+    cyclic_route?: boolean,
+    trucks_serial_number?: string,
+    sales_amount?: any
+  ) {
+    return this.apollo.watchQuery({
+      query: Pagination,
+      variables: {
+        start,
+        limit,
+        description,
+        origin,
+        destination,
+        departure_date,
+        arrival_date,
+        reference,
+        received_goods_name,
+        comments,
+        state,
+        cyclic_route,
+        trucks_serial_number,
+        sales_amount
+      }
+    }).valueChanges.pipe(
+      map((result: any) => result.data.paginationRoute)
+    );
   }
 }

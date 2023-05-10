@@ -95,7 +95,6 @@ export class ListadoComponent implements OnInit {
     this.data.GetPaginator(this.start,this.limit, credit_quantity,credit_date,quantity_payment, credit,user).subscribe(({edges, totalCount, pageInfo}) => {
       this.totalCount = totalCount;
       this.NextPage = pageInfo.hasNextPage;
-
       edges.forEach((item: any) => this.items.push(item.node));
       this.dataSource.data = this.items;
       console.log('data',this.items)

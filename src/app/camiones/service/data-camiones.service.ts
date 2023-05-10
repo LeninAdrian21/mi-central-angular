@@ -5,26 +5,20 @@ import Swal from 'sweetalert2';
 const QUERY = gql`
 query {
   camiones{
-    id
     num_serie
     placas
     niv
     historial{
-      id
       fecha
     }
     gastos{
-      id
-      descripcion
+      categoria
     }
     rutas{
-      id
-      descripcion
+      destino
     }
     usuario{
       nombre
-      ap_paterno
-      ap_materno
     }
   }
 }

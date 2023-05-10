@@ -1,16 +1,43 @@
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, map } from 'rxjs';
 import Swal from 'sweetalert2';
 const QUERY = gql`
 query {
   vendedores{
-  id
-  nombre
-  ventas{
     id
+    nombre
+    ventas{
+      id
+    }
   }
 }
+`;
+const Pagination = gql`
+query PaginationSeller(
+  $start: Int!,
+  $limit: Int!,
+  $name: String,
+  $salesAmount: Float) {
+  paginationSeller(start: $start, limit: $limit, name: $name, sales_amount: $salesAmount) {
+    totalCount
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    edges {
+      cursor
+      node {
+        nombre
+        ventas {
+          id
+          monto
+        }
+      }
+    }
+  }
 }
 `
 @Injectable({
@@ -38,4 +65,18 @@ export class DataVendedoresService {
       })
     });
   }
+  GetPaginator(start: number, limit: number, name: string, salesAmount: number){
+    return this.apollo.watchQuery({
+      query: Pagination,
+      variables: {
+        start,
+        limit,
+        name,
+        salesAmount
+      }
+    }).valueChanges.pipe(
+      map((result: any) => result.data.paginationSeller)
+    );
+  }
 }
+

@@ -56,7 +56,7 @@ export const table ={
   },
   Lotes:{
     title:'Lotes',
-    columns:['no','id','codigo_interno','fecha_arrivo','fecha_caducidad','fecha_adquisicion','costo','compras','productos','acciones'],
+    columns:['codigo_interno','fecha_arrivo','fecha_caducidad','fecha_adquisicion','costo','compras','productos','acciones'],
     data:['id','codigo_interno','fecha_arrivo','fecha_caducidad','fecha_adquisicion','costo'],
     campo:['Id','Codigo interno','Fecha de arrivo','Fecha de caducidad','Fecha de adquisición','Costo']
   },
@@ -68,25 +68,25 @@ export const table ={
   },
   Productos:{
     title: 'Productos',
-    columns:['no','id','nombre','codigo_barras','codigo_interno','peso_neto','presentacion','marca','descripcion_generica','precio','costo','inventario_disp','valor_min','status','venta_gramos','dimension','lote','proveedor','promociones','carritos','acciones'],
+    columns:['nombre','codigo_barras','codigo_interno','peso_neto','presentacion','marca','descripcion_generica','precio','costo','inventario_disp','valor_min','status','venta_gramos','dimension','lote','proveedor','promociones','carritos','acciones'],
     data:['id','nombre','codigo_barras','codigo_interno','peso_neto','presentacion','marca','descripcion_generica','precio','costo','inventario_disp','value_min','status','venta_gramos'],
     campo:['Id','Nombre','Codigo de barras','Codigo interno','Peso neto','Presentacion','Marca','Descripcion generica','Precio','Costo','Inventario disponible','Valor minimo','Status', 'Venta en gramos']
   },
   Promociones:{
     title: 'Promociones',
-    columns:['no','id','fecha_creacion','fecha_vigencia','valor_descuento','codigo_ref','condicion','productos','acciones'],
+    columns:['fecha_creacion','fecha_vigencia','valor_descuento','codigo_ref','condicion','productos','acciones'],
     data:['id','fecha_creacion','fecha_vigencia','valor_descuento','codigo_ref','condicion'],
     campo:['id','Fecha de creacion','Fecha de vigencia','Valor de descuento','Codigo referencia','Condicion'],
   },
   Proveedores:{
     title: 'Proveedores',
-    columns:['no','id','nombre','razon_social','rfc','fecha_alta','calle','numero','colonia','cp','municipio','ciudad','pais','visita_programada','status','productos','compras','acciones'],
+    columns:['nombre','razon_social','rfc','fecha_alta','calle','numero','colonia','cp','municipio','ciudad','pais','visita_programada','status','productos','compras','acciones'],
     data:['id','nombre','razon_social','rfc','fecha_alta','calle','numero','colonia','cp','municipio','ciudad','pais','visita_programada','status'],
     campo:['Id','Nombre','Razon Social','RFC','Fecha de alta','Calle','Numero','Colonia','Codigo Postal','Municipio','Ciudad','Pais','Visita Programada','Status']
   },
   Rutas:{
     title: 'Rutas',
-    columns:['no','id','descripcion','lugar_origen','destino','fecha_salida','fecha_llegada','ruta_ciclica','referencia','nombre_mercancia_recibida','comentarios','estado','ventas','camiones','acciones'],
+    columns:['descripcion','lugar_origen','destino','fecha_salida','fecha_llegada','referencia','nombre_mercancia_recibida','comentarios','estado','ruta_ciclica','camiones','ventas','acciones'],
     data:['id','descripcion','lugar_origen','destino','fecha_salida','fecha_llegada','ruta_ciclica','referencia','nombre_mercancia_recibida','comentarios','estado'],
     campo:['Id','Descripcion','Lugar de origen','Destino','Fecha de salida','Fecha de llegada','Ruta ciclica','Referencia','Nombre aquien se le entrega mercancia','Comentarios','Status']
   },

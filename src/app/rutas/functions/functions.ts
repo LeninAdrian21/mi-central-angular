@@ -9,22 +9,26 @@ function Mensaje(mensaje:string, icon:any = 'error'){
   })
 }
 export const Ruta = {
-  ApplyFilter(event:any,dataSource:any){
-    const filterValue = (event.target as HTMLInputElement).value;
-    dataSource.data = dataSource.data.filter(
-      (ruta:any)=>
-      ruta.id.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-      ruta.descripcion.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-      ruta.lugar_origen.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-      ruta.destino.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1||
-      ruta.fecha_salida.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1||
-      ruta.fecha_llegada.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1||
-      ruta.ruta_ciclica.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1||
-      ruta.referencia.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1||
-      ruta.nombre_mercancia_recibida.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1||
-      ruta.comentarios.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1||
-      ruta.estado.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1
-    )
+  ListaAutoComplete(data:any, options:any){
+    for(const item of options){
+      for(const key in item){
+        if(key != '__typename' && item[key]){
+          if(key == 'camiones'){
+            if(!data[key].includes(item[key].num_serie)){
+              data[key].push(item[key].num_serie);
+            }
+          }else if( key == 'ventas'){
+            if(!data[key].includes(item[key].monto)){
+              data[key].push(item[key].monto);
+            }
+          }else{
+            if(!data[key].includes(item[key])){
+              data[key].push(item[key]);
+            }
+          }
+        }
+      }
+    }
   },
   OpenDialog(id:any,url:any,title:any,table:any,dialog:any,component:any){
     dialog.open(component, {

@@ -32,8 +32,9 @@ query paginationpayments(
   $credit_quantity:Int,
   $credit_date:DateTime,
   $quantity_payment:String,
-  $credit:Float,
-  $user:String){
+  $credit:Int,
+  $user:String
+  ){
     paginationpayments(
       start:$start,
       limit:$limit,
