@@ -13,9 +13,9 @@ export const environment = {
   // 633cc31197ead65f9859ab6f:: Administrador
   // 633cc33497ead65f9859ab70:: Delivery man
   // 633cc35097ead65f9859ab71:: Manager
-  // recaptcha: {
-  //   siteKey: '6LeDZVkkAAAAAAieZFHU4io4Qec9n2BPOBB-Jt3c',
-  // },
+  recaptcha: {
+    siteKey: '6LeDZVkkAAAAAAieZFHU4io4Qec9n2BPOBB-Jt3c',
+  },
 };
 
 /*
