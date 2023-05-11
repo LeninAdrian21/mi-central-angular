@@ -123,7 +123,9 @@ export class ListadoComponent implements OnInit {
     credits_limit?: number,
     username?: string,
     sale_amount?: number) {
-    this.data.GetPaginator(this.start,this.limit,card_number,month,year,cvc,holder,invoice,expedition_date,admission_date,description,reference,type,shopping_cost,credits_limit,username,sale_amount).subscribe(({edges, totalCount, pageInfo}) => {
+    this.data.GetPaginator(this.start,this.limit,
+      // card_number,month,year,cvc,holder,invoice,expedition_date,admission_date,description,reference,type,shopping_cost,credits_limit,username,sale_amount
+      ).subscribe(({edges, totalCount, pageInfo}) => {
       this.totalCount = totalCount;
       this.NextPage = pageInfo.hasNextPage;
       edges.forEach((item: any) => this.items.push(item.node));
@@ -169,7 +171,13 @@ export class ListadoComponent implements OnInit {
     this.busqueda.reset();
     this.keyword = 'cantidad_abono'
     this.getPaginator();
-  } 
+  }
+  openDialog(id:string, url:string,title:string, table:string){
+    MetodoPago.OpenDialog(id,url,title,table,this.dialog,DialogcomponentComponent);
+  }
+  Delete(id:string){
+    MetodoPago.delete(id,this.service);
+  }
   // // title: string = table.MetodoPagos.title;
   // // displayedColumns: string[] = table.MetodoPagos.columns;
   // filter:any;
@@ -222,10 +230,5 @@ export class ListadoComponent implements OnInit {
   //     this.dataSource.data = this.dataMetodosPago;
   //   });
   // }
-  // openDialog(id:string, url:string,title:string, table:string){
-  //   MetodoPago.OpenDialog(id,url,title,table,this.dialog,DialogcomponentComponent);
-  // }
-  // Delete(id:string){
-  //   MetodoPago.delete(id,this.service);
-  // }
+
 }
