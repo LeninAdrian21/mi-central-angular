@@ -16,168 +16,174 @@ import { Observable, map, startWith } from 'rxjs';
 })
 export class ListadoComponent implements OnInit {
   start = 0; //Dato de inicio de la paginación
-  limit = 2; //Limite de la pagina
+  limit = 2;//Limite de la pagina
   $metodosPago = this.data.metodosPago$; //datos de abonos
-  items:any[]=[];
-  keyword = 'numero_tarjeta'; // lo que se buscara
-  keywords = ['numero_tarjeta','mes','anio','cvc','titular','folio', 'fecha_expedicion','fecha_ingreso','descripcion','referencia','tipo','compras','creditos','usuario', 'venta']; //datos de option de busqueda
-  inputTex:any = {'numero_tarjeta':'Numero de tarjeta','mes':'Mes','anio':'Año','cvc':'cvc','titular':'Titular','folio':'Folio', 'fecha_expedicion':'Fecha de expedicion','fecha_ingreso':'Fecha de ingreso','descripcion':'Descripcion','referencia':'Referencia','tipo':'Tipo','compras':'Costo de la compra','creditos':'Limite del credito','usuario':'Nombre del usuario', 'venta':'Monto de la venta'}
-  info: {[key: string]: any[];} = {numero_tarjeta:[],mes:[],anio:[],cvc:[],titular:[],folio:[], fecha_expedicion:[],fecha_ingreso:[],descripcion:[],referencia:[],tipo:[],compras:[],creditos:[],usuario:[], venta:[]};
-  busqueda = new FormControl('');
-  dataSource = new MatTableDataSource<any>([]);
-  displayedColumns: string[] = table.MetodoPagos.columns;
-  filteredOptions: Observable<any[]> = new Observable<any[]>();
-  totalCount = 0;
-  NextPage: any;
-  cargar = false;
-  cargarInput = false;
-  value: any;
-  keywordHandlers:any = {
-    'numero_tarjeta':()=>{
+  // items:any[]=[];
+  // keyword = 'numero_tarjeta'; // lo que se buscara
+  // keywords = ['numero_tarjeta','mes','anio','cvc','titular','folio', 'fecha_expedicion','fecha_ingreso','descripcion','referencia','tipo','compras','creditos','usuario', 'venta']; //datos de option de busqueda
+  // inputTex:any = {'numero_tarjeta':'Numero de tarjeta','mes':'Mes','anio':'Año','cvc':'cvc','titular':'Titular','folio':'Folio', 'fecha_expedicion':'Fecha de expedicion','fecha_ingreso':'Fecha de ingreso','descripcion':'Descripcion','referencia':'Referencia','tipo':'Tipo','compras':'Costo de la compra','creditos':'Limite del credito','usuario':'Nombre del usuario', 'venta':'Monto de la venta'}
+  // info: {[key: string]: any[];} = {numero_tarjeta:[],mes:[],anio:[],cvc:[],titular:[],folio:[], fecha_expedicion:[],fecha_ingreso:[],descripcion:[],referencia:[],tipo:[],compras:[],creditos:[],usuario:[], venta:[]};
+  // busqueda = new FormControl('');
+  // dataSource = new MatTableDataSource<any>([]);
+  // displayedColumns: string[] = table.MetodoPagos.columns;
+  // filteredOptions: Observable<any[]> = new Observable<any[]>();
+  // totalCount = 0;
+  // NextPage: any;
+  // cargar = false;
+  // cargarInput = false;
+  // value: any;
+  // keywordHandlers:any = {
+  //   'numero_tarjeta':()=>{
 
-    },
-    'mes':()=>{
+  //   },
+  //   'mes':()=>{
 
-    },
-    'anio':()=>{
+  //   },
+  //   'anio':()=>{
 
-    },
-    'cvc':()=>{
+  //   },
+  //   'cvc':()=>{
 
-    },
-    'titular':()=>{
+  //   },
+  //   'titular':()=>{
 
-    },
-    'folio':()=>{
+  //   },
+  //   'folio':()=>{
 
-    },
-    'fecha_expedicion':()=>{
+  //   },
+  //   'fecha_expedicion':()=>{
 
-    },
-    'fecha_ingreso':()=>{
+  //   },
+  //   'fecha_ingreso':()=>{
 
-    },
-    'descripcion':()=>{
+  //   },
+  //   'descripcion':()=>{
 
-    },
-    'referencia':()=>{
+  //   },
+  //   'referencia':()=>{
 
-    },
-    'tipo':()=>{
+  //   },
+  //   'tipo':()=>{
 
-    },
-    'compras':()=>{
+  //   },
+  //   'compras':()=>{
 
-    },
-    'creditos':()=>{
+  //   },
+  //   'creditos':()=>{
 
-    },
-    'usuario':()=>{
+  //   },
+  //   'usuario':()=>{
 
-    },
-    'venta':()=>{
+  //   },
+  //   'venta':()=>{
 
-    },
-    'default': () => {
-      this.getPaginator();
-    }
-  };
+  //   },
+  //   'default': () => {
+  //     this.getPaginator();
+  //   }
+  // };
   constructor(private data:DataMetodosPagoService, private service: CrudService, private dialog:MatDialog ) { }
   ngOnInit(): void {
-    if (this.service.addCampo == true) {
-      this.service.addCampo = false;
-      return location.reload();
-    }
-    this.getPaginator();
-    this.ListarData();
-
-    this.filteredOptions = this.busqueda.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filter(value || ''))
-    )
-  }
-  private _filter(value: any): any[] {
-    const filterValue = value.toString().toLowerCase();
-    return this.info[this.keyword].filter(option => option.toString().toLowerCase().includes(filterValue));
-  }
-  loadMore(){
-    const handler = this.keywordHandlers[this.keyword] || this.keywordHandlers['default'];
-    if(this.NextPage){
-      this.start += this.limit;
-      handler();
-    }
-  }
-  getPaginator(
-    card_number?: string,
-    month?: string,
-    year?: string,
-    cvc?: number,
-    holder?: string,
-    invoice?: number,
-    expedition_date?: string,
-    admission_date?: string,
-    description?: string,
-    reference?: string,
-    type?: string,
-    shopping_cost?: number,
-    credits_limit?: number,
-    username?: string,
-    sale_amount?: number) {
-    this.data.GetPaginator(this.start,this.limit,
-      // card_number,month,year,cvc,holder,invoice,expedition_date,admission_date,description,reference,type,shopping_cost,credits_limit,username,sale_amount
-      ).subscribe(({edges, totalCount, pageInfo}) => {
-      this.totalCount = totalCount;
-      this.NextPage = pageInfo.hasNextPage;
-      edges.forEach((item: any) => this.items.push(item.node));
-      this.dataSource.data = this.items;
-      console.log('data',this.items)
-      console.log(this.totalCount)
-    });
-  }
-  ListarData() {
-    this.$metodosPago.subscribe(element =>{
-      MetodoPago.ListaAutoComplete(this.info,element);
+    this.$metodosPago.subscribe((data:any)=>{
+      console.log(data)
     })
-  }
-  onScrollHandler(event: any) {
-    const miDiv = event.target; // Obtiene el elemento contenedor
-    const pixelsDesplazados = miDiv.scrollTop; // Obtiene la cantidad de píxeles desplazados
-    const pixelsScrollTotal = miDiv.scrollHeight - miDiv.clientHeight ; // Obtiene la cantidad total de píxeles de scroll
-    if(parseInt(pixelsDesplazados)+1 == pixelsScrollTotal && this.NextPage || parseInt(pixelsDesplazados) + 2 == pixelsScrollTotal && this.NextPage){
-      this.cargar = true;
-      setTimeout(() => {
-        // this.cargar = true;
-        this.loadMore();
-        this.cargar = false;
+    this.data.GetPaginator(this.start,this.limit).subscribe((data:any)=>{
+      console.log(data)
+    })
+    // if (this.service.addCampo == true) {
+    //   this.service.addCampo = false;
+    //   return location.reload();
+    // }
+    // this.getPaginator();
+    // this.ListarData();
 
-      }, 1000);
-    }
+    // this.filteredOptions = this.busqueda.valueChanges.pipe(
+    //   startWith(''),
+    //   map(value => this._filter(value || ''))
+    // )
   }
-  Buscador(event:any){
-    this.start = 0;
-    this.limit = 2;
-    this.items = [];
-    const handler = this.keywordHandlers[this.keyword];
-    if (handler) {
-      handler(this);
-    }
-  }
-  Vaciar(){
-    this.start = 0;
-    this.limit = 2;
-    this.dataSource.data = [];
-    this.items = [];
-    this.totalCount = 0;
-    this.busqueda.reset();
-    this.keyword = 'cantidad_abono'
-    this.getPaginator();
-  }
-  openDialog(id:string, url:string,title:string, table:string){
-    MetodoPago.OpenDialog(id,url,title,table,this.dialog,DialogcomponentComponent);
-  }
-  Delete(id:string){
-    MetodoPago.delete(id,this.service);
-  }
+  // private _filter(value: any): any[] {
+  //   const filterValue = value.toString().toLowerCase();
+  //   return this.info[this.keyword].filter(option => option.toString().toLowerCase().includes(filterValue));
+  // }
+  // loadMore(){
+  //   const handler = this.keywordHandlers[this.keyword] || this.keywordHandlers['default'];
+  //   if(this.NextPage){
+  //     this.start += this.limit;
+  //     handler();
+  //   }
+  // }
+  // getPaginator(
+  //   card_number?: string,
+  //   month?: string,
+  //   year?: string,
+  //   cvc?: number,
+  //   holder?: string,
+  //   invoice?: number,
+  //   expedition_date?: string,
+  //   admission_date?: string,
+  //   description?: string,
+  //   reference?: string,
+  //   type?: string,
+  //   shopping_cost?: number,
+  //   credits_limit?: number,
+  //   username?: string,
+  //   sale_amount?: number) {
+  //   this.data.GetPaginator(this.start,this.limit,
+  //     // card_number,month,year,cvc,holder,invoice,expedition_date,admission_date,description,reference,type,shopping_cost,credits_limit,username,sale_amount
+  //     ).subscribe(({edges, totalCount, pageInfo}) => {
+  //     this.totalCount = totalCount;
+  //     this.NextPage = pageInfo.hasNextPage;
+  //     edges.forEach((item: any) => this.items.push(item.node));
+  //     this.dataSource.data = this.items;
+  //     console.log('data',this.items)
+  //     console.log(this.totalCount)
+  //   });
+  // }
+  // ListarData() {
+  //   this.$metodosPago.subscribe(element =>{
+  //     MetodoPago.ListaAutoComplete(this.info,element);
+  //   })
+  // }
+  // onScrollHandler(event: any) {
+  //   const miDiv = event.target; // Obtiene el elemento contenedor
+  //   const pixelsDesplazados = miDiv.scrollTop; // Obtiene la cantidad de píxeles desplazados
+  //   const pixelsScrollTotal = miDiv.scrollHeight - miDiv.clientHeight ; // Obtiene la cantidad total de píxeles de scroll
+  //   if(parseInt(pixelsDesplazados)+1 == pixelsScrollTotal && this.NextPage || parseInt(pixelsDesplazados) + 2 == pixelsScrollTotal && this.NextPage){
+  //     this.cargar = true;
+  //     setTimeout(() => {
+  //       // this.cargar = true;
+  //       this.loadMore();
+  //       this.cargar = false;
+
+  //     }, 1000);
+  //   }
+  // }
+  // Buscador(event:any){
+  //   this.start = 0;
+  //   this.limit = 2;
+  //   this.items = [];
+  //   const handler = this.keywordHandlers[this.keyword];
+  //   if (handler) {
+  //     handler(this);
+  //   }
+  // }
+  // Vaciar(){
+  //   this.start = 0;
+  //   this.limit = 2;
+  //   this.dataSource.data = [];
+  //   this.items = [];
+  //   this.totalCount = 0;
+  //   this.busqueda.reset();
+  //   this.keyword = 'cantidad_abono'
+  //   this.getPaginator();
+  // }
+  // openDialog(id:string, url:string,title:string, table:string){
+  //   MetodoPago.OpenDialog(id,url,title,table,this.dialog,DialogcomponentComponent);
+  // }
+  // Delete(id:string){
+  //   MetodoPago.delete(id,this.service);
+  // }
   // // title: string = table.MetodoPagos.title;
   // // displayedColumns: string[] = table.MetodoPagos.columns;
   // filter:any;

@@ -62,7 +62,7 @@ export const table ={
   },
   MetodoPagos:{
     title: 'Metodo de Pago',
-    columns:['no','id','numero_tarjeta','mes','anio','cvc','titular','fecha_expedicion','fecha_ingreso','folio','referencia','tipo','descripcion','usuario','venta','creditos','compras','acciones'],
+    columns:['numero_tarjeta','mes','anio','cvc','titular','fecha_expedicion','fecha_ingreso','folio','referencia','tipo','descripcion','usuario','venta','creditos','compras','acciones'],
     data:['id','numero_tarjeta','mes','anio','cvc','titular','fecha_expedicion','fecha_ingreso','folio','referencia','tipo','descripcion'],
     campo:['Id','Numero de tarjeta','Mes','Año','CVC','Titular','Fecha de expedicion','Fecha de ingreso','Folio','Referencia','Tipo','Descripcion']
   },

@@ -42,104 +42,104 @@ export class ListadoComponent implements OnInit {
   cargar = false;
   cargarInput = false;
   value: any;
-  keywordHandlers:any = {
-    'nombre':()=>{
-      // 0
-      this.getPaginator(this.busqueda.value);
-    },
-    'peso_neto':()=>{
-      // 1
-      this.value = parseFloat(this.busqueda.value);
-      this.getPaginator(undefined,this.value);
-    },
-    'presentacion':()=>{
-      // 2
-      this.getPaginator(undefined,undefined,this.busqueda.value);
-    },
-    'marca':()=>{
-      // 3
-      this.getPaginator(undefined,undefined,undefined,this.busqueda.value);
-    },
-    'descripcion_generica':()=>{
-      // 4
-      this.getPaginator(undefined,undefined,undefined,undefined,this.busqueda.value);
-    },
-    'precio':()=>{
-      // 5
-      this.value = parseFloat(this.busqueda.value);
-      this.getPaginator(undefined,undefined,undefined,undefined,undefined,this.value);
-    },
-    'costo':()=>{
-      // 6
-      this.value = parseFloat(this.busqueda.value);
-      this.getPaginator(undefined,undefined,undefined,undefined,undefined,undefined,this.value);
-    },
-    'inventario_disp':()=>{
-      // 7
-      this.value = parseInt(this.busqueda.value);
-      this.getPaginator(undefined,undefined,undefined,undefined,undefined,undefined,undefined,this.value);
-    },
-    'value_min':()=>{
-      // 8
-      this.value = parseInt(this.busqueda.value);
-      this.getPaginator(undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,this.value);
-    },
-    'codigo_barras':()=>{
-      // 9
-      this.value = parseInt(this.busqueda.value);
-      this.getPaginator(undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,this.value);
-    },
-    'codigo_interno':()=>{
-      // 10
-      this.value = parseInt(this.busqueda.value);
-      this.getPaginator(undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,this.value);
-    },
-    'venta_gramos':()=>{
-      // 11
-      this.value = parseFloat(this.busqueda.value);
-      this.getPaginator(undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,this.value);
-    },
-    'status':()=>{
-      // 12
-      this.getPaginator(undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,this.busqueda.value);
-    },
-    'status2':()=>{
-      // 13
-      this.getPaginator(undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,this.busqueda.value);
-    },
-    'dimension':()=>{
-      // 14
-      this.getPaginator(undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,this.busqueda.value);
-    },
-    'proveedor':()=>{
-      // 15
-      this.getPaginator(undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,this.busqueda.value);
-    },
-    'carritos':()=>{
-      // 16
-      this.value = parseFloat(this.busqueda.value);
-      this.getPaginator(undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,this.value);
-    },
-    'promociones':()=>{
-      // 17
-      this.getPaginator(undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,this.busqueda.value);
-    },
-    'lotes':()=>{
-      //18 unefined
-      this.value = parseFloat(this.busqueda.value);
-      this.getPaginator(undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,this.value);
-    },
-    'default': () => {
-      this.getPaginator();
-    }
-  };
+  // keywordHandlers:any = {
+  //   'nombre':()=>{
+  //     // 0
+  //     this.getPaginator(this.busqueda.value);
+  //   },
+  //   'peso_neto':()=>{
+  //     // 1
+  //     this.value = parseFloat(this.busqueda.value);
+  //     this.getPaginator(undefined,this.value);
+  //   },
+  //   'presentacion':()=>{
+  //     // 2
+  //     this.getPaginator(undefined,undefined,this.busqueda.value);
+  //   },
+  //   'marca':()=>{
+  //     // 3
+  //     this.getPaginator(undefined,undefined,undefined,this.busqueda.value);
+  //   },
+  //   'descripcion_generica':()=>{
+  //     // 4
+  //     this.getPaginator(undefined,undefined,undefined,undefined,this.busqueda.value);
+  //   },
+  //   'precio':()=>{
+  //     // 5
+  //     this.value = parseFloat(this.busqueda.value);
+  //     this.getPaginator(undefined,undefined,undefined,undefined,undefined,this.value);
+  //   },
+  //   'costo':()=>{
+  //     // 6
+  //     this.value = parseFloat(this.busqueda.value);
+  //     this.getPaginator(undefined,undefined,undefined,undefined,undefined,undefined,this.value);
+  //   },
+  //   'inventario_disp':()=>{
+  //     // 7
+  //     this.value = parseInt(this.busqueda.value);
+  //     this.getPaginator(undefined,undefined,undefined,undefined,undefined,undefined,undefined,this.value);
+  //   },
+  //   'value_min':()=>{
+  //     // 8
+  //     this.value = parseInt(this.busqueda.value);
+  //     this.getPaginator(undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,this.value);
+  //   },
+  //   'codigo_barras':()=>{
+  //     // 9
+  //     this.value = parseInt(this.busqueda.value);
+  //     this.getPaginator(undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,this.value);
+  //   },
+  //   'codigo_interno':()=>{
+  //     // 10
+  //     this.value = parseInt(this.busqueda.value);
+  //     this.getPaginator(undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,this.value);
+  //   },
+  //   'venta_gramos':()=>{
+  //     // 11
+  //     this.value = parseFloat(this.busqueda.value);
+  //     this.getPaginator(undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,this.value);
+  //   },
+  //   'status':()=>{
+  //     // 12
+  //     this.getPaginator(undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,this.busqueda.value);
+  //   },
+  //   'status2':()=>{
+  //     // 13
+  //     this.getPaginator(undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,this.busqueda.value);
+  //   },
+  //   'dimension':()=>{
+  //     // 14
+  //     this.getPaginator(undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,this.busqueda.value);
+  //   },
+  //   'proveedor':()=>{
+  //     // 15
+  //     this.getPaginator(undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,this.busqueda.value);
+  //   },
+  //   'carritos':()=>{
+  //     // 16
+  //     this.value = parseFloat(this.busqueda.value);
+  //     this.getPaginator(undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,this.value);
+  //   },
+  //   'promociones':()=>{
+  //     // 17
+  //     this.getPaginator(undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,this.busqueda.value);
+  //   },
+  //   'lotes':()=>{
+  //     //18 unefined
+  //     this.value = parseFloat(this.busqueda.value);
+  //     this.getPaginator(undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,this.value);
+  //   },
+  //   'default': () => {
+  //     this.getPaginator();
+  //   }
+  // };
   constructor( private data:DataProductosService, private service: CrudService, private dialog:MatDialog ) { }
   ngOnInit(): void {
     if (this.service.addCampo == true) {
       this.service.addCampo = false;
       return location.reload();
     }
-    this.getPaginator();
+    // this.getPaginator();
     this.ListarData();
 
     this.filteredOptions = this.busqueda.valueChanges.pipe(
@@ -151,60 +151,61 @@ export class ListadoComponent implements OnInit {
     const filterValue = value.toString().toLowerCase();
     return this.info[this.keyword].filter(option => option.toString().toLowerCase().includes(filterValue));
   }
-  loadMore(){
-    const handler = this.keywordHandlers[this.keyword] || this.keywordHandlers['default'];
-    if(this.NextPage){
-      this.start += this.limit;
-      handler();
-    }
-  }
-  getPaginator(// número de elementos a mostrar en la página
-    nombre?:string, // nombre del producto
-    peso_neto?:any, // peso neto del producto
-    presentacion?:string, // presentación del producto
-    marca?:string, // marca del producto
-    descripcion_generica?:string, // descripción genérica del producto
-    precio?:any, // precio del producto
-    costo?:any, // costo del producto
-    inventario_disp?:number, // inventario disponible del producto
-    value_min?:number, // valor mínimo del producto
-    codigo_barras?:number, // código de barras del producto
-    codigoInterno?:number, // código interno del producto
-    venta_gramos?:any, // venta por gramos del producto
-    status?:boolean, // estado del producto
-    status2?:string, // otro estado del producto
-    dimension_nombre?:string, // nombre de la dimensión del producto
-    provedor_nombre?:string,
-    carritos_cantidad?:any, // cantidad de productos en el carrito
-    promociones_fecha_creacion?:string, // fecha de creación de la promoción del producto
-    lotes_codigo_interno?:number) {
-    this.data.GetPaginator(this.start,this.limit,
-    nombre, // nombre del producto
-    peso_neto, // peso neto del producto
-    presentacion, // presentación del producto
-    marca, // marca del producto
-    descripcion_generica, // descripción genérica del producto
-    precio, // precio del producto
-    costo, // costo del producto
-    inventario_disp, // inventario disponible del producto
-    value_min, // valor mínimo del producto
-    codigo_barras, // código de barras del producto
-    codigoInterno, // código interno del producto
-    venta_gramos, // venta por gramos del producto
-    status, // estado del producto
-    status2, // otro estado del producto
-    dimension_nombre, // nombre de la dimensión del producto
-    provedor_nombre,
-    carritos_cantidad, // cantidad de productos en el carrito
-    promociones_fecha_creacion, // fecha de creación de la promoción del producto
-    lotes_codigo_interno
-      ).subscribe(({edges, totalCount, pageInfo}) => {
-      this.totalCount = totalCount;
-      this.NextPage = pageInfo.hasNextPage;
-      edges.forEach((item: any) => this.items.push(item.node));
-      this.dataSource.data = this.items;
-    });
-  }
+  // loadMore(){
+  //   const handler = this.keywordHandlers[this.keyword] || this.keywordHandlers['default'];
+  //   if(this.NextPage){
+  //     this.start += this.limit;
+  //     handler();
+  //   }
+  // }
+  // getPaginator(// número de elementos a mostrar en la página // número de elementos a mostrar en la página
+  // name?:string, // name del producto
+  // net_weight?:any, // peso neto del producto
+  // presentation?:string, // presentación del producto
+  // brand?:string, // brand del producto
+  // generic_description?:string, // descripción genérica del producto
+  // price?:any, // price del producto
+  // cost?:any, // cost del producto
+  // available_inventory?:number, // inventario disponible del producto
+  // value_min?:number, // valor mínimo del producto
+  // barcode?:number, // código de barras del producto
+  // internal_code?:number, // código interno del producto
+  // sale_grams?:any, // venta por gramos del producto
+  // status?:boolean, // estado del producto
+  // status2?:string, // otro estado del producto
+  // size_name?:string, // name de la dimensión del producto
+  // provider_name?:string,
+  // carts_quantity?:any, // cantidad de productos en el carrito
+  // promotions_date_creation?:string, // fecha de creación de la promoción del producto
+  // batches_internal_code?:number // código interno del lote del producto
+  // ) {
+  //   this.data.GetPaginator(this.start,this.limit,
+  //     // name,
+  //     // net_weight,
+  //     // presentation,
+  //     // brand,
+  //     // generic_description,
+  //     // price,
+  //     // cost,
+  //     // available_inventory,
+  //     // value_min,
+  //     // barcode,
+  //     // internal_code,
+  //     // sale_grams,
+  //     // status,
+  //     // status2,
+  //     // size_name,
+  //     // provider_name,
+  //     // carts_quantity,
+  //     // promotions_date_creation,
+  //     // batches_internal_code,
+  //     ).subscribe(({edges, totalCount, pageInfo}) => {
+  //     this.totalCount = totalCount;
+  //     this.NextPage = pageInfo.hasNextPage;
+  //     edges.forEach((item: any) => this.items.push(item.node));
+  //     this.dataSource.data = this.items;
+  //   });
+  // }
   ListarData() {
     this.$productos.subscribe(element =>{
       Producto.ListaAutoComplete(this.info,element);
@@ -218,7 +219,7 @@ export class ListadoComponent implements OnInit {
       this.cargar = true;
       setTimeout(() => {
         // this.cargar = true;
-        this.loadMore();
+        // this.loadMore();
         this.cargar = false;
 
       }, 1000);
@@ -228,10 +229,10 @@ export class ListadoComponent implements OnInit {
     this.start = 0;
     this.limit = 2;
     this.items = [];
-    const handler = this.keywordHandlers[this.keyword];
-    if (handler) {
-      handler(this);
-    }
+    // const handler = this.keywordHandlers[this.keyword];
+    // if (handler) {
+    //   handler(this);
+    // }
   }
   Vaciar(){
     this.start = 0;
@@ -241,7 +242,7 @@ export class ListadoComponent implements OnInit {
     this.totalCount = 0;
     this.busqueda.reset();
     this.keyword = 'nombre';
-    this.getPaginator();
+    // this.getPaginator();
   }
   openDialog(id:string, url:string,title:string, table:string){
     Producto.OpenDialog(id,url,title,table,this.dialog,DialogcomponentComponent);

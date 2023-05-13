@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
-import { BehaviorSubject, map } from 'rxjs';
+import { BehaviorSubject, catchError, map, throwError } from 'rxjs';
 import Swal from 'sweetalert2';
 const QUERY = gql`
 query{
@@ -32,58 +32,23 @@ query{
 }
 `;
 const Pagination = gql`
-  query paginationPaymentMethod(
-    $start: Int,
-    $limit: Int,
-
-  ) {
-    paginationPaymentMethod(
-      start: $start,
-      limit: $limit,
-
-    ) {
-      totalCount
-      pageInfo {
-        hasNextPage
-        hasPreviousPage
-        startCursor
-        endCursor
-      }
-      edges {
-        cursor
-        node {
-          id
-          numero_tarjeta
-          mes
-          anio
-          cvc
-          titular
-          folio
-          fecha_expedicion
-          fecha_ingreso
-          descripcion
-          referencia
-          tipo
-          compras {
-            id
-            costo
-          }
-          creditos {
-            id
-            limite
-          }
-          usuario {
-            id
-            nombre
-          }
-          venta {
-            id
-            monto
-          }
-        }
-      }
+ query paginationPaymentMethod(
+  $start:Int,
+  $limit:Int,
+ ){
+  paginationPaymentMethod(
+    start:$start,
+    limit:$limit
+  ){
+    totalCount
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
     }
   }
+ }
 `;
 @Injectable({
   providedIn: 'root'
@@ -111,48 +76,25 @@ export class DataMetodosPagoService {
       })
     });
   }
+
   GetPaginator(
     start: number,
     limit: number,
-    // card_number?: string,
-    // month?: string,
-    // year?: string,
-    // cvc?: number,
-    // holder?: string,
-    // invoice?: number,
-    // expedition_date?: string,
-    // admission_date?: string,
-    // description?: string,
-    // reference?: string,
-    // type?: string,
-    // shopping_cost?: number,
-    // credits_limit?: number,
-    // username?: string,
-    // sale_amount?: number
   ) {
     return this.apollo.watchQuery({
       query: Pagination,
-      variables: {
+      variables:{
         start,
         limit,
-        // card_number,
-        // month,
-        // year,
-        // cvc,
-        // holder,
-        // invoice,
-        // expedition_date,
-        // admission_date,
-        // description,
-        // reference,
-        // type,
-        // shopping_cost,
-        // credits_limit,
-        // username,
-        // sale_amount
-      },
-    }).valueChanges.pipe(
-      map((result: any) => result.data.paginationPaymentMethod)
+        // credit_quantity,
+        // credit_date,
+        // quantity_payment,
+        // credit,
+        // user
+      }
+    })
+    .valueChanges.pipe(
+      map((result: any) => result.data.paginationpayments)
     );
   }
 }
