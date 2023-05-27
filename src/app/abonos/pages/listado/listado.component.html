@@ -11,25 +11,15 @@
           <div class="w-100">
             <div class="row">
               <div class="col-11">
-<<<<<<< HEAD
                 <div class="row justify-content-between pl-5">
                   <mat-form-field appearance="fill" class="select pl-5">
                     <mat-label>{{ inputTex[keyword] }}</mat-label>
                     <mat-select [(ngModel)]="keyword">
-=======
-                <div class="row justify-content-around ">
-                  <mat-form-field appearance="fill">
-                    <mat-label >
-                      {{ inputTex[keyword]  }}
-                    </mat-label>
-                    <mat-select [(ngModel)] ="keyword">
->>>>>>> geo
                       <mat-option *ngFor="let item of keywords" [value]="item">
                         {{ inputTex[item] }}
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
-<<<<<<< HEAD
                   <form class="example-form">
                     <mat-form-field
                       class="example-full-width form"
@@ -80,58 +70,6 @@
                       </svg>
                       Vaciar
                     </button>
-=======
-                  <div>
-                    <!-- <button mat-raised-button class="bg-secondary mt-3" (click)="Refresh()">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
-                      <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z" />
-                      <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z" />
-                      </svg>
-                      Limpiar
-                    </button> -->
-                    <div class="ng-autocomplete col-10">
-                      <!-- <mat-input-container floatPlaceholder="always">
-                          <input matInput placeholder="placeholder"
-                                 [matAutocomplete]="autocompleteTemplateRefId"
-                                 [(ngModel)]="modelName"
-                                 (ngModelChange)="this.choices = filterChoices(modelName)">
-                      </mat-input-container> -->
-
-                      <form class="example-form">
-                        <mat-form-field class="example-full-width" appearance="fill">
-                          <mat-label>Assignee</mat-label>
-                          <input type="text" matInput [formControl]="busqueda" [matAutocomplete]="auto" (keydown.enter)="Buscador($event)">
-                          <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-                            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-                              {{option}}
-                            </mat-option>
-                          </mat-autocomplete>
-                        </mat-form-field>
-                      </form>
-                      <button mat-raised-button class="bg-secondary mt-3" (click)="Vaciar()">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
-                          <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z" />
-                          <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z" />
-                          </svg>
-                          Vaciar
-                      </button>
-                      <!-- <ng-autocomplete
-                        [data]="data$ | async"
-                        [searchKeyword]="keyword"
-                        placeholder="Select a search"
-                        [itemTemplate]="itemTemplate"
-                        [notFoundTemplate]="notFoundTemplate">
-                      </ng-autocomplete>
-
-                      <ng-template #itemTemplate let-item>
-                        <a [innerHTML]="item[keyword].toString()"></a>
-                      </ng-template>
-
-                      <ng-template #notFoundTemplate let-notFound>
-                      <div [innerHTML]="notFound"></div>
-                      </ng-template> -->
-                    </div>
->>>>>>> geo
                   </div>
                 </div>
               </div>
