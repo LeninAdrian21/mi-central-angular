@@ -62,7 +62,7 @@ export class ListadoComponent implements OnInit {
     private service: CrudService,
     private dialog: MatDialog,
   ) {}
-  ngOnInit() {
+  ngOnInit() { 
     if (this.service.addCampo == true) {
       this.service.addCampo = false;
       return location.reload();

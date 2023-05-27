@@ -1,6 +1,6 @@
 import { FormControl } from "@angular/forms";
+import { Usuario } from "src/app/usuarios/functions/functions";
 import Swal from "sweetalert2";
-
 function Mensaje(mensaje:string, icon:any = 'error'){
   Swal.fire({
     position: 'center',
@@ -22,14 +22,58 @@ const filter=(valor:any, indice:any, lista:any)=> {
   return !(lista.indexOf(valor) === indice);
 }
 export const Camion = {
-  ApplyFilter(event:any,dataSource:any){
-    const filterValue = (event.target as HTMLInputElement).value;
-    dataSource.data = dataSource.data.filter(
-      (camion:any)=>
-      camion.id.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-      camion.num_serie.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-      camion.niv.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1
-    )
+  ListaAutoComplete(data:any, options:any){
+    for(const item of options){
+      for(const key in item){
+        if(key != '__typename' && item[key]){
+          if(key == 'rutas'){
+            for(const numrutas of item[key]){
+              if(!data[key].includes(numrutas.destino)){
+                data[key].push(numrutas.destino);
+              }
+            }
+          }else if( key == 'historial'){
+            if(!data[key].includes(item[key].fecha)){
+              data[key].push(item[key].fecha);
+            }
+          }
+          else if( key == 'usuario'){
+            if(!data[key].includes(item[key].nombre)){
+              data[key].push(item[key].nombre);
+            }
+          }else if( key == 'gastos'){
+            // if(!data[key].includes(item[key].categoria)){
+            //   data[key].push(item[key].categoria);
+            // }
+            for(const numgastos of item[key]){
+              if(!data[key].includes(numgastos.categoria)){
+                data[key].push(numgastos.categoria);
+              }
+            }
+          }else if( key == 'placas'){
+            for(const numPlacas of item[key]){
+              if(!data.placas.includes(numPlacas.placa)){
+                data.placas.push(numPlacas.placa)
+              }
+              if(!data.estado.includes(numPlacas.estado)){
+                data.estado.push(numPlacas.estado) 
+              }
+              if(numPlacas.activa === true || numPlacas.activa === false){
+                if(!data.placa_activa.includes(numPlacas.activa) ){
+                  data.placa_activa.push(numPlacas.activa)
+                }
+              }
+             
+            }
+          }
+          else{
+            if(!data[key].includes(item[key])){
+              data[key].push(item[key]);
+            }
+          }
+        }
+      }
+    }
   },
   Addplacas(placas:any, addplacas:any, activa:[boolean],data:any){
     if(placas.length > 0){

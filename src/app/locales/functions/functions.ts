@@ -9,30 +9,37 @@ function Mensaje(mensaje:string, icon:any = 'error'){
   })
 }
 export const Local = {
-  ApplyFilter(event:any,dataSource:any){
-    const filterValue = (event.target as HTMLInputElement).value;
-    dataSource.data = dataSource.data.filter(
-      (local:any)=>
-      local.id.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-      local.nombre.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-      local.alias.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-      local.razon_social.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-      local.rfc.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-      local.fecha_alta.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-      local.calle.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-      local.colonia.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-      local.numero_ext.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-      local.municipio.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-      local.numero_int.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-      local.ciudad.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-      local.cp.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-      local.latitud.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-      local.longitud.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-      local.telefono.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-      local.telefono_cel.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-      local.giro.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-      local.status.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1
-    )
+  ListaAutoComplete(data:any, options:any){
+    for(const item of options){
+      for(const key in item){
+        if(key != '__typename' && item[key]){
+          if( key == 'usuarios'){
+            // if(!data[key].includes(item[key].nombre)){
+            //   data[key].push(item[key].nombre);
+            // }
+            for(const numusu of item[key]){
+              if(!data[key].includes(numusu.nombre)){
+                data[key].push(numusu.nombre);
+              }
+            }
+          }else if( key == 'ventas'){
+            // if(!data[key].includes(item[key].monto)){
+            //   data[key].push(item[key].monto);
+            // }
+            for(const numventa of item[key]){
+              if(!data[key].includes(numventa.monto)){
+                data[key].push(numventa.monto);
+              }
+            }
+          }else{
+            if(!data[key].includes(item[key])){
+              data[key].push(item[key]);
+            }
+           
+          }
+        }
+      }
+    }
   },
   OpenDialog(id:any,url:any,title:any,table:any,dialog:any,component:any){
     dialog.open(component, {

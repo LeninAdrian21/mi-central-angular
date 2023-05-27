@@ -1,25 +1,74 @@
 import { Injectable } from '@angular/core';
 import { gql, Apollo } from 'apollo-angular';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, map } from 'rxjs';
 import Swal from 'sweetalert2';
 const QUERY = gql`
 query{
   gastos{
-    id
     descripcion
     fecha
     monto
     categoria
     status
     usuario{
-      id
+      nombre
     }
     camions{
-      id
+      num_serie
     }
   }
 }
-`
+`;
+const Pagination = gql`
+  query paginationspents(
+    $start: Int,
+    $limit: Int,
+    $description: String,
+    $date: DateTime,
+    $amount: Float,
+    $categoria: String,
+    $status: Boolean,
+    $user: String,
+    $trucks : String
+  ){
+    paginationspents(
+      start:$start,
+      limit:$limit,
+      description:$description,
+      date:$date,
+      amount:$amount,
+      categoria:$categoria,
+      status:$status,
+      user:$user,
+      trucks:$trucks,
+    ){
+      totalCount
+      pageInfo{
+        startCursor
+        endCursor
+        hasNextPage
+        hasPreviousPage
+      }
+      edges{
+        node{
+           descripcion
+           fecha
+           monto
+           categoria
+           status
+           usuario{
+            id 
+            nombre
+          }
+           camions{
+            id
+            num_serie
+          }
+        }
+      }
+    }
+  }
+`;
 @Injectable({
   providedIn: 'root'
 })
@@ -44,5 +93,33 @@ export class DataGastosService {
         text: 'Error al mostrar los gastos',
       })
     });
+  }
+  GetPaginator(
+    start: number,
+    limit: number,
+    description?: string,
+    date?: string,
+    amount?: any,
+    categoria?: string,
+    status?: boolean,
+    user?: string,
+    trucks ?: string){
+    return this.apollo.watchQuery({
+      query: Pagination,
+      variables:{
+        start,
+        limit,
+        description,
+        date,
+        amount,
+        categoria,
+        status,
+        user,
+        trucks 
+      }
+    })
+    .valueChanges.pipe(
+      map((result: any) => result.data.paginationspents)
+    );
   }
 }
