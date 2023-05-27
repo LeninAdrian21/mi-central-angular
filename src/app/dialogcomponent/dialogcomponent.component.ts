@@ -33,8 +33,8 @@ export class DialogcomponentComponent implements OnInit {
         this.dataId = data;
       },
       (error) => {
-        // console.log(error);
-        // this.error = error
+        console.log(error);
+        this.error = error
         // Swal.fire({
         //   icon: 'error',
         //   title: 'Oops...',

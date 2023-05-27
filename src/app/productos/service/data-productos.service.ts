@@ -1,50 +1,89 @@
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
-import { BehaviorSubject, map } from 'rxjs';
+import { BehaviorSubject, catchError, map } from 'rxjs';
 import Swal from 'sweetalert2';
 const QUERY = gql`
 query{
   productos{
-    name
-    net_weight
-    presentation
-    brand
-    generic_description
-    price
-    cost
-    available_inventory
-    value_min
-    barcode
-    codigo_interno
-    sale_grams
-    status
-    dimension{
-      name
+		nombre
+		peso_neto
+		presentacion
+		marca
+		descripcion_generica
+		precio
+		costo
+		inventario_disp
+		value_min
+		codigo_barras
+		codigo_interno
+		venta_gramos
+		status
+		status2
+		dimension{
+      nombre
     }
-    lotes{
-      codigo_interno
+		proveedor{
+      nombre
     }
-    proveedor{
-      name
-    },
-    carritos{
+		carritos{
       cantidad
     }
-    promociones{
+		promociones{
       fecha_creacion
+    }
+		lotes{
+      codigo_interno
     }
   }
 }
 `;
-const Pagination= gql`
+const Pagination = gql`
   query paginationProduct(
-    $start: Int!,
-    $limit: Int!
+    $start: Int,
+    $limit: Int,
+    $name: String,
+    $net_weight: Float,
+    $presentation: String,
+    $brand: String,
+    $generic_description: String,
+    $price: Float,
+    $cost: Float,
+    $available_inventory: Long,
+    $value_min: Int,
+    $barcode: Long,
+    $internal_code: Long,
+    $sale_grams: Float,
+    $status: Boolean,
+    $status2: String,
+    $size_name: String,
+    $carts_quantity: Float,
+    $promotions_date_creation:DateTime,
+    $batches_internal_code:Long,
+    $provider_name:String
   ){
     paginationProduct(
-      start: $start,
-      limit: $limit,
-    ) {
+      start:$start,
+      limit:$limit,
+      name:$name,
+      net_weight:$net_weight,
+      presentation:$presentation,
+      brand:$brand,
+      generic_description:$generic_description,
+      price:$price,
+      cost:$cost,
+      available_inventory:$available_inventory,
+      value_min: $value_min,
+      barcode: $barcode,
+      internal_code:$internal_code,
+      sale_grams:$sale_grams,
+      status:$status,
+      status2:$status2,
+      size_name:$size_name,
+      carts_quantity:$carts_quantity,
+      promotions_date_creation:$promotions_date_creation,
+      batches_internal_code:$batches_internal_code,
+      provider_name:$provider_name
+    ){
       totalCount
       pageInfo {
         hasNextPage
@@ -54,38 +93,39 @@ const Pagination= gql`
       }
       edges {
         cursor
-        node {
-          name
-          net_weight
-          presentation
-          brand
-          generic_description
-          price
-          cost
-          available_inventory
+        node{
+          id
+          nombre
+          peso_neto
+          presentacion
+          marca
+          descripcion_generica
+          precio
+          costo
+          inventario_disp
           value_min
-          barcode
+          codigo_barras
           codigo_interno
-          sale_grams
+          venta_gramos
           status
           status2
-          dimension {
+          dimension{
             id
-            name
+            nombre
           }
-          proveedor {
+          proveedor{
             id
-            name
+            nombre
           }
-          carritos {
+          carritos{
             id
             cantidad
           }
-          promociones {
+          promociones{
             id
             fecha_creacion
           }
-          lotes {
+          lotes{
             id
             codigo_interno
           }
@@ -115,69 +155,69 @@ export class DataProductosService {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
-        text: 'Error',
+        text: 'Error al cargar los datos',
       })
     });
   }
   GetPaginator(
-    start: number, // valor inicial de paginación
-    limit:number, // número de elementos a mostrar en la página
-    // name?:string, // name del producto
-    // net_weight?:any, // peso neto del producto
-    // presentation?:string, // presentación del producto
-    // brand?:string, // brand del producto
-    // generic_description?:string, // descripción genérica del producto
-    // price?:any, // price del producto
-    // cost?:any, // cost del producto
-    // available_inventory?:number, // inventario disponible del producto
-    // value_min?:number, // valor mínimo del producto
-    // barcode?:number, // código de barras del producto
-    // internal_code?:number, // código interno del producto
-    // sale_grams?:any, // venta por gramos del producto
-    // status?:boolean, // estado del producto
-    // status2?:string, // otro estado del producto
-    // size_name?:string, // name de la dimensión del producto
-    // provider_name?:string,
-    // carts_quantity?:any, // cantidad de productos en el carrito
-    // promotions_date_creation?:string, // fecha de creación de la promoción del producto
-    // batches_internal_code?:number // código interno del lote del producto
+    start:number,
+    limit:number,
+    name?: string,
+    net_weight?:any,
+    presentation?: string,
+    brand?: string,
+    generic_description?: String,
+    price?: any,
+    cost?: any,
+    available_inventory?: number,
+    value_min?: number,
+    barcode?: number,
+    internal_code?: number,
+    sale_grams?: any,
+    status?: any,
+    status2?: string,
+    size_name?: string,
+    carts_quantity?: any,
+    promotions_date_creation?:any,
+    batches_internal_code?:number,
+    provider_name?:string
   ) {
     return this.apollo.watchQuery({
       query: Pagination,
-      variables: {
+      variables:{
         start,
         limit,
-        // name,
-        // net_weight,
-        // presentation,
-        // brand,
-        // generic_description,
-        // price,
-        // cost,
-        // available_inventory,
-        // value_min,
-        // barcode,
-        // internal_code,
-        // sale_grams,
-        // status,
-        // status2,
-        // size_name,
-        // provider_name,
-        // carts_quantity,
-        // promotions_date_creation,
-        // batches_internal_code,
+        name,
+        net_weight,
+        presentation,
+        brand,
+        generic_description,
+        price,
+        cost,
+        available_inventory,
+        value_min,
+        barcode,
+        internal_code,
+        sale_grams,
+        status,
+        status2,
+        size_name,
+        carts_quantity,
+        promotions_date_creation,
+        batches_internal_code,
+        provider_name
       }
     })
     .valueChanges.pipe(
-      map((result: any) => {result.data.paginationProduct},
-      (error:any) => {
-        console.log(error);
-        Swal.fire({
+      map((result: any) => result.data.paginationProduct),
+      catchError((error: any) => {
+        console.log('Error occurred:', error);
+        return Swal.fire({
           icon: 'error',
           title: 'Oops...',
-          text: 'Error al mostar los productos',
+          text: 'Error al mostrar los productos',
         })
       })
-    )
+    );
   }
 }

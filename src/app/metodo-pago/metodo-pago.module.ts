@@ -17,8 +17,8 @@ import { AgregarComponent } from './pages/agregar/agregar.component';
     CommonModule,
     MetodoPagoRoutingModule,
     MaterialModule,
-    ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class MetodoPagoModule { }

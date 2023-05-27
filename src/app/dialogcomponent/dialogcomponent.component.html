@@ -11,7 +11,7 @@
         <li *ngFor="let columns of table[this.data.table].data ; let i = index ">
           <div *ngIf="columns">
             <div *ngIf="columns == 'placas'" class="lista-placas">
-              <pre *ngIf="dataId" class="contenedor-placas">{{table[this.data.table].campo[i]}}: <span *ngFor="let placa of dataId[columns]" class="placas"><span *ngIf="placa.activa == true">{{placa.placa}}</span></span></pre>
+              <pre *ngIf="dataId" class="contenedor-placas text-white">{{table[this.data.table].campo[i]}}: <span *ngFor="let placa of dataId[columns]" class="placas text-white"><span *ngIf="placa.activa == true">{{placa.placa}}</span></span></pre>
             </div>
             <pre *ngIf="dataId && columns != 'placas' && columns!='tipo_rol'" class="text-white">{{table[this.data.table].campo[i]}}: {{dataId[columns]}}</pre>
             <pre *ngIf="dataId && columns != 'placas' && columns == 'tipo_rol'" class="text-white">{{table[this.data.table].campo[i]}}: {{dataId[columns].rol}}</pre>

@@ -17,7 +17,7 @@ import { Observable, map, startWith } from 'rxjs';
 })
 export class ListadoComponent implements OnInit {
   start:number = 0;
-  limit:number = 2;
+  limit:number = 20;
   $lotes = this.data.lotes$;
   items:any[] = [];
   keyword = 'codigo_interno';
@@ -31,7 +31,15 @@ export class ListadoComponent implements OnInit {
     compras:'Costo de la compra',
     products:'Nombre del producto'
   };
-  info: {[key: string]: any[];} = {codigo_interno: [],fecha_arrivo: [], fecha_caducidad: [],fecha_adquisicion: [],costo: [], compras:[], products:[]};
+  info: {[key: string]: any[];} = {
+    codigo_interno: [],
+    fecha_arrivo: [],
+    fecha_caducidad: [],
+    fecha_adquisicion: [],
+    costo: [],
+    compras:[],
+    products:[]
+  };
   busqueda = new FormControl('');
   dataSource = new MatTableDataSource<any>([]);
   displayedColumns: string[] = table.Lotes.columns;
@@ -41,14 +49,11 @@ export class ListadoComponent implements OnInit {
   cargar = false;
   cargarInput = false;
   value:any;
-  //Se cambias las keys
   keywordHandlers:any = {
-    //key
     codigo_interno: () => {
       this.value = parseInt(this.busqueda.value);
       this.getPaginator(this.value);
     },
-    //key
     fecha_arrivo: () => {
       this.getPaginator(undefined, this.busqueda.value);
     },
@@ -101,7 +106,6 @@ export class ListadoComponent implements OnInit {
       this.data.GetPaginator(this.start, this.limit, internal_code, arrival_date, expiration_date,acquisition_date, cost,shopping_cost,product_name).subscribe(
         ({edges, totalCount, pageInfo})=>{
           this.totalCount = totalCount;
-          console.log(totalCount)
           this.NextPage = pageInfo.hasNextPage;
           edges.forEach((item:any) => this.items.push(item.node))
           this.dataSource.data = this.items;
@@ -135,7 +139,7 @@ export class ListadoComponent implements OnInit {
   }
   Buscador(event:any){
     this.start = 0;
-    this.limit = 2;
+    this.limit = 20;
     this.items = [];
     const hadler = this.keywordHandlers[this.keyword];
     if(hadler){
@@ -144,12 +148,13 @@ export class ListadoComponent implements OnInit {
   }
   Vaciar(){
     this.start = 0;
-    this.limit = 2;
+    this.limit = 20;
     this.dataSource.data = [];
     this.items = [];
     this.totalCount = 0;
     this.busqueda.reset();
     this.keyword = 'codigo_interno';
+    this.getPaginator();
   }
   openDialog(id:string, url:string,title:string, table:string){
     Lote.OpenDialog(id,url,title,table,this.dialog,DialogcomponentComponent);

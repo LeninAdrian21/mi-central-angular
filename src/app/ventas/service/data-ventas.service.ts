@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
-import { BehaviorSubject, map } from 'rxjs';
+import { BehaviorSubject, catchError, map } from 'rxjs';
 import Swal from 'sweetalert2';
 const QUERY = gql`
 query {
   ventas{
-    id
     monto
     monto_total
     fecha
@@ -15,35 +14,35 @@ query {
     fecha_entrega
     entrega_pendiente
     pagada
-    usuario{
-      id
+    local {
+      nombre
     }
-    local{
-      id
+    usuario {
+      nombre
     }
-    rutas{
-      id
+    carritos {
+      cantidad
     }
-    vendedores{
-      id
+    metodo_pagos {
+      titular
     }
-    carritos{
-      id
+    rutas {
+      destino
     }
-    metodo_pagos{
-      id
+    vendedores {
+      nombre
     }
   }
 }
 `;
 const Pagination = gql`
-query PaginationSale(
+query paginationSale(
   $start: Int!,
   $limit: Int!,
   $amount: Float,
   $total_amount: Float,
   $date: DateTime,
-  $classification: String,
+  $clasification: String,
   $delivery_date: DateTime,
   $delivery_pending: Boolean,
   $paid: Boolean,
@@ -62,7 +61,7 @@ query PaginationSale(
     amount: $amount,
     total_amount: $total_amount,
     date: $date,
-    classification: $classification,
+    clasification: $clasification,
     delivery_date: $delivery_date,
     delivery_pending: $delivery_pending,
     paid: $paid,
@@ -145,11 +144,11 @@ export class DataVentasService {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
-        text: 'Error al mostrar las ventas',
+        text: 'Error al cargar los datos ',
       })
     });
   }
-  getPaginator(
+  GetPaginator(
     start: number,
     limit: number,
     amount?: number,
@@ -192,7 +191,17 @@ export class DataVentasService {
         }
       })
       .valueChanges.pipe(
-        map((result: any) => result.data.paginationSale)
+        map((result: any) => result.data.paginationSale),
+        catchError((error: any) => {
+          console.error('Error occurred:', error);
+          // Puedes realizar alguna acción adicional aquí si es necesario.
+          // Por ejemplo, puedes enviar el error a un servicio de registro.
+          return Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Error al mostrar las ventas',
+          })
+        })
       );
   }
 }

@@ -1,21 +1,22 @@
-@import 'styles';
-@include table(90px);
-.table{
+.tabla {
   width: 100%;
 }
-.nombre-usuario{
-  max-width: 180px;
+.header{
+  background-color:#424242;
 }
-.info{
-  margin: 0 0 0 5px;
+.spinner{
+  width: 120%;
+  padding:0 0 50px 0;
 }
-.container-spinner{
-  width: 100%;
-  height: 85%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.mat-card{
+  max-height:810px;
 }
-.none{
-  display: none;
+.select{
+  width: 300px;
+}
+.form{
+  width: 450px;
+}
+.button{
+  margin-bottom:20px ;
 }

@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { gql,Apollo } from 'apollo-angular';
-import { BehaviorSubject, Observable, map } from 'rxjs';
+import { BehaviorSubject, catchError, map } from 'rxjs';
 import Swal from 'sweetalert2';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-
+import { HttpClient } from '@angular/common/http';
 const QUERY = gql`
 query {
   abonos(where:{
@@ -54,6 +53,7 @@ query paginationpayments(
     edges {
       cursor
       node {
+        id
         cantidad_abono
         fecha_abono
         estado_abono
@@ -94,7 +94,7 @@ export class DataAbonosService {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
-        text: 'Error al mostrar los abonos',
+        text: 'Error al cargar datos',
       })
     });
   }
@@ -119,7 +119,18 @@ export class DataAbonosService {
       }
     })
     .valueChanges.pipe(
-      map((result: any) => result.data.paginationpayments)
+      map((result: any) => result.data.paginationpayments),
+      catchError((error: any) => {
+        console.error('Error occurred:', error);
+        // Puedes realizar alguna acción adicional aquí si es necesario.
+        // Por ejemplo, puedes enviar el error a un servicio de registro.
+        return Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Error al mostrar los abonos',
+        })
+      })
+
     );
   }
 }

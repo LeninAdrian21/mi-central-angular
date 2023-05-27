@@ -8,41 +8,94 @@ function Mensaje(mensaje:string, icon:any = 'error'){
     timer: 1500
   })
 }
+function noEstaRepetido(valor:any, array:any) {
+  return array.indexOf(valor) === array.lastIndexOf(valor);
+}
 export const Usuario = {
-  ApplyFilter(event:any,dataSource:any){
-    const filterValue = (event.target as HTMLInputElement).value;
-    dataSource.data = dataSource.data.filter(
-      (usuario:any)=>
-      usuario.id.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-      usuario.nombre.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-      usuario.ap_paterno.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1||
-      usuario.ap_materno.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1||
-      usuario.fecha_nacimiento.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1||
-      usuario.genero.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1||
-      usuario.fecha_inscripcion.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1||
-      usuario.fecha_alta.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1||
-      usuario.rfc.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1||
-      usuario.curp.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1||
-      usuario.nss.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1||
-      usuario.tel_cel.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1||
-      usuario.email.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1||
-      usuario.tipo_sangre.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1||
-      usuario.licencia.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1||
-      usuario.alergias.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1||
-      usuario.padecimientos.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1||
-      usuario.nacionalidad.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1||
-      usuario.calle.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1||
-      usuario.numero.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1||
-      usuario.colonia.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1||
-      usuario.cp.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1||
-      usuario.municipio.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1||
-      usuario.ciudad.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1||
-      usuario.pais.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1||
-      usuario.referencia_directa.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1||
-      usuario.comment.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1||
-      usuario.last_login.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1||
-      usuario.status.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1
-    )
+  ListaAutoComplete(data:any, options:any){
+    for(const item of options){
+      for(const key in item){
+        if(key !== '__typename' && key !== 'last_login' && item[key]){
+          if(key == 'tipo_rol'){
+            if(!data[key].includes(item[key].rol)){
+              data[key].push(item[key].rol);
+            }
+          }else if( key == 'abonos'){
+            for (const abono of item[key]){
+              if(!data[key].includes(abono.cantidad_abono)){
+                data[key].push(abono.cantidad_abono);
+              }
+            }
+          }else if( key == 'carritos'){
+            for (const carrito of item[key]){
+              if(!data[key].includes(carrito.cantidad)){
+                data[key].push(carrito.cantidad);
+              }
+            }
+          }else if( key == 'compras'){
+            for (const compra of item[key]){
+              if(!data[key].includes(compra.costo)){
+                data[key].push(compra.costo);
+              }
+            }
+          }else if( key == 'creditos'){
+            for (const credito of item[key]){
+              if(!data[key].includes(credito.limite)){
+                data[key].push(credito.limite);
+              }
+            }
+          }
+          else if( key == 'gastos'){
+            for (const gasto of item[key]){
+              if(!data[key].includes(gasto.descripcion)){
+                data[key].push(gasto.descripcion);
+              }
+            }
+          }
+          else if( key == 'historiales'){
+            for (const historial of item[key]){
+              if(!data[key].includes(historial.fecha)){
+                data[key].push(historial.fecha);
+              }
+            }
+          }
+          else if( key == 'locals'){
+            for (const local of item[key]){
+              if(!data[key].includes(local.nombre)){
+                data[key].push(local.nombre);
+              }
+            }
+          }
+          else if( key == 'metodo_pagos'){
+            for (const metodo_pago of item[key]){
+              if(!data[key].includes(metodo_pago.titular)){
+                data[key].push(metodo_pago.titular);
+              }
+            }
+          }
+          else if( key == 'ventas'){
+            for (const ventas of item[key]){
+              if(!data[key].includes(ventas.monto)){
+                data[key].push(ventas.monto);
+              }
+            }
+          }
+          else if( key == 'camiones'){
+            for (const camion of item[key]){
+              if(!data[key].includes(camion.num_serie)){
+                data[key].push(camion.num_serie);
+              }
+            }
+          }
+          else{
+            if(!data[key].includes(item[key])){
+              data[key].push(item[key]);
+            }
+          }
+        }
+      }
+    }
+    console.log(data);
   },
   OpenDialog(id:any,url:any,title:any,table:any,dialog:any,component:any){
     dialog.open(component, {

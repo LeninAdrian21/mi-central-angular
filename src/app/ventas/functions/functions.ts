@@ -9,20 +9,53 @@ function Mensaje(mensaje:string, icon:any = 'error'){
   })
 }
 export const Venta = {
-  ApplyFilter(event:any,dataSource:any){
-    const filterValue = (event.target as HTMLInputElement).value;
-    dataSource.data = dataSource.data.filter(
-      (venta:any)=>
-      venta.id.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1||
-      venta.monto .toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1||
-      venta.monto_total.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1||
-      venta.fecha.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1||
-      venta.status.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1||
-      venta.clasificacion.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1||
-      venta.fecha_entrega.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1||
-      venta.entrega_pendiente.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1||
-      venta.pagada.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1
-    )
+  ListaAutoComplete(data:any, options:any){
+    console.log(options);
+    for(const item of options){
+      for(const key in item){
+        if(key != '__typename' && item[key]){
+          if(key == 'local'){
+            if(!data[key].includes(item[key].nombre)){
+              data[key].push(item[key].nombre);
+            }
+          }else if(key == 'usuario'){
+            if(!data[key].includes(item[key].nombre)){
+              data[key].push(item[key].nombre);
+            }
+          }else if(key == 'carritos'){
+            for(const carrito of item[key]){
+              if(!data[key].includes(carrito.cantidad)){
+                data[key].push(carrito.cantidad);
+              }
+            }
+          }else if(key == 'metodo_pagos'){
+            for(const metodo_pago of item[key]){
+              if(!data[key].includes(metodo_pago.titular)){
+                data[key].push(metodo_pago.titular);
+              }
+            }
+          }else if(key == 'rutas'){
+            for(const ruta of item[key]){
+              if(!data[key].includes(ruta.destino)){
+                data[key].push(ruta.destino);
+              }
+            }
+          }else if(key == 'vendedores'){
+            for(const vendedor of item[key]){
+              if(!data[key].includes(vendedor.nombre)){
+                data[key].push(vendedor.nombre);
+              }
+            }
+          }else{
+            if(!data[key].includes(item[key])){
+              data[key].push(item[key]);
+            }
+          }
+        }
+      }
+    }
+    console.log(data);
+
   },
   OpenDialog(id:any,url:any,title:any,table:any,dialog:any,component:any){
     dialog.open(component, {

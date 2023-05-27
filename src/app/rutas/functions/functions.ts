@@ -14,12 +14,16 @@ export const Ruta = {
       for(const key in item){
         if(key != '__typename' && item[key]){
           if(key == 'camiones'){
-            if(!data[key].includes(item[key].num_serie)){
-              data[key].push(item[key].num_serie);
+            for (const camion of item[key]){
+              if(!data[key].includes(camion.num_serie)){
+                data[key].push(camion.num_serie);
+              }
             }
           }else if( key == 'ventas'){
-            if(!data[key].includes(item[key].monto)){
-              data[key].push(item[key].monto);
+            for(const venta of item[key]){
+              if(!data[key].includes(venta.monto)){
+                data[key].push(venta.monto);
+              }
             }
           }else{
             if(!data[key].includes(item[key])){

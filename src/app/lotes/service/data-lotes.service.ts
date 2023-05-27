@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
-import { BehaviorSubject, map } from 'rxjs';
+import { BehaviorSubject, catchError, map } from 'rxjs';
 import Swal from 'sweetalert2';
 const QUERY = gql`
 query {
@@ -21,8 +21,8 @@ query {
 `;
 const Pagination = gql`
   query paginationLot(
-    $start: Int!,
-    $limit: Int!,
+    $start: Int,
+    $limit: Int,
     $internal_code: Int,
     $arrival_date: DateTime,
     $expiration_date: DateTime,
@@ -52,6 +52,7 @@ const Pagination = gql`
       edges {
         cursor
         node{
+          id
           codigo_interno
           fecha_arrivo
           fecha_caducidad
@@ -92,7 +93,7 @@ export class DataLotesService {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
-        text: 'Error al mostrar los lotes',
+        text: 'Error al cargar datos',
       })
     });
   }
@@ -122,7 +123,17 @@ export class DataLotesService {
         }
     })
     .valueChanges.pipe(
-      map((result:any) => result.data.paginationLot)
+      map((result: any) => result.data.paginationLot),
+      catchError((error: any) => {
+        console.error('Error occurred:', error);
+        // Puedes realizar alguna acción adicional aquí si es necesario.
+        // Por ejemplo, puedes enviar el error a un servicio de registro.
+        return Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Error al mostrar los lotes',
+        })
+      })
     )
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { DialogcomponentComponent } from 'src/app/dialogcomponent/dialogcomponent.component';
@@ -16,12 +16,12 @@ import { FormControl } from '@angular/forms';
 })
 export class ListadoComponent implements OnInit {
   start = 0; //Dato de inicio de la paginación
-  limit = 2; //Limite de la pagina
+  limit = 20; //Limite de la pagina
   $proveedores = this.data.proveedores$; //datos de abonos
   items:any[]=[];
   keyword = 'nombre'; // lo que se buscara
   keywords = ['nombre','razon_social','rfc','fecha_alta','calle','numero','colonia','cp','municipio','ciudad','pais','visita_programada','status','compras','productos']; //datos de option de busqueda
-  inputTex:any = {'nombre':'Nombre','razon_social':'Razon social','rfc':'RFC','fecha_alta':'Fecha de alta','calle':'Calle','numero':'Numero','colonia':'Colonia','cp':'Codigo Postal','municipio':'Municipio','ciudad':'Ciudad','pais':'Pais','visita_programada':'Visita programada','status':'Status','status2':'Staus 2','compras':'Costo de la compra','productos':'Nombre del producto'}
+  inputText:any = {'nombre':'Nombre','razon_social':'Razon social','rfc':'RFC','fecha_alta':'Fecha de alta','calle':'Calle','numero':'Numero','colonia':'Colonia','cp':'Codigo Postal','municipio':'Municipio','ciudad':'Ciudad','pais':'Pais','visita_programada':'Visita programada','status':'Status','status2':'Staus 2','compras':'Costo de la compra','productos':'Nombre del producto'}
   info: {[key: string]: any[];} = {nombre:[],razon_social:[],rfc:[],fecha_alta:[],calle:[],numero:[],colonia:[],cp:[],municipio:[],ciudad:[],pais:[],visita_programada:[],status:[],compras:[],productos:[]};
   busqueda = new FormControl('');
   dataSource = new MatTableDataSource<any>([]);
@@ -175,7 +175,7 @@ export class ListadoComponent implements OnInit {
   }
   Buscador(event:any){
     this.start = 0;
-    this.limit = 2;
+    this.limit = 20;
     this.items = [];
     const handler = this.keywordHandlers[this.keyword];
     if (handler) {
@@ -184,7 +184,7 @@ export class ListadoComponent implements OnInit {
   }
   Vaciar(){
     this.start = 0;
-    this.limit = 2;
+    this.limit = 20;
     this.dataSource.data = [];
     this.items = [];
     this.totalCount = 0;

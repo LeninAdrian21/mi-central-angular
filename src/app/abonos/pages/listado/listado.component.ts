@@ -18,7 +18,7 @@ import { DOCUMENT } from '@angular/common';
 })
 export class ListadoComponent implements OnInit {
   start = 0; //Dato de inicio de la paginación
-  limit = 2; //Limite de la pagina
+  limit = 20; //Limite de la pagina
   $abonos = this.data.abonos$; //datos de abonos
   items:any[]=[];
   keyword = 'cantidad_abono'; // lo que se buscara
@@ -57,7 +57,6 @@ export class ListadoComponent implements OnInit {
     }
   };
   constructor(
-    @Inject(DOCUMENT) private document: Document,
     private data: DataAbonosService,
     private service: CrudService,
     private dialog: MatDialog,
@@ -97,8 +96,6 @@ export class ListadoComponent implements OnInit {
       this.NextPage = pageInfo.hasNextPage;
       edges.forEach((item: any) => this.items.push(item.node));
       this.dataSource.data = this.items;
-      console.log('data',this.items)
-      console.log(this.totalCount)
     });
   }
   ListarData() {

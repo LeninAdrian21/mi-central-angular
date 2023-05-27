@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
-import { BehaviorSubject, map } from 'rxjs';
+import { BehaviorSubject, catchError, map } from 'rxjs';
 import Swal from 'sweetalert2';
 const QUERY = gql`
 query {
   vendedores{
-    id
     nombre
     ventas{
-      id
+      monto
     }
   }
 }
@@ -30,6 +29,7 @@ query PaginationSeller(
     edges {
       cursor
       node {
+        id
         nombre
         ventas {
           id
@@ -61,11 +61,11 @@ export class DataVendedoresService {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
-        text: 'Error al mostrar los vendedores',
+        text: 'Error al cargar los datos',
       })
     });
   }
-  GetPaginator(start: number, limit: number, name: string, salesAmount: number){
+  GetPaginator(start: number, limit: number, name?: string, salesAmount?: number){
     return this.apollo.watchQuery({
       query: Pagination,
       variables: {
@@ -75,7 +75,17 @@ export class DataVendedoresService {
         salesAmount
       }
     }).valueChanges.pipe(
-      map((result: any) => result.data.paginationSeller)
+      map((result: any) => result.data.paginationSeller),
+      catchError((error: any) => {
+        console.error('Error occurred:', error);
+        // Puedes realizar alguna acción adicional aquí si es necesario.
+        // Por ejemplo, puedes enviar el error a un servicio de registro.
+        return Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Error al mostrar los vendedores',
+        })
+      })
     );
   }
 }

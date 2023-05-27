@@ -19,10 +19,10 @@ import { FormControl } from '@angular/forms';
 })
 export class ListadoComponent implements OnInit {
   start = 0; //Dato de inicio de la paginación
-  limit = 2; //Limite de la pagina
+  limit = 20; //Limite de la pagina
   $rutas = this.data.rutas$ //datos de abonos
   items:any[]=[];
-  keyword = 'cantidad_abono'; // lo que se buscara
+  keyword = 'descripcion'; // lo que se buscara
   keywords = ['descripcion','lugar_origen','destino','fecha_salida','fecha_llegada','referencia','nombre_mercancia_recibida','comentarios','estado','ruta_ciclica','camiones','ventas']; //datos de option de busqueda
   inputTex:any = {'descripcion':'Descripcion','lugar_origen':'Lugar de origen','destino':'Destino','fecha_salida':'Fecha de salida','fecha_llegada':'Fecha de llegada','referencia':'Referencia','nombre_mercancia_recibida':'Nombre de la mercancia recibida','comentarios':'Comentarios','estado':'Estado','ruta_ciclica':'Ruta ciclica','camiones':'Numero de serie del camion','ventas':'Monto de la venta'}
   info: {[key: string]: any[];} = {descripcion:[],lugar_origen:[],destino:[],fecha_salida:[],fecha_llegada:[],referencia:[],nombre_mercancia_recibida:[],comentarios:[],estado:[],ruta_ciclica:[],camiones:[],ventas:[]};
@@ -157,7 +157,7 @@ export class ListadoComponent implements OnInit {
   }
   Buscador(event:any){
     this.start = 0;
-    this.limit = 2;
+    this.limit = 20;
     this.items = [];
     const handler = this.keywordHandlers[this.keyword];
     if (handler) {
@@ -166,12 +166,12 @@ export class ListadoComponent implements OnInit {
   }
   Vaciar(){
     this.start = 0;
-    this.limit = 2;
+    this.limit = 20;
     this.dataSource.data = [];
     this.items = [];
     this.totalCount = 0;
     this.busqueda.reset();
-    this.keyword = 'cantidad_abono'
+    this.keyword = 'descripcion';
     this.getPaginator();
   }
   openDialog(id:string, url:string,title:string, table:string){

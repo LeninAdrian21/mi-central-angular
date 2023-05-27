@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
-import { BehaviorSubject, map } from 'rxjs';
+import { BehaviorSubject, catchError, map } from 'rxjs';
 import Swal from 'sweetalert2';
 const QUERY = gql`
 query {
@@ -80,6 +80,7 @@ query PaginationProvider (
     edges {
       cursor
       node {
+        id
         nombre
         razon_social
         rfc
@@ -95,9 +96,11 @@ query PaginationProvider (
         status
         productos {
           id
+          nombre
         }
         compras {
           id
+          costo
         }
       }
     }
@@ -125,7 +128,7 @@ export class DataProveedoresService {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
-        text: 'Error al mostrar los proveedores',
+        text: 'Error al cargar los datos',
       })
     });
   }
@@ -172,7 +175,15 @@ export class DataProveedoresService {
         product_name
       }
     }).valueChanges.pipe(
-      map((result:any) => result.data.paginationProvider)
+      map((result:any) => result.data.paginationProvider),
+      catchError((error: any) => {
+        console.error('Error occurred:', error);
+        return Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Error al mostrar los proveedores',
+        })
+      })
     );
   }
 }

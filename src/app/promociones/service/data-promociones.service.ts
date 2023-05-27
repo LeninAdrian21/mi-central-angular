@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
-import { BehaviorSubject, map } from 'rxjs';
+import { BehaviorSubject, catchError, map } from 'rxjs';
 import Swal from 'sweetalert2';
 const QUERY = gql`
 query {
@@ -48,6 +48,7 @@ const Pagination= gql`
       edges {
         cursor
         node{
+          id
           fecha_creacion
           fecha_vigencia
           valor_descuento
@@ -83,7 +84,7 @@ export class DataPromocionesService {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
-        text: 'Error al mostrar los promociones',
+        text: 'Error al cargar los datos',
       })
     });
   }
@@ -111,7 +112,15 @@ export class DataPromocionesService {
       }
     })
     .valueChanges.pipe(
-      map((result: any) => result.data.paginationPromotion)
+      map((result: any) => result.data.paginationPromotion),
+      catchError((error: any) => {
+        console.error('Error occurred:', error);
+        return Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Error al mostrar las promociones',
+        })
+      })
     );
   }
 }

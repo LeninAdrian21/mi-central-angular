@@ -16,12 +16,12 @@ import { Observable, map, startWith } from 'rxjs';
 })
 export class ListadoComponent implements OnInit {
   start = 0; //Dato de inicio de la paginación
-  limit = 2; //Limite de la pagina
+  limit = 20; //Limite de la pagina
   $promociones = this.data.promociones$; //datos de abonos
   items:any[]=[];
   keyword = 'fecha_creacion'; // lo que se buscara
   keywords = ['fecha_creacion','fecha_vigencia','valor_descuento','codigo_ref','condicion','productos']; //datos de option de busqueda
-  inputTex:any = {'fecha_creacion':'Fecha de creacion','fecha_vigencia':'Fecha de vigencia','valor_descuento':'Valor de descuento','codigo_ref':'Codigo de referencia','condicion':'Condicion','productos':'Nombre del nombre'}
+  inputTex:any = {'fecha_creacion':'Fecha de creacion','fecha_vigencia':'Fecha de vigencia','valor_descuento':'Valor de descuento','codigo_ref':'Codigo de referencia','condicion':'Condicion','productos':'Nombre del producto'}
   info: {[key: string]: any[];} = {'fecha_creacion':[],'fecha_vigencia':[],'valor_descuento':[],'codigo_ref':[],'condicion':[],'productos':[]};
   busqueda = new FormControl('');
   dataSource = new MatTableDataSource<any>([]);
@@ -125,7 +125,7 @@ export class ListadoComponent implements OnInit {
   }
   Buscador(event:any){
     this.start = 0;
-    this.limit = 2;
+    this.limit = 20;
     this.items = [];
     const handler = this.keywordHandlers[this.keyword];
     if (handler) {
@@ -134,7 +134,7 @@ export class ListadoComponent implements OnInit {
   }
   Vaciar(){
     this.start = 0;
-    this.limit = 2;
+    this.limit = 20;
     this.dataSource.data = [];
     this.items = [];
     this.totalCount = 0;

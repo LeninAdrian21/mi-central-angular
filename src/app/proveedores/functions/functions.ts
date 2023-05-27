@@ -14,13 +14,16 @@ export const Proveedor = {
       for(const key in item){
         if(key != '__typename' && item[key]){
           if(key == 'compras'){
-            if(!data[key].includes(item[key].costo)){
-              data[key].push(item[key].costo);
+            for(const compra of item[key]){
+              if(!data[key].includes(compra.costo)){
+                data[key].push(compra.costo);
+              }
             }
           }else if( key == 'productos'){
-            if(!data[key].includes(item[key].nombre)){
-              console.log(item[key].nombre)
-              data[key].push(item[key].nombre);
+            for(const producto of item[key]){
+              if(!data[key].includes(producto.nombre)){
+                data[key].push(producto.nombre);
+              }
             }
           }else{
             if(!data[key].includes(item[key])){

@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
-import { BehaviorSubject, map } from 'rxjs';
+import { BehaviorSubject, catchError, map } from 'rxjs';
 import Swal from 'sweetalert2';
 const QUERY = gql`
 query {
   usuarios{
-    id
     nombre
     ap_paterno
     ap_materno
@@ -30,47 +29,50 @@ query {
     municipio
     ciudad
     pais
-    referencia_directa
+    referencia_direccion
     comment
     last_login
     status
     tipo_rol{
-      id
+      rol
     }
-    locals{
-      id
-    }
-    gastos{
-      id
-    }
-    ventas{
-      id
-    }
-    camiones{
-      id
-    },
-    carritos{
-      id
-    },
     abonos{
-      id
+      cantidad_abono
+    }
+    carritos{
+      cantidad
+    },
+    compras{
+      costo
     }
     creditos{
-      id
+      limite
+    }
+    gastos{
+      descripcion
     }
     historiales{
-      id
+      fecha
+    }
+    locals{
+      nombre
     }
     metodo_pagos{
-      id
+      titular
     }
+    ventas{
+      monto
+    }
+    camiones{
+      num_serie
+    },
   }
 }
 `;
 const Pagination = gql`
-    query PaginateUser(
-      $start: Int!,
-      $limit: Int!,
+    query  paginationUser(
+      $start: Int,
+      $limit: Int,
       $name: String,
       $last_name: String,
       $mother_last_name: String,
@@ -112,7 +114,7 @@ const Pagination = gql`
       $sales_amount: Float,
       $trucks_serial_number: String,
     ) {
-      paginateUser(
+      paginationUser(
         start: $start,
         limit: $limit,
         name: $name,
@@ -166,6 +168,7 @@ const Pagination = gql`
        edges {
         cursor
         node{
+          id
           nombre
           ap_paterno
           ap_materno
@@ -228,6 +231,7 @@ const Pagination = gql`
             nombre
           }
           metodo_pagos{
+            id
             titular
           }
           ventas{
@@ -264,7 +268,7 @@ export class DataUsuariosService {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
-        text: 'Error al mostrar los usuarios',
+        text: 'Error al cargar los datos',
       })
     });
   }
@@ -359,8 +363,18 @@ export class DataUsuariosService {
         trucks_serial_number
       }
     }).valueChanges.pipe(
-      map((result: any) => result.data.paginationUser)
-    );
+      map((result: any) => result.data.paginationUser),
+      catchError((error: any) => {
+        console.error('Error occurred:', error);
+        // Puedes realizar alguna acción adicional aquí si es necesario.
+        // Por ejemplo, puedes enviar el error a un servicio de registro.
+        return Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Error al mostrar los usuarios',
+        })
+      })
+    )
   }
 
 }

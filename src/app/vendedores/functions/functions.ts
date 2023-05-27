@@ -9,13 +9,25 @@ function Mensaje(mensaje:string, icon:any = 'error'){
   })
 }
 export const Vendedor = {
-  ApplyFilter(event:any,dataSource:any){
-    const filterValue = (event.target as HTMLInputElement).value;
-    dataSource.data = dataSource.data.filter(
-      (vendedor:any)=>
-      vendedor.id.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1||
-      vendedor.nombre.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1
-    )
+  ListaAutoComplete(data:any, options:any){
+    for(const item of options){
+      for(const key in item){
+        if(key != '__typename' && item[key]){
+          if(key == 'ventas'){
+            console.log(item[key])
+            for(const venta of item[key]){
+              if(!data[key].includes(venta.monto)){
+                data[key].push(venta.monto);
+              }
+            }
+          }else{
+            if(!data[key].includes(item[key])){
+              data[key].push(item[key]);
+            }
+          }
+        }
+      }
+    }
   },
   OpenDialog(id:any,url:any,title:any,table:any,dialog:any,component:any){
     dialog.open(component, {

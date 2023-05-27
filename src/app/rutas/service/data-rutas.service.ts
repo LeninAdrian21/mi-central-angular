@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
-import { BehaviorSubject, map } from 'rxjs';
+import { BehaviorSubject, catchError, map } from 'rxjs';
 import Swal from 'sweetalert2';
 const QUERY = gql`
 query {
@@ -16,11 +16,9 @@ query {
     comentarios
     estado
     ventas{
-      id
       monto
     }
     camiones{
-      id
       num_serie
     }
   }
@@ -71,6 +69,7 @@ const Pagination = gql`
       edges {
         cursor
         node {
+          id
           descripcion
           lugar_origen
           destino
@@ -155,7 +154,15 @@ export class DataRutasService {
         sales_amount
       }
     }).valueChanges.pipe(
-      map((result: any) => result.data.paginationRoute)
+      map((result: any) => result.data.paginationRoute),
+      catchError((error: any) => {
+        console.error('Error occurred:', error);
+        return Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Error al mostrar las rutas',
+        })
+      })
     );
   }
 }

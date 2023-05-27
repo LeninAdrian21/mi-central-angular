@@ -22,16 +22,22 @@ export const Producto = {
               data[key].push(item[key].nombre);
             }
           }else if( key == 'carritos'){
-            if(!data[key].includes(item[key].cantidad)){
-              data[key].push(item[key].cantidad);
+            for(const carrito of item[key]){
+              if(!data[key].includes(carrito.cantidad)){
+                data[key].push(carrito.cantidad);
+              }
             }
           }else if( key == 'promociones'){
-            if(!data[key].includes(item[key].fecha_creacion)){
-              data[key].push(item[key].fecha_creacion);
+            for(const promocion of item[key]){
+              if(!data[key].includes(promocion.fecha_creacion)){
+                data[key].push(promocion.fecha_creacion);
+              }
             }
           }else if( key == 'lotes'){
-            if(!data[key].includes(item[key].codigo_interno)){
-              data[key].push(item[key].codigo_interno);
+            for(const lote of item[key]){
+              if(!data[key].includes(lote.codigo_interno)){
+                data[key].push(lote.codigo_interno);
+              }
             }
           }else{
             if(!data[key].includes(item[key])){
