@@ -61,7 +61,7 @@ export class ListadoComponent implements OnInit {
     private service: CrudService,
     private dialog: MatDialog,
   ) {}
-  ngOnInit() { 
+  ngOnInit() {
     if (this.service.addCampo == true) {
       this.service.addCampo = false;
       return location.reload();
@@ -119,7 +119,7 @@ export class ListadoComponent implements OnInit {
   }
   Buscador(event:any){
     this.start = 0;
-    this.limit = 2;
+    this.limit = 20;
     this.items = [];
     const handler = this.keywordHandlers[this.keyword];
     if (handler) {
@@ -128,7 +128,7 @@ export class ListadoComponent implements OnInit {
   }
   Vaciar(){
     this.start = 0;
-    this.limit = 2;
+    this.limit = 20;
     this.dataSource.data = [];
     this.items = [];
     this.totalCount = 0;
