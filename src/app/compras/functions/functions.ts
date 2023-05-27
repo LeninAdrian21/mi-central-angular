@@ -9,17 +9,50 @@ function Mensaje(mensaje:string, icon:any = 'error'){
   });
 }
 export const Compra = {
-  ApplyFilter(event:any, dataSource:any){
-    const filterValue = (event.target as HTMLInputElement).value;
-    dataSource.data = dataSource.data.filter(
-      (compra:any)=>
-      compra.id.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-      compra.costo.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-      compra.fecha_pedido.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-      compra.referencia.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-      compra.fecha_llegada.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-      compra.status.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1
-    )
+  ListaAutoComplete(data:any, options:any){
+    for(const item of options){
+      for(const key in item){
+        if(key != '__typename' && item[key]){
+          if(key == 'lote'){
+            if(!data[key].includes(item[key].codigo_interno)){
+              data[key].push(item[key].codigo_interno);
+            }
+            // for(const numlote of item[key]){
+            //   if(!data[key].includes(numlote.codigo_interno)){
+            //     data[key].push(numlote.codigo_interno);
+            //   }
+            // }
+          }else if( key == 'metodo_pago'){
+            if(!data[key].includes(item[key].numero_tarjeta)){
+              data[key].push(item[key].numero_tarjeta);
+            }
+          }else if( key == 'proveedor'){
+            if(!data[key].includes(item[key].nombre)){
+              data[key].push(item[key].nombre);        
+            }
+            // for(const numprov of item[key]){
+            //   if(!data[key].includes(numprov.nombre)){
+            //     data[key].push(numprov.nombre);
+            //   }
+            // }
+          }else if( key == 'usuarios'){
+            // if(!data[key].includes(item[key].nombre)){
+            //   data[key].push(item[key].nombre);
+            // }
+            for(const numusu of item[key]){
+              if(!data[key].includes(numusu.nombre)){
+                data[key].push(numusu.nombre);
+              }
+            }
+          }else{
+            if(!data[key].includes(item[key])){
+              data[key].push(item[key]);
+            }
+
+          }
+        }
+      }
+    }
   },
   OpenDialog(id:any,url:any,title:any,table:any,dialog:any,component:any){
     dialog.open(component, {

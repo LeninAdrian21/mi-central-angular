@@ -9,18 +9,36 @@ function Mensaje(mensaje:string, icon:any = 'error'){
   })
 }
 export const Credito ={
-  ApplyFilter(event:any,dataSource:any){
-    const filterValue = (event.target as HTMLInputElement).value;
-    dataSource.data = dataSource.data.filter(
-      (credito:any)=>
-      credito.id.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-      credito.limite.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-      credito.fecha_alta.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-      credito.fecha_baja.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-      credito.vigencia.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-      credito.intereses.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-      credito.status.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1
-    )
+  ListaAutoComplete(data:any, options:any){
+    for(const item of options){
+      for(const key in item){
+        if(key != '__typename' && item[key]){
+          if(key == 'abonos'){
+            // if(!data[key].includes(item[key].cantidad_abono)){
+            //   data[key].push(item[key].cantidad_abono);
+            // }
+            for(const numabono of item[key]){
+              if(!data[key].includes(numabono.cantidad_abono)){
+                data[key].push(numabono.cantidad_abono);
+              }
+            }
+          }else if( key == 'metodo_pago'){
+            if(!data[key].includes(item[key].numero_tarjeta)){
+              data[key].push(item[key].numero_tarjeta);
+            }
+          }else if( key == 'usuario'){
+            if(!data[key].includes(item[key].nombre)){
+              data[key].push(item[key].nombre);
+            }
+          }
+          else{
+            if(!data[key].includes(item[key])){
+              data[key].push(item[key]);
+            }
+          }
+        }
+      }
+    }
   },
   OpenDialog(id:any,url:any,title:any,table:any,dialog:any,component:any){
     dialog.open(component, {
@@ -165,3 +183,4 @@ export const Credito ={
     })
   },
 }
+

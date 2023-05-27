@@ -9,16 +9,42 @@ function Mensaje(mensaje:string, icon:any = 'error'){
   })
 }
 export const Historial = {
-  ApplyFilter(event:any,dataSource:any){
-    const filterValue = (event.target as HTMLInputElement).value;
-    dataSource.data = dataSource.data.filter(
-      (historial:any)=>
-      historial.id.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-      historial.fecha.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-      historial.status.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-      historial.hora_inicio.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-      historial.hora_fin.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1
-    )
+  // ApplyFilter(event:any,dataSource:any){
+  //   const filterValue = (event.target as HTMLInputElement).value;
+  //   dataSource.data = dataSource.data.filter(
+  //     (historial:any)=>
+  //     historial.id.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
+  //     historial.fecha.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
+  //     historial.status.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
+  //     historial.hora_inicio.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
+  //     historial.hora_fin.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1
+  //   )
+  // },
+  ListaAutoComplete(data:any, options:any){
+    for(const item of options){
+      for(const key in item){
+        if(key != '__typename' && item[key]){
+          if( key == 'usuario'){
+            if(!data[key].includes(item[key].nombre)){
+              data[key].push(item[key].nombre);
+            }
+          }else if( key == 'camiones'){
+            // if(!data[key].includes(item[key].num_serie)){
+            //   data[key].push(item[key].num_serie);
+            // }
+            for(const numcamion of item[key]){
+              if(!data[key].includes(numcamion.num_serie)){
+                data[key].push(numcamion.num_serie);
+              }
+            }
+          }else{
+            if(!data[key].includes(item[key])){
+              data[key].push(item[key]);
+            }
+          }
+        }
+      }
+    }
   },
   OpenDialog(id:any,url:any,title:any,table:any,dialog:any,component:any){
     dialog.open(component, {

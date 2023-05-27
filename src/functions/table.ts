@@ -8,49 +8,49 @@ export const table ={
   //
   Camiones:{
     title: 'Camiones',
-    columns:['no','id', 'num_serie', 'niv', 'placas','historial','rutas','gastos','usuario','acciones'],
+    columns:['num_serie', 'niv', 'placas','historial','rutas','gastos','usuario','acciones'],
     data:['id', 'num_serie','placas','niv'],
     campo:['Id', 'Numero de serie', 'Placa  Activa', 'Nivel']
   },
   Carritos:{
     title: 'Carritos',
-    columns:['no','id', 'cantidad','usuario','productos','venta','acciones'],
+    columns:['cantidad','usuario','productos','venta','acciones'],
     data:['id', 'cantidad'],
     campo:['Id', 'Cantidad'],
   },
   Compras:{
     title: 'Compras',
-    columns:['no','id','costo','fecha_pedido','referencia','fecha_llegada','status','metodo_pago','lote','proveedor','usuarios','acciones'],
+    columns:['costo','fecha_pedido','referencia','fecha_llegada','status','metodo_pago','lote','proveedor','usuarios','acciones'],
     data:['id','costo','fecha_pedido','referencia','fecha_llegada','status'],
     campo:['Id','Costo','Fecha de pedido','Referencia','Fecha de llegada','Status'],
   },
   Creditos:{
     title: 'Creditos',
-    columns:['no','id','limite','fecha_alta','fecha_baja','vigencia','intereses','status','usuario','metodo_pago','abonos','acciones'],
+    columns:['limite','fecha_alta','fecha_baja','vigencia','intereses','status','usuario','metodo_pago','abonos','acciones'],
     data:['id','limite','Fecha_alta','fecha_baja','vigencia','intereses','status'],
     campo:['Id','Limite','Fecha de alta','Fecha de baja','Vigencia','Intereses','Status']
   },
   Dimensiones:{
     title: 'Dimensiones',
-    columns:['no','id','nombre','ancho','alto','largo','productos','acciones'],
+    columns:['nombre','ancho','alto','largo','productos','acciones'],
     data:['id','nombre','ancho','alto','largo'],
     campo:['Id','Nombre','Ancho','Alto','Largo'],
   },
   Gastos:{
     title: 'Gastos',
-    columns:['no','id','descripcion','fecha','monto','categoria','status','usuario','camiones','acciones'],
+    columns:['descripcion','fecha','monto','categoria','status','usuario','camiones','acciones'],
     data:['id','descripcion','fecha','monto','categoria','status'],
     campo:['Id','Descripcion', 'Fecha','Monto','Categoria','Estados']
   },
   Historiales:{
     title: 'Historiales',
-    columns:['no','id','fecha','status','hora_inicio','hora_fin','usuario','camiones','acciones'],
+    columns:['fecha','status','hora_inicio','hora_fin','usuario','camiones','acciones'],
     data:['id','fecha','status','hora_inicio','hora_fin'],
     campo:['Id', 'Fecha','Status', 'Hora de inicio', 'Hora de fin']
   },
   Locales:{
     title: 'Locales',
-    columns:['no','id','nombre','alias','razon_social','rfc','fecha_alta','calle','colonia','numero_ext', 'municipio','numero_int','ciudad','cp','latitud','longitud','telefono','telefono_cel','giro','status','ventas','usuarios','acciones'],
+    columns:['nombre','alias','razon_social','rfc','fecha_alta','calle','colonia','numero_ext', 'municipio','numero_int','ciudad','cp','latitud','longitud','telefono','telefono_cel','giro','status','ventas','usuarios','acciones'],
     data:['id','nombre','alias','razon_social','rfc','fecha_alta','calle','Colonia','numero_ext', 'Municipio','numero_int','ciudad','cp','latitud','longitud','telefono','telefono_cel','giro','status'],
     campo:['Id','Nombre','Alias','Razon social','RFC','Fecha alta','Calle','Colonia','Numero exterior','Municipio','numero_int','Ciudad','Codigo Postal','Latitud','Longitud','Telefono','Telefono celular','Giro','Status']
   },

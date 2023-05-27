@@ -9,16 +9,38 @@ function Mensaje(mensaje:string, icon:any = 'error'){
   })
 }
 export const Dimension ={
-  ApplyFilter(event:any, dataSource:any){
-    const filterValue = (event.target as HTMLInputElement).value;
-    dataSource.data = dataSource.data.filter(
-      (dimension:any)=>
-      dimension.id.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-      dimension.nombre.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-        dimension.ancho.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-        dimension.alto.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
-        dimension.largo.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1
-    );
+  // ApplyFilter(event:any, dataSource:any){
+  //   const filterValue = (event.target as HTMLInputElement).value;
+  //   dataSource.data = dataSource.data.filter(
+  //     (dimension:any)=>
+  //     dimension.id.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
+  //     dimension.nombre.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
+  //       dimension.ancho.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
+  //       dimension.alto.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1 ||
+  //       dimension.largo.toString().toLocaleLowerCase().indexOf(filterValue.toLocaleLowerCase()) !== -1
+  //   );
+  // },
+  ListaAutoComplete(data:any, options:any){
+    for(const item of options){
+      for(const key in item){
+        if(key != '__typename' && item[key]){
+          if(key == 'productos'){
+            // if(!data[key].includes(item[key].nombre)){
+            //   data[key].push(item[key].nombre);
+            // }
+            for(const numproduc of item[key]){
+              if(!data[key].includes(numproduc.nombre)){
+                data[key].push(numproduc.nombre);
+              }
+            }
+          }else{
+            if(!data[key].includes(item[key])){
+              data[key].push(item[key]);
+            }
+          }
+        }
+      }
+    }
   },
   OpenDialog(id:any,url:any,title:any,table:any,dialog:any,component:any){
     dialog.open(component, {
