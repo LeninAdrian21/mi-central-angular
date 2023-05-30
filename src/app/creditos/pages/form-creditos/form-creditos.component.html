@@ -45,7 +45,7 @@
       <div class="row mt-3">
         <!-- Limite -->
         <div class="form-group  col-4">
-          <mat-form-field  appearance="fill">
+          <mat-form-field  appearance="fill" class="w-100">
             <mat-label>Limite</mat-label>
             <input matInput type="number" placeholder="Limite"  name="limite" formControlName="limite"  required="true">
           </mat-form-field>
@@ -59,7 +59,7 @@
         </div>
         <!-- fecha Alta -->
         <div class="form-group  col-4">
-          <mat-form-field appearance="fill">
+          <mat-form-field appearance="fill" class="w-100">
             <mat-label>Fecha de alta</mat-label>
             <input matInput type="date" formControlName="fecha_alta">
           </mat-form-field>
@@ -72,7 +72,7 @@
         </div>
         <!-- Fecha baja -->
         <div class="form-group  col-4">
-          <mat-form-field appearance="fill">
+          <mat-form-field appearance="fill" class="w-100">
             <mat-label>Fecha de baja</mat-label>
             <input matInput type="date" formControlName="fecha_baja">
           </mat-form-field>
@@ -86,7 +86,7 @@
         </div>
         <!-- Vigencia -->
         <div class="form-group  col-4">
-          <mat-form-field appearance="fill">
+          <mat-form-field appearance="fill" class="w-100">
             <mat-label>Vigencia</mat-label>
             <input matInput type="date" formControlName="vigencia">
           </mat-form-field>
@@ -100,7 +100,7 @@
         </div>
         <!-- Intereses -->
         <div class="form-group  col-4">
-          <mat-form-field  appearance="fill">
+          <mat-form-field  appearance="fill" class="w-100">
             <mat-label>Intereses</mat-label>
             <input matInput type="number" placeholder="Intereses"  name="intereses" formControlName="intereses"  required="true">
           </mat-form-field>
@@ -118,7 +118,7 @@
         </div>
         <!-- id Usuario -->
         <div class="form-group col-4">
-          <mat-form-field appearance="fill" >
+          <mat-form-field appearance="fill" class="w-100">
             <mat-label>Nombre de usuario</mat-label>
             <mat-select name="usuario_id" formControlName="id_usuario">
               <mat-option *ngFor="let usuario of usuario$ | async" value={{usuario.id}}>
@@ -129,7 +129,7 @@
         </div>
         <!-- id Metodo de pago -->
         <div class="form-group col-4">
-          <mat-form-field appearance="fill" >
+          <mat-form-field appearance="fill" class="w-100">
             <mat-label>Numero de tarjeta</mat-label>
             <mat-select name="usuario_id" formControlName="id_metodoPago">
               <mat-option *ngFor="let metodo_pago of metodo_pago$ | async" value={{metodo_pago.id}}>
@@ -140,7 +140,7 @@
         </div>
         <!--Id Abonos -->
         <div class="form-group  col-4">
-          <mat-form-field appearance="fill" >
+          <mat-form-field appearance="fill" class="w-100">
             <mat-label>Cantidad de bono</mat-label>
             <mat-select name="usuario_id" formControlName="id_abonos">
               <mat-option *ngFor="let abono of abonos$ | async" value={{abono.id}}>

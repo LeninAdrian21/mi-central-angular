@@ -18,7 +18,7 @@ export const Auth ={
   login(service:any,form:any,router:any, variable:any, rol:any){
     service.Login(form.value).subscribe(
       (data:any)=>{
-        console.log(data);
+        
         const {refreshToken} = data;
         const {token} = data;
         localStorage.setItem('token', token);
