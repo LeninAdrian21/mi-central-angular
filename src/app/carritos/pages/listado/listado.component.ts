@@ -26,7 +26,7 @@ export class ListadoComponent implements OnInit {
   // ngAfterViewInit() {
   //   this.dataSource.paginator = this.paginator;
   start = 0; //Dato de inicio de la paginación
-  limit = 2; //Limite de la pagina
+  limit = 20; //Limite de la pagina
   $carritos = this.data.carritos$; //datos de abonos
   items:any[]=[];
   keyword = 'cantidad'; // lo que se buscara
@@ -62,7 +62,7 @@ export class ListadoComponent implements OnInit {
     }
   };
   constructor(
-    private data:DataCarritosService, 
+    private data:DataCarritosService,
     private service: CrudService,
     private dialog: MatDialog) {}
   ngOnInit(): void {
@@ -125,7 +125,7 @@ export class ListadoComponent implements OnInit {
   }
   Buscador(event:any){
     this.start = 0;
-    this.limit = 2;
+    this.limit = 20;
     this.items = [];
     const handler = this.keywordHandlers[this.keyword];
     if (handler) {
@@ -134,7 +134,7 @@ export class ListadoComponent implements OnInit {
   }
   Vaciar(){
     this.start = 0;
-    this.limit = 2;
+    this.limit = 20;
     this.dataSource.data = [];
     this.items = [];
     this.totalCount = 0;

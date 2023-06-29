@@ -1,6 +1,6 @@
 {
   "/api/*":{
-    "target":"https://micentral-api.onrender.com",
+    "target":"http://localhost:1337",
     "secure":false,
     "changeOrigin": true,
     "pathRewrite": {

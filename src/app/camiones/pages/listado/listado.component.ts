@@ -77,10 +77,12 @@ export class ListadoComponent implements OnInit {
   constructor(private data:DataCamionesService, private service: CrudService,private dialog: MatDialog) { }
 
   ngOnInit(): void {
+    console.log(this.service.addCampo)
     if (this.service.addCampo == true) {
       this.service.addCampo = false;
       return location.reload();
     }
+    console.log(this.service.addCampo)
     this.getPaginator();
     this.ListarData();
 
@@ -155,7 +157,7 @@ export class ListadoComponent implements OnInit {
     this.items = [];
     this.totalCount = 0;
     this.busqueda.reset();
-    this.keyword = 'placas'; 
+    this.keyword = 'placas';
     this.getPaginator();
   }
   openDialog(id:string, url:string, title:string, table:string){

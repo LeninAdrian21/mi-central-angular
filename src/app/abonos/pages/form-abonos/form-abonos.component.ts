@@ -1,50 +1,47 @@
 import { Component, OnInit } from '@angular/core';
 import { CrudService } from 'src/app/services/crud.service';
 import { AbonoService } from '../../service/abono.service';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { abonosForm } from '../../function/form';
 import { Abono } from '../../function/functions';
-
+import { Form} from 'src/functions/forms';
 @Component({
   selector: 'app-form-abonos',
   templateUrl: './form-abonos.component.html',
   styleUrls: ['./form-abonos.component.scss']
 })
-export class FormAbonosComponent implements OnInit {
-  prueba:string = '';
-  // Formaulario
-  usuarios$ = this.get.usuarios$;
-  creditos$ = this.get.creditos$;
+export class FormAbonosComponent implements OnInit{
   formAbonos!: FormGroup;
-  fecha:any = new Date();
-  // el id y el cuerpo de la peticion
-  id:any;
-  //texto dinamicos
-  btn:string = 'Agregar';
   title:string = 'Agregar Abono';
-  // Cambios en la interfaz;
-  cargaOptions = false;
-  submitted = false;
-  // boton de Loading en la interfas
+  creditos$ = this.get.creditos$;
+  usuarios$ = this.get.usuarios$;
+  fields:any;
+  picker:any;
+  id:any;
+  btn:string = 'Agregar';
   addUpdate = false;
+  cargaOptions: boolean = false;
+  date = new Date();
   constructor(
     private formBuilder: FormBuilder,
     private get:AbonoService,
     private service:CrudService,
     private route: ActivatedRoute,
     private router: Router
-  ) { }
+  ){}
   ngOnInit(): void {
     this.id =  this.route.snapshot.params['id'];
-    this.formAbonos = this.formBuilder.group(abonosForm);
-    this.formAbonos.patchValue({
-      fecha_abono: this.fecha,
+    this.fields = Form('abono', this.date);
+    this.formAbonos = this.formBuilder.group({});
+    this.fields.forEach((field:any) => {
+      const validators = field.required ? [ Validators.required] : [];
+      const control = this.formBuilder.control({ value: field.default, disabled: field.disabled }, validators);
+      this.formAbonos.addControl(field.name, control);
     });
     if(this.id){
       this.btn = "Actualizar";
       this.title = "Actualizar Abono";
-      Abono.AbonoId(this.service,'abonos/'+this.id,this.formAbonos);
+      Abono.AbonoId(this.service,'abonos/'+ this.id,this.formAbonos);
       setTimeout(()=>{
         this.cargaOptions = true;
       }, 10000)
@@ -52,9 +49,10 @@ export class FormAbonosComponent implements OnInit {
     setTimeout(()=>{
       this.cargaOptions = true;
     }, 10000)
+    this.service.addCampo = true;
+    console.log(this.service.addCampo)
   }
   formAbono(){
-    this.submitted = true;
     if(this.formAbonos.invalid){
       Abono.Mensaje('Formulario invalido')
       return;
@@ -62,12 +60,9 @@ export class FormAbonosComponent implements OnInit {
     const {id_credito,id_usuario} = this.formAbonos.value;
     this.addUpdate = true;
     if(this.btn == 'Actualizar'){
-      Abono.update(this.service,this.id,this.router,this.formAbonos,id_credito,id_usuario,this.fecha);
+      Abono.update(this.service,this.id,this.router,this.formAbonos,id_credito,id_usuario, this.date);
       return;
     }
-    Abono.add(this.service,this.router,this.formAbonos,id_credito,id_usuario,this.fecha);
-  }
-  Prueba(){
-    console.log(this.prueba);
+    Abono.add(this.service,this.router,this.formAbonos,id_credito,id_usuario, this.date);
   }
 }

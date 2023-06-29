@@ -1,12 +1,4 @@
 import { FormBuilder, Validators } from '@angular/forms';
-
-export const abonosForm = {
-  cantidad_abono: ['',[Validators.required]],
-  fecha_abono: [{value: '', disabled: true},  Validators.required],
-  estado_abono:  ['',[Validators.required]],
-  credito_id: [''],
-  usuario_id:  [''],
-}
 export const camionesForm = (formBuilder:any) =>{
   return {
     num_serie: ['',[Validators.required]],

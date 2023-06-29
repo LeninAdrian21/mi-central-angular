@@ -47,7 +47,7 @@ export class AgregarComponent implements OnInit {
       this.cargaOptions = true;
     }, 10000)
   }
-  addVenta(){
+  formVenta(){
     this.submitted = true;
     if(this.formVentas.invalid){
       Venta.Mensaje('Formulario invalido')

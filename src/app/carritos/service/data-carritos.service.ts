@@ -1,3 +1,4 @@
+import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { gql, Apollo } from 'apollo-angular';
 import { BehaviorSubject, map } from 'rxjs';
@@ -68,6 +69,7 @@ query paginationcarts(
 export class DataCarritosService {
   private carritosSubject = new BehaviorSubject<any>([]);
   carritos$ =  this.carritosSubject.asObservable();
+  headers = new HttpHeaders().set( 'authorization','Bearer ' + localStorage.getItem('token'));
   constructor(private apollo: Apollo) {
     this.GetData();
   }
@@ -89,7 +91,7 @@ export class DataCarritosService {
       })
     }
     );
-  } 
+  }
   GetPaginator(
     start: number,
     limit:number,
@@ -106,6 +108,9 @@ export class DataCarritosService {
         products,
         user,
         sale
+      },
+      context:{
+        headers: this.headers
       }
     })
     .valueChanges.pipe(

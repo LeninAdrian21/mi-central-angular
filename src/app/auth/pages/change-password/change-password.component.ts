@@ -17,7 +17,7 @@ export class ChangePasswordComponent implements OnInit {
     this.ChangePasswordForm = this.formBuilder.group({
       new_password:['',[Validators.required, Validators.minLength(6)]],
       confirm_password:['',[Validators.required, Validators.minLength(6)]],
-      recaptcha: ['', Validators.required]
+      // recaptcha: ['', Validators.required]
     });
     this.tokenEmail = localStorage.getItem('tokenEmail');
   }

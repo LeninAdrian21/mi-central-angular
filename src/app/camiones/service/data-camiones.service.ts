@@ -1,3 +1,4 @@
+import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { gql, Apollo } from 'apollo-angular';
 import { BehaviorSubject, map } from 'rxjs';
@@ -89,6 +90,7 @@ const Pagination = gql`
 export class DataCamionesService {
   private camionesSubject = new BehaviorSubject<any>([]);
   camiones$ = this.camionesSubject.asObservable();
+  headers = new HttpHeaders().set( 'authorization','Bearer ' + localStorage.getItem('token'));
   constructor(private apollo: Apollo) {
     this.GetData();
   }
@@ -135,10 +137,13 @@ export class DataCamionesService {
         destination,
         driver,
         spent,
+      },
+      context:{
+        headers: this.headers
       }
     })
     .valueChanges.pipe(
       map((result: any) => result.data.paginationtrucks)
     );
-  }   
+  }
 }

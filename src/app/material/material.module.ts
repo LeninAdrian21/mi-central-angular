@@ -16,6 +16,7 @@ import {MatNativeDateModule } from '@angular/material/core';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+
 @NgModule({
   declarations: [],
   imports: [
@@ -34,7 +35,8 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
     MatDatepickerModule,
     MatNativeDateModule,
     MatPaginatorModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+
   ],
   exports: [
     MatInputModule,
@@ -52,7 +54,7 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
     MatProgressSpinnerModule,
     MatPaginatorModule,
     MatAutocompleteModule,
-    MatProgressBarModule
+    MatProgressBarModule,
   ]
 })
 export class MaterialModule { }

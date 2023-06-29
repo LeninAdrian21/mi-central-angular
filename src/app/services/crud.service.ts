@@ -8,8 +8,9 @@ import { environment } from 'src/environments/environment';
 })
 export class CrudService {
   addCampo:boolean = false;
-  constructor(private http: HttpClient) {
-  }
+
+
+  constructor(private http: HttpClient) {}
   api:string = environment.API_URL
   Headers = (token:string) => {
     const headers = new HttpHeaders({

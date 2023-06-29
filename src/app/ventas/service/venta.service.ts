@@ -51,7 +51,7 @@ export class VentaService {
     );
   }
   metodoPago(){
-    this.service.get('metodos-de-pagos', this.token).subscribe(
+    this.service.get('metodo-pagos', this.token).subscribe(
       (data: any) => {
         this.metodosPagoSubject.next(data);
       },
@@ -84,7 +84,7 @@ export class VentaService {
     );
   }
   vendedor(){
-    this.service.get('vendedor-s', this.token).subscribe(
+    this.service.get('vendedores', this.token).subscribe(
       (data: any) => {
         this.vendedorSubject.next(data);
       },

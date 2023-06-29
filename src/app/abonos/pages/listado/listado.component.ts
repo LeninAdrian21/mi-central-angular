@@ -1,20 +1,19 @@
-import { Component,Inject,OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { CrudService } from 'src/app/services/crud.service';
-import { table } from 'src/functions/table';
-import { DataAbonosService } from '../../service/data-abonos.service';
+import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
+import { Observable, map, startWith } from 'rxjs';
+import { table } from 'src/functions/table';
+import Swal from 'sweetalert2';
+import { DataAbonosService } from '../../service/data-abonos.service';
+import { CrudService } from 'src/app/services/crud.service';
+import { MatDialog } from '@angular/material/dialog';
 import { Abono } from '../../function/functions';
 import { DialogcomponentComponent } from 'src/app/dialogcomponent/dialogcomponent.component';
-import { Observable, map } from 'rxjs';
-import { startWith } from 'rxjs/operators';
-import { FormControl } from '@angular/forms';
-import { DOCUMENT } from '@angular/common';
+
 @Component({
   selector: 'app-listado',
   templateUrl: './listado.component.html',
-  styleUrls: ['./listado.component.scss'],
-  providers: [CrudService, DataAbonosService],
+  styleUrls: ['./listado.component.scss']
 })
 export class ListadoComponent implements OnInit {
   start = 0; //Dato de inicio de la paginación
@@ -25,6 +24,7 @@ export class ListadoComponent implements OnInit {
   keywords = ['cantidad_abono','fecha_abono','estado_abono','credito','usuario']; //datos de option de busqueda
   inputTex:any = {'cantidad_abono': 'Cantidad de abono','fecha_abono': 'Fecha de abono','estado_abono': 'Estado de aboo','credito': 'Intereses del credito','usuario': 'Nombre del usuario'}
   info: {[key: string]: any[];} = {cantidad_abono: [],fecha_abono: [], estado_abono: [],credito: [],usuario: []};
+  addCampo:any;
   busqueda = new FormControl('');
   dataSource = new MatTableDataSource<any>([]);
   displayedColumns: string[] = table.Abonos.columns;
@@ -60,8 +60,10 @@ export class ListadoComponent implements OnInit {
     private data: DataAbonosService,
     private service: CrudService,
     private dialog: MatDialog,
-  ) {}
-  ngOnInit() {
+  ) { }
+
+  ngOnInit(): void {
+    console.log(this.service.addCampo);
     if (this.service.addCampo == true) {
       this.service.addCampo = false;
       return location.reload();
@@ -93,10 +95,24 @@ export class ListadoComponent implements OnInit {
     user?:string) {
     this.data.GetPaginator(this.start,this.limit, credit_quantity,credit_date,quantity_payment, credit,user).subscribe(({edges, totalCount, pageInfo}) => {
       this.totalCount = totalCount;
-      this.NextPage = pageInfo.hasNextPage;
-      edges.forEach((item: any) => this.items.push(item.node));
-      this.dataSource.data = this.items;
-    });
+      console.log(this.totalCount, 'total')
+      this.NextPage = pageInfo?.hasNextPage;
+      if(edges){
+        edges.forEach((item: any) => this.items.push(item.node));
+        this.dataSource.data = this.items;
+      }
+    },
+    (error: any) => {
+      console.error('Error:', error);
+      // Realiza acciones adicionales si es necesario
+      // Por ejemplo, muestra un mensaje de error en la interfaz de usuario
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Se produjo un error al cargar los datos.',
+      });
+    }
+    );
   }
   ListarData() {
     this.$abonos.subscribe(element =>{
@@ -140,6 +156,7 @@ export class ListadoComponent implements OnInit {
     Abono.OpenDialog(id,url,title,table,this.dialog,DialogcomponentComponent);
   }
   Delete(id:string){
+    // this.service.setMiVariable(true)
     Abono.delete(id,this.service);
   }
 }

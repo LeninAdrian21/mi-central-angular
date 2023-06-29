@@ -70,6 +70,7 @@ export const Abono = {
       fecha_abono:date
     }
     body = Object.assign(body,fecha);
+    console.log(body);
     return body;
   },
   AbonoId(service:any,url:any,formGroup:any){

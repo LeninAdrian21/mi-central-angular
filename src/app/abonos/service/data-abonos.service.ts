@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { gql,Apollo } from 'apollo-angular';
-import { BehaviorSubject, catchError, map } from 'rxjs';
+import { BehaviorSubject, Observable, map } from 'rxjs';
 import Swal from 'sweetalert2';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
 const QUERY = gql`
 query {
   abonos(where:{
@@ -12,14 +13,10 @@ query {
     fecha_abono
     estado_abono
     credito{
-      id
       intereses
     }
     usuario{
-      id
       nombre
-      ap_paterno
-      ap_materno
     }
   }
 }
@@ -78,13 +75,13 @@ query paginationpayments(
 export class DataAbonosService {
   private abonosSubject = new BehaviorSubject<any>([]);
   abonos$ = this.abonosSubject.asObservable();
-
-  constructor(private apollo: Apollo, private http:HttpClient) {
+  headers = new HttpHeaders().set( 'authorization','Bearer ' + localStorage.getItem('token'));
+  constructor(private apollo: Apollo) {
     this.GetData();
   }
   GetData() {
     this.apollo.watchQuery<any>({
-      query: QUERY
+      query: QUERY,
     }).valueChanges.subscribe(({ data }) => {
       const {abonos} = data;
       this.abonosSubject.next(abonos);
@@ -94,7 +91,7 @@ export class DataAbonosService {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
-        text: 'Error al cargar datos',
+        text: 'Error al mostrar los abonos',
       })
     });
   }
@@ -116,21 +113,13 @@ export class DataAbonosService {
         quantity_payment,
         credit,
         user
+      },
+      context:{
+        headers: this.headers
       }
     })
     .valueChanges.pipe(
-      map((result: any) => result.data.paginationpayments),
-      catchError((error: any) => {
-        console.error('Error occurred:', error);
-        // Puedes realizar alguna acción adicional aquí si es necesario.
-        // Por ejemplo, puedes enviar el error a un servicio de registro.
-        return Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: 'Error al mostrar los abonos',
-        })
-      })
-
+      map((result: any) => result.data.paginationpayments)
     );
   }
 }
