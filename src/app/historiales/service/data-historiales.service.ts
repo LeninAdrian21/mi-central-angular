@@ -1,6 +1,8 @@
+import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
-import { BehaviorSubject, map } from 'rxjs';
+import { BehaviorSubject, catchError, map, throwError } from 'rxjs';
+import { Mensaje } from 'src/functions/functions';
 import Swal from 'sweetalert2';
 const QUERY = gql`
 query {
@@ -50,7 +52,7 @@ const Pagination = gql`
       }
       edges{
         node{
-   
+
           fecha
           hora_inicio
           hora_fin
@@ -75,6 +77,7 @@ const Pagination = gql`
 export class DataHistorialesService {
   private historialesSubject = new BehaviorSubject<any>([]);
   historiales$ = this.historialesSubject.asObservable();
+  headers = new HttpHeaders().set( 'authorization','Bearer ' + localStorage.getItem('token'));
   constructor(private apollo: Apollo) {
     this.GetData();
   }
@@ -117,10 +120,19 @@ export class DataHistorialesService {
         status2,
         trucks,
         user
+      },
+      context:{
+        headers: this.headers
       }
     })
     .valueChanges.pipe(
-      map((result: any) => result.data.paginationrecords)
+      map((result: any) => result.data.paginationrecords),
+      catchError((error:any) => {
+        console.error('Ocurrió un error:', error);
+        Mensaje(error);
+        return throwError(error);
+        // Mensaje(errorMessage)
+      })
     );
   }
 }

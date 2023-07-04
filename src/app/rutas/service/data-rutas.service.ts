@@ -1,6 +1,8 @@
+import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
-import { BehaviorSubject, catchError, map } from 'rxjs';
+import { BehaviorSubject, catchError, map, throwError } from 'rxjs';
+import { Mensaje } from 'src/functions/functions';
 import Swal from 'sweetalert2';
 const QUERY = gql`
 query {
@@ -100,6 +102,7 @@ const Pagination = gql`
 export class DataRutasService {
   private rutasSubject = new BehaviorSubject<any>([]);
   rutas$ = this.rutasSubject.asObservable();
+  headers = new HttpHeaders().set( 'authorization','Bearer ' + localStorage.getItem('token'));
   constructor(private apollo: Apollo) {
     this.GetData();
   }
@@ -152,16 +155,17 @@ export class DataRutasService {
         cyclic_route,
         trucks_serial_number,
         sales_amount
+      },
+      context:{
+        headers: this.headers
       }
     }).valueChanges.pipe(
       map((result: any) => result.data.paginationRoute),
-      catchError((error: any) => {
-        console.error('Error occurred:', error);
-        return Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: 'Error al mostrar las rutas',
-        })
+      catchError((error:any) => {
+        console.error('Ocurrió un error:', error);
+        Mensaje(error);
+        return throwError(error);
+        // Mensaje(errorMessage)
       })
     );
   }

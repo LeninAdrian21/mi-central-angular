@@ -2,7 +2,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { CrudService } from 'src/app/services/crud.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Add, promocionesId, Update } from 'src/functions/functions';
+// import { Add, promocionesId, Update } from 'src/functions/functions';
 import { PromocionService } from '../../service/promocion.service';
 import { promocionesForm } from '../../functions/form';
 import { Promocion } from '../../functions/functions';
@@ -39,7 +39,7 @@ export class AgregarComponent implements OnInit {
     if (this.id){
       this.btn = "Actualizar";
       this.title = "Actualizar Promocion";
-      promocionesId(this.service,'promociones/'+ this.id,this.formPromociones);
+      // promocionesId(this.service,'promociones/'+ this.id,this.formPromociones);
     }
   }
   formPromocion(){

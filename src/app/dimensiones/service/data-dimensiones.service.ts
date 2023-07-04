@@ -1,6 +1,8 @@
+import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
-import { BehaviorSubject, map } from 'rxjs';
+import { BehaviorSubject, catchError, map, throwError } from 'rxjs';
+import { Mensaje } from 'src/functions/functions';
 import Swal from 'sweetalert2';
 const QUERY = gql`
 query{
@@ -23,7 +25,7 @@ query paginationDimensions(
   $width: Float,
   $high: Float,
   $long: Float,
-  $products: String 
+  $products: String
 ){
   paginationDimensions(
   start:$start,
@@ -62,6 +64,7 @@ query paginationDimensions(
 export class DataDimensionesService {
   private dimensionesSubject = new BehaviorSubject<any>([]);
   dimensiones$ = this.dimensionesSubject.asObservable();
+  headers = new HttpHeaders().set( 'authorization','Bearer ' + localStorage.getItem('token'));
   constructor(private apollo:Apollo) {
     this.GetData();
   }
@@ -98,11 +101,20 @@ export class DataDimensionesService {
         width,
         high,
         long,
-        products 
+        products
+      },
+      context:{
+        headers: this.headers
       }
     })
     .valueChanges.pipe(
-      map((result: any) => result.data.paginationDimensions)
+      map((result: any) => result.data.paginationDimensions),
+      catchError((error:any) => {
+        console.error('Ocurrió un error:', error);
+        Mensaje(error);
+        return throwError(error);
+        // Mensaje(errorMessage)
+      })
     );
   }
 }

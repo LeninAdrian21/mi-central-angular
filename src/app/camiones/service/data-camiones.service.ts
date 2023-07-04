@@ -1,7 +1,8 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { gql, Apollo } from 'apollo-angular';
-import { BehaviorSubject, map } from 'rxjs';
+import { BehaviorSubject, catchError, map, throwError } from 'rxjs';
+import { Mensaje } from 'src/functions/functions';
 import Swal from 'sweetalert2';
 const QUERY = gql`
 query {
@@ -143,7 +144,13 @@ export class DataCamionesService {
       }
     })
     .valueChanges.pipe(
-      map((result: any) => result.data.paginationtrucks)
+      map((result: any) => result.data.paginationtrucks),
+      catchError((error:any) => {
+        console.error('Ocurrió un error:', error);
+        Mensaje(error);
+        return throwError(error);
+        // Mensaje(errorMessage)
+      })
     );
   }
 }

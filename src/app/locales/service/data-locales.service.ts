@@ -1,6 +1,8 @@
+import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
-import { BehaviorSubject, map } from 'rxjs';
+import { BehaviorSubject, catchError, map, throwError } from 'rxjs';
+import { Mensaje } from 'src/functions/functions';
 import Swal from 'sweetalert2';
 const QUERY = gql`
 # Write your query or mutation here
@@ -131,7 +133,7 @@ query paginationLocal(
 export class DataLocalesService {
   private localesSubject = new BehaviorSubject<any>([]);
   locales$ = this.localesSubject.asObservable();
-
+  headers = new HttpHeaders().set( 'authorization','Bearer ' + localStorage.getItem('token'));
   constructor(private apollo: Apollo) {
     this.GetData();
   }
@@ -201,10 +203,19 @@ export class DataLocalesService {
         status2,
         user,
         sales
+      },
+      context:{
+        headers: this.headers
       }
     })
     .valueChanges.pipe(
-      map((result: any) => result.data.paginationLocal)
+      map((result: any) => result.data.paginationLocal),
+      catchError((error:any) => {
+        console.error('Ocurrió un error:', error);
+        Mensaje(error);
+        return throwError(error);
+        // Mensaje(errorMessage)
+      })
     );
   }
 }

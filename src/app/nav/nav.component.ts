@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { NavData } from './functions/functions';
 
 import { VariablesService } from '../core/services/variables.service';
+import { CrudService } from '../services/crud.service';
+import { Mensaje } from 'src/functions/functions';
 @Component({
   selector: 'app-nav',
   templateUrl: './nav.component.html',
@@ -16,24 +18,26 @@ export class NavComponent implements OnInit {
   nav:any[] = [];
   decoded:any;
   GetRol:any[] = [];
-  constructor(private router:Router, private core:VariablesService) {
+  token: any = localStorage.getItem('token');
+  constructor(private router:Router, private core:VariablesService, private service: CrudService) {
   }
   ngOnInit(): void {
-
-    this.core.RolObservable.subscribe(async (data)=>{
-      NavData(navData, this.nav,data);
+    this.core.RolObservable.subscribe(async (data) => {
+      if (  typeof data === 'string') {
+        const response:any = await this.service.get('tipo-rols/' + data, localStorage.getItem('token')!).toPromise();
+          NavData(navData, this.nav,response.rol);
+      }
     });
-    // setTimeout(() => {
-    //   if(this.nav.length == 0){
-    //     location.reload();
-    //   }
-    // }, 3000);
-
-
   }
   Logout() {
-    localStorage.clear();
-    this.router.navigate(['/auth/login']);
+    this.service.get('usuarios/session_out',this.token).subscribe(data => {
+      localStorage.clear();
+      this.router.navigate(['/auth/login']);
+    },
+    (error) => {
+      console.log(error);
+      Mensaje('Error al cerrar session')
+    })
   }
   @HostListener('window:scroll')
   onScroll(event:any) {

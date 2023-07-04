@@ -4,7 +4,90 @@
       <span>Register</span>
     </mat-toolbar>
     <mat-card-content>
-      <form [formGroup]="registerForm" (submit)="Register()">
+      <form [formGroup] = "registerForm" (submit)="Register()" class="w-100">
+        <div class="row mt-3">
+          <div class="form-group  col-4" *ngFor="let field of fields" [ngSwitch]="field.type">
+            <ng-container *ngSwitchCase="'text'">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label>{{field.label}}</mat-label>
+                <input matInput [type]="field.type"
+                 [placeholder]="field.placeholder" [formControlName]="field.name">
+              </mat-form-field>
+            </ng-container>
+            <ng-container  *ngSwitchCase="'date'">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label>{{field.label}}</mat-label>
+                <input matInput [matDatepicker]="datepicker"  [formControlName]="field.name">
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+                <mat-datepicker #datepicker>
+                  <mat-datepicker-actions>
+                    <button mat-button matDatepickerCancel>Cancel</button>
+                    <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+                  </mat-datepicker-actions>
+                </mat-datepicker>
+              </mat-form-field>
+            </ng-container>
+            <ng-container  *ngSwitchCase="'time'">
+              <label for="meeting-time" class="m-0">{{field.placeholder}}</label>
+              <input type="time" id="meeting-time" name="meeting-time" value="2018-06-12T19:30" min="2018-06-07T00:00" max="2018-06-14T00:00"style="height: 34px;" class="w-100"  [formControlName]="field.name">
+            </ng-container>
+            <ng-container  *ngSwitchCase="'select'">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label>{{field.label}}</mat-label>
+                <!-- *ngIf="field.name != 'rol'" -->
+                <mat-select [formControlName]="field.name" >
+                  <mat-option  *ngFor="let option of field.options" [value]="option.value">{{ option.label }}</mat-option>
+                </mat-select>
+                <!-- <mat-select [formControlName]="field.name" *ngIf="field.name == 'rol'">
+                  <mat-option *ngFor="let rol of  rols$ | async" [value]="rol.id">
+                    {{rol.rol}}
+                  </mat-option>
+                </mat-select> -->
+              </mat-form-field>
+            </ng-container>
+            <ng-container *ngSwitchCase="'email'">
+              <mat-form-field  appearance="fill" class="w-100">
+                <mat-label>{{field.label}}</mat-label>
+                <input matInput [type]="field.type" [placeholder]="field.placeholder" [formControlName]="field.name">
+              </mat-form-field>
+            </ng-container>
+            <ng-container *ngSwitchCase="'password'">
+              <mat-form-field  appearance="fill" class="w-100">
+                <mat-label>{{field.label}}</mat-label>
+                <input matInput [type]="field.type" [placeholder]="field.placeholder" [formControlName]="field.name">
+              </mat-form-field>
+            </ng-container>
+            <ng-container *ngSwitchCase="'number'">
+              <mat-form-field  appearance="fill" class="w-100">
+                <mat-label>{{field.label}}</mat-label>
+                <input matInput [type]="field.type" [placeholder]="field.placeholder" [formControlName]="field.name">
+              </mat-form-field>
+            </ng-container>
+            <ng-container *ngSwitchCase="'textarea'">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label>{{field.label}}</mat-label>
+                <textarea matInput  [placeholder]="field.placeholder" [formControlName]="field.name"></textarea>
+              </mat-form-field>
+            </ng-container>
+            <ng-container *ngSwitchCase="'checkbox'">
+              <mat-slide-toggle class="w-100" [formControlName]="field.name">{{field.label}}</mat-slide-toggle>
+            </ng-container>
+            <mat-error *ngIf="registerForm.controls[field.name].invalid && registerForm.controls[field.name].touched" class="text-danger">
+              <p *ngIf="registerForm.controls[field.name].hasError('required')"> Campo requerido </p>
+              <p *ngIf="registerForm.controls[field.name].hasError('minlength')"> El numero minimo de caracteres son {{field.minLength}}</p>
+              <p *ngIf="registerForm.controls[field.name].hasError('maxlength')"> El numero maximo de caracteres son {{field.maxLength}} </p>
+              <p *ngIf="registerForm.controls[field.name].hasError('pattern') && field.name =='tel_cel' || field.name == 'nss'"> Solo se permite numeros </p>
+              <p *ngIf="registerForm.controls[field.name].hasError('pattern') && field.name =='email'">El correo electrónico debe tener el siguiente formato: nombredeusuario@dominio.extension. Asegúrate de que el dominio sea uno de los siguientes: gmail, outlook, yahoo, aol, icloud, protonmail, zoho, mail, gmx, yandex, tutanota, fastmail, hushmail, disroot o riseup.</p>
+              <p *ngIf="registerForm.controls[field.name].hasError('pattern') && field.name =='password'"> Al menos una letra miniscula, al menos una letra mayuscula, al menos un digito al menos un caracter especial ($@$!%*?&) y ningun digito duplicado y sin espacios</p>
+            </mat-error>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <button mat-raised-button type="submit" color="primary" class="w-25 mt-4 mb-2"  color="warn" > Register </button>
+        </div>
+      </form>
+      <!-- <form [formGroup]="registerForm" (submit)="Register()">
         <div class="row mt-4">
           <div class="form-group col-4">
             <mat-form-field  appearance="fill" class="w-100">
@@ -57,7 +140,6 @@
               <mat-error *ngIf="submitted && registerForm.controls.fecha_nac.errors.required" class="text-danger">
                 La fecha de nacimento es requerida
               </mat-error>
-
             </div>
           </div>
           <div class="form-group col-4">
@@ -424,7 +506,7 @@
         <div class="row justify-content-center">
           <button mat-raised-button type="submit" color="primary" class="w-25 mt-4 mb-2"  color="warn" > Register </button>
         </div>
-      </form>
+      </form> -->
     </mat-card-content>
   </mat-card>
 </div>

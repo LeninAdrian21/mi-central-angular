@@ -1,6 +1,8 @@
+import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
-import { BehaviorSubject, catchError, map } from 'rxjs';
+import { BehaviorSubject, catchError, map, throwError } from 'rxjs';
+import { Mensaje } from 'src/functions/functions';
 import Swal from 'sweetalert2';
 const QUERY = gql`
 query {
@@ -77,7 +79,7 @@ const Pagination = gql`
 export class DataLotesService {
   private lotesSubject = new BehaviorSubject<any>([]);
   lotes$ = this.lotesSubject.asObservable();
-
+  headers = new HttpHeaders().set( 'authorization','Bearer ' + localStorage.getItem('token'));
   constructor(private apollo: Apollo) {
     this.GetData();
   }
@@ -120,19 +122,17 @@ export class DataLotesService {
           cost,
           shopping_cost,
           product_name
+        },context:{
+          headers: this.headers
         }
     })
     .valueChanges.pipe(
       map((result: any) => result.data.paginationLot),
-      catchError((error: any) => {
-        console.error('Error occurred:', error);
-        // Puedes realizar alguna acción adicional aquí si es necesario.
-        // Por ejemplo, puedes enviar el error a un servicio de registro.
-        return Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: 'Error al mostrar los lotes',
-        })
+      catchError((error:any) => {
+        console.error('Ocurrió un error:', error);
+        Mensaje(error);
+        return throwError(error);
+        // Mensaje(errorMessage)
       })
     )
   }

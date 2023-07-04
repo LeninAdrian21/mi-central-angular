@@ -10,7 +10,6 @@ import { NavComponent } from './nav/nav.component';
 import { HttpClientModule } from '@angular/common/http';
 import { GraphQLModule } from './graphql.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { PopUpComponent } from './pop-up/pop-up.component';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxCaptchaModule } from 'ngx-captcha';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -23,7 +22,7 @@ import { environment } from 'src/environments/environment';
     AppComponent,
     NavComponent,
     DialogcomponentComponent,
-    PopUpComponent
+    // PopUpComponent
   ],
   imports: [
     BrowserModule,

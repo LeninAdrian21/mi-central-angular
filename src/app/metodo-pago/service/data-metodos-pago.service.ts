@@ -1,3 +1,4 @@
+import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
 import { BehaviorSubject, catchError, map, throwError } from 'rxjs';
@@ -119,6 +120,7 @@ const Pagination = gql`
 export class DataMetodosPagoService {
   private metodoPagoSubject = new BehaviorSubject<any>([]);
   metodosPago$ = this.metodoPagoSubject.asObservable();
+  headers = new HttpHeaders().set( 'authorization','Bearer ' + localStorage.getItem('token'));
   constructor(private apollo:Apollo) {
     this.GetData();
 
@@ -179,6 +181,9 @@ export class DataMetodosPagoService {
         credits_limit,
         username,
         sale_amount
+      },
+      context:{
+        headers: this.headers
       }
     })
     .valueChanges.pipe(

@@ -1,6 +1,8 @@
+import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { gql,Apollo } from 'apollo-angular';
-import { BehaviorSubject, map } from 'rxjs';
+import { BehaviorSubject, catchError, map, throwError } from 'rxjs';
+import { Mensaje } from 'src/functions/functions';
 import Swal from 'sweetalert2';
 
 const QUERY = gql`
@@ -96,6 +98,7 @@ const Pagination = gql`
 export class DataCreditosService {
   private creditosSubject = new BehaviorSubject<any>([]);
   creditos$ = this.creditosSubject.asObservable();
+  headers = new HttpHeaders().set( 'authorization','Bearer ' + localStorage.getItem('token'));
   constructor( private apollo: Apollo) {
     this.GetData();
   }
@@ -145,10 +148,19 @@ export class DataCreditosService {
         payments,
         payment_method,
         user,
+      },
+      context:{
+        headers: this.headers
       }
     })
     .valueChanges.pipe(
-      map((result:any) => result.data.paginationcredit)
+      map((result:any) => result.data.paginationcredit),
+      catchError((error:any) => {
+        console.error('Ocurrió un error:', error);
+        Mensaje(error);
+        return throwError(error);
+        // Mensaje(errorMessage)
+      })
     );
   }
 }

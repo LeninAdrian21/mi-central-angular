@@ -1,20 +1,8 @@
-export const Form = (type:string, date:any)=> {
-  const currentDateTime = new Date();
-
-// Obtener los componentes de la fecha y hora
-const year = currentDateTime.getFullYear();
-const month = currentDateTime.getMonth() + 1;
-const day = currentDateTime.getDate();
-const hours = currentDateTime.getHours();
-const minutes = currentDateTime.getMinutes();
-const seconds = currentDateTime.getSeconds();
-
-// Crear una cadena de texto en el formato deseado
-const formattedDateTime = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')} ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+export const Form = (type:string, date?:any)=> {
   const formfield:any = {
     abono: [
       { label: 'Cantidad de abono', type: 'text', placeholder: 'Cantidad de abono', name: 'cantidad_abono', required: true, disabled: false},
-      { label: 'Fecha de abono', type: 'text', name: 'fecha_abono', required: true, disabled: true, default: new Date() },
+      { label: 'Fecha de abono', type: 'text', name: 'fecha_abono', required: true, disabled: true, default:date},
       { label: 'Estado del abono', type: 'select', name: 'estado_abono', required: true, disabled: false, options: [
         { value: 'devolucion', label: 'Devolucion' },
         { value: 'cancelacion', label: 'Cancelacion' },
@@ -27,8 +15,60 @@ const formattedDateTime = `${year}-${month.toString().padStart(2, '0')}-${day.to
       ]},
       { label: 'Creditos', type: 'select', name: 'id_credito', required: false, disabled: false},
       { label: 'Usuarios', type: 'select', name: 'id_usuario', required: false, disabled: false}
+    ],
+    usuarioRegister: [
+      { label: 'Nombre', type: 'text', placeholder: 'Nombre', name: 'nombre', required: true,minLength:3, disabled: false },
+      { label: 'Apellido Paterno', type: 'text', placeholder: 'Apellido Paterno', name: 'ap_paterno', required: true, disabled: false },
+      { label: 'Apellido Materno', type: 'text', placeholder: 'Apellido Materno', name: 'ap_materno', required: false, minLength:3, disabled: false },
+      { label: 'Fecha de Nacimiento', type: 'date', name: 'fecha_nac', required: true, disabled: false },
+      { label: 'Género', type: 'select', name: 'genero', required: true, disabled: false, options: [
+        { value: 'masculino', label: 'Masculino' },
+        { value: 'femenino', label: 'Femenino' }
+      ]},
+      { label: 'Fecha de Inscripción', type: 'date', name: 'fecha_ins', required: true, disabled: false },
+      { label: 'Fecha de Alta', type: 'date', name: 'fecha_alta', required: true, disabled: false },
+      { label: 'RFC', type: 'text', placeholder: 'RFC', name: 'rfc', required: true,minLength:14,maxLength:14, disabled: false },
+      { label: 'CURP', type: 'text', placeholder: 'CURP', name: 'curp', required: true,minLength:18,maxLength:18, disabled: false },
+      { label: 'Numero de seguro social', type: 'text', placeholder: 'Numero de seguro social', name: 'nss', required: false,minLength:8,maxLength:8,pattern:/^\d+$/,disabled: false },
+      { label: 'Teléfono Celular', type: 'text', placeholder: 'Teléfono Celular', name: 'tel_cel', required: true,minLength:10,maxLength:10,pattern:/^\d+$/, disabled: false },
+      { label: 'Email', type: 'email', placeholder: 'Email', name: 'email', required: false, disabled: false, pattern:/^[a-zA-Z0-9._%+-]+@(gmail|outlook|yahoo|aol|icloud|protonmail|zoho|mail|gmx|yandex|tutanota|fastmail|hushmail|disroot|riseup)\.[a-zA-Z]{2,}$/, minLength:10},
+      { label: 'Password', type: 'password', placeholder: 'Pasword', name: 'password', required: true,minLength:8,maxLength:15,pattern:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@!%*?&])(?!.*(.)\1)[A-Za-z\d$@!%*?&]{8,15}(?!\s)/, disabled: false },
+      { label: 'Tipo de Sangre', type: 'select', name: 'tipo_sangre', required: true, disabled: false, options: [
+        { value: 'A+', label: 'A+' },
+        { value: 'A-', label: 'A-' },
+        { value: 'B+', label: 'B+' },
+        { value: 'B-', label: 'B-' },
+        { value: 'AB+', label: 'AB+' },
+        { value: 'AB-', label: 'AB-' },
+        { value: 'O+', label: 'O+' },
+        { value: 'O-', label: 'O-' }
+      ]},
+      { label: 'Licencia', type: 'text', placeholder: 'Licencia', name: 'licencia', required: true, disabled: false },
+      { label: 'Alergias', type: 'text', placeholder: 'Alergias', name: 'alergias', required: true, disabled: false },
+      { label: 'Padecimientos', type: 'text', placeholder: 'Padecimientos', name: 'padecimientos', required: true, disabled: false },
+      { label: 'Nacionalidad', type: 'text', placeholder: 'Nacionalidad', name: 'nacionalidad', required: true, disabled: false },
+      { label: 'Calle', type: 'text', placeholder: 'Calle', name: 'calle', required: true, disabled: false },
+      { label: 'Número', type: 'number', placeholder: 'Número', name: 'numero', required: true, disabled: false },
+      { label: 'Colonia', type: 'text', placeholder: 'Colonia', name: 'colonia', required: true, disabled: false },
+      { label: 'Código Postal', type: 'text', placeholder: 'Código Postal', name: 'cp', required: true, disabled: false },
+      { label: 'Municipio', type: 'text', placeholder: 'Municipio', name: 'municipio', required: true, disabled: false },
+      { label: 'Ciudad', type: 'text', placeholder: 'Ciudad', name: 'ciudad', required: true, disabled: false },
+      { label: 'País', type: 'text', placeholder: 'País', name: 'pais', required: true, disabled: false },
+      { label: 'Referencia directa', type: 'text', placeholder: 'Referencia directa', name: 'ref_dir', required: true, disabled: false },
+      { label: 'Rol', type: 'select', name: 'rol', required: false, disabled: false,
+      default: '64a32140e36daf2da8ca7570', options:[
+        {value: '64a32140e36daf2da8ca7570', label: 'User'}
+      ]
+    },
+      { label: 'Comentario', type: 'textarea', placeholder: 'Comentario', name: 'comentario', required: true, disabled: false },
+      { label: 'Status', type: 'checkbox', name: 'status', disabled: false, default: false },
+      {name: 'recapcha'},
+    ],
+    userLoggin:[
+
     ]
   }
   return formfield[type] || [];
 }
+
 

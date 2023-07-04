@@ -1,914 +1,126 @@
-
-const token = localStorage.getItem('token');
-//Dialog
-
-
-export function openDialog(id:string,url:string,title:string,table:string,dialog:any,component:any){
-  dialog.open(component, {
-    height:'550px',width:'500px',
-    data:{
-      id,
-      url,
-      title:title,
-      table:table
-    }
+import Swal from 'sweetalert2';
+import { relations } from './relations';
+import { update } from './update';
+export function Mensaje(mensaje: string, icon: any = 'error') {
+  Swal.fire({
+    position: 'center',
+    icon: icon,
+    title: mensaje,
+    showConfirmButton: false,
+    timer: 1500,
   });
 }
-export function deleteDialog(id:string,service:any,url:any,dialog:any,component:any){
-  dialog.open(component, {
-    height:'230px',width:'520px',
-    data:{
-      id,
-      service,
-      url
+export const Funcions = {
+  ListaAutoComplete(data: any, options: any) {
+    for (const item of options) {
+      for (const key in item) {
+        if (key != '__typename' && item[key]) {
+          if (key == 'usuario') {
+            if (!data[key].includes(item[key].nombre)) {
+              data[key].push(item[key].nombre);
+            }
+          } else if (key == 'credito') {
+            if (!data[key].includes(item[key].intereses)) {
+              console.log(item[key].intereses);
+              data[key].push(item[key].intereses);
+            }
+          } else {
+            if (!data[key].includes(item[key])) {
+              data[key].push(item[key]);
+            }
+          }
+        }
+      }
     }
-  });
-}
+  },
+  OpenDialog(
+    id: any,
+    url: any,
+    title: any,
+    table: any,
+    dialog: any,
+    component: any
+  ) {
+    dialog.open(component, {
+      height: '550px',
+      width: '500px',
+      data: {
+        id,
+        url,
+        title: title,
+        table: table,
+      },
+    });
+  },
+  Relations(form: any, collection: string, date?: any) {
+    return relations(form, collection, date);
+  },
+  CollectionId(service: any, url: any, formGroup: any, collection: any) {
+    update[collection](service, url, formGroup)
+  },
+  add(service:any,router:any,form:any,url:any, collection: any,navigate:any,message:any,error_message:any,date?:any) {
+    let body = Funcions.Relations(form, collection, date);
+    console.log(body);
+    service.register(url, body).subscribe(
+      (data:any) =>{
+        Mensaje(message,'success')
+        service.addCampo = true;
+        setTimeout(() => {
+          router.navigate([navigate]);
+        }, 1600);
+      },
+      (error:any) =>{
+        console.error(error);
+        Mensaje(error_message);
+      }
+    )
+  },
+  update(service:any,url:any,id:any,router:any,form:any, collection:any, navigate:any){
+    let body = Funcions.Relations(form,collection);
+    service.update(url,id,body,localStorage.getItem('token')!).subscribe(
+      (data:any)=>{
+        Mensaje('Se ha actualizado','success');
+        service.addCampo = true;
+        setTimeout(()=> {
+          router.navigate([navigate]);
+        },1600);
+      },
+      (error:any) =>{
+        console.log(error);
+        Mensaje('Error al actualizar');
+      }
+    )
+  },
+  delete(id:string,service:any,url:any,peticion:any,message:any,error_message = 'No se pudo eliminar'){
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        if(peticion == 'update_mostrar'){
+          service.update(url,id,{mostrar:false},localStorage.getItem('token')!).subscribe(
+            (data:any)=>{
+              Mensaje(message,'success');
+              setTimeout(() => {
+                location.reload();
+              }, 1000);
+            },
+            (error:any) =>{
+              Mensaje(error_message);
+            }
+          )
+        }
+      }
+    })
+  },
 
-export function abonoId(service:any,url:any, formGroup:any){
-  service.get(url,token).subscribe(
-    (data:any) => {
-      formGroup.patchValue({
-        cantidad_abono: data.cantidad_abono,
-        fecha_abono: data.fecha_abono,
-        estado_abono: data.estado_abono,
-      });
-      if (data.credito){
-        formGroup.patchValue({
-          credito_id: data.credito.id,
-          usuario_id: data.usuario.id,
-        });
-      }
-      if(data.usuario){
-        formGroup.patchValue({
-          usuario_id: data.usuario.id,
-        });
-      }
-    },
-    (error:any) => {
-      console.log(error);
-      alert('Error');
-    }
-  );
-}
-export function camionId(service:any, url:any,formgroup:any, formBuilder:any, Validators:any, getplacas:any){
-  service.get(url,token).subscribe(
-    (data:any) => {
-      console.log(data);
-      const {placas} = data;
-      formgroup.patchValue({
-        num_serie:data.num_serie,
-        niv:data.niv
-      })
-      placas.forEach((element: any) => {
-        const placaFormGroup = formBuilder.group({
-          placa: [element.placa,[Validators.required,Validators.minLength(6),Validators.maxLength(6)]],
-          activa: [element.activa,[Validators.required]],
-          estado: [element.estado,[Validators.required,  Validators.minLength(4),, Validators.maxLength(17)]],
-        });
-        getplacas.push(placaFormGroup)
-      })
-      if (data.gastos.length > 0){
-        formgroup.patchValue({
-          id_gastos:data.gastos[0].id
-        })
-      }
-      if(data.historial){
-        formgroup.patchValue({
-          id_historial:data.historial.id
-        })
-      }
-      if(data.usuario){
-        formgroup.patchValue({
-          id_usuario:data.usuario.id
-        })
-      }
-      if(data.rutas.length > 0){
-        formgroup.patchValue({
-          id_rutas:data.rutas[0].id
-        })
-      }
+};
 
-    },
-    (error:any) => {
-      console.log(error);
-      alert('Error');
-    }
-  );
-}
-export function carritoId(service:any, url:any,formgroup:any){
-  service.get(url,token).subscribe(
-    (data:any) => {
-      formgroup.patchValue({
-        cantidad: data.cantidad
-      })
-      if (data.usuario){
-        formgroup.patchValue({
-          id_usuario:data.usuario.id
-        })
-      }
-      if(data.productos.length > 0){
-        formgroup.patchValue({
-          id_productos: data.productos[0].id
-        })
-      }
-    },
-    (error:any) => {
-      console.log(error);
-      alert('Error');
-    }
-  );
-}
-export function compraId(service:any, url:any,formgroup:any){
-  service.get(url,token).subscribe(
-    (data:any) => {
-      console.log(data);
-      formgroup.patchValue({
-        costo:data.costo,
-        fecha_pedido: data.fecha_pedido,
-        referencia: data.referencia,
-        fecha_llegada: data.fecha_llegada,
-        status: data.status
-      })
-      if(data.metodo_pago){
-        formgroup.patchValue({
-          id_metodoPago:data.metodo_pago.id
-        })
-      }
-      if(data.lote){
-        formgroup.patchValue({
-          id_lote:data.lote.id
-        })
-      }
-      if(data.proveedor){
-        formgroup.patchValue({
-          id_proveedor:data.proveedor.id
-        })
-      }
-    },
-    (error:any) => {
-      console.log(error);
-      alert('Error');
-    }
-  )
-}
-export function creditoId(service:any, url:any,formgroup:any){
-  service.get(url,token).subscribe(
-    (data:any) => {
-      const {limite,fecha_alta,fecha_baja,vigencia,intereses,status,usuario,metodos_de_pago,abonos} = data;
-      formgroup.patchValue({
-        limite,
-        fecha_alta,
-        fecha_baja,
-        vigencia,
-        intereses,
-        status,
-      })
-      if(usuario){
-        formgroup.patchValue({
-          id_usuario:usuario.id
-        })
-      }
-      if(metodos_de_pago){
-        formgroup.patchValue({
-          id_metodoPago:metodos_de_pago.id
-        })
-      }
-      if(abonos.length > 0){
-        formgroup.patchValue({
-          id_abonos:abonos[0].id
-        })
-      }
-    },
-    (error:any) => {
-      console.log(error);
-      alert('Error');
-    }
-  )
-}
-export function dimensionesId(service:any, url:any,formgroup:any){
-  service.get(url,token).subscribe(
-    (data:any) => {
-      const {nombre,ancho,alto,largo,productos} = data;
-      formgroup.patchValue({
-        nombre,
-        ancho,
-        alto,
-        largo
-      })
-      if(productos.length > 0){
-        formgroup.patchValue({
-          id_productos:productos[0].id
-        })
-      }
-    },
-    (error:any) => {
-      console.log(error);
-      alert('Error');
-    }
-  )
-}
-export function gastosId(service:any, url:any,formgroup:any){
-  service.get(url,token).subscribe(
-    (data:any) => {
-      const {descripcion,fecha,monto,categoria,status,usuario,camions} = data;
-      formgroup.patchValue({
-        descripcion,
-        fecha,
-        monto,
-        categoria,
-        status
-      })
-      if(usuario){
-        formgroup.patchValue({
-          id_usuario:usuario.id
-        })
-      }
-      if(camions.length > 0){
-        formgroup.patchValue({
-          id_camiones:camions[0].id
-        })
-      }
-    },
-    (error:any) => {
-      console.log(error);
-      alert('Error');
-    }
-  )
-}
-export function historialesId(service:any, url:any,formgroup:any){
-  service.get(url,token).subscribe(
-    (data:any) => {
-      const {fecha,status,hora_inicio,hora_fin,usuario,camions} = data;
-      formgroup.patchValue({
-        fecha,status,hora_inicio,hora_fin
-      })
-      if(usuario){
-        formgroup.patchValue({
-          id_usuario:usuario.id
-        })
-      }
-      if(camions.length > 0){
-        formgroup.patchValue({
-          id_camiones:camions[0].id
-        })
-      }
-    },
-    (error:any) => {
-      console.log(error);
-      alert('Error');
-    }
-  )
-}
-export function localesId(service:any, url:any,formgroup:any){
-  service.get(url,token).subscribe(
-    (data:any) => {
-      console.log(data)
-      const {
-        nombre,
-        alias,
-        razon_social,
-        rfc,
-        fecha_alta,
-        calle,
-        Colonia,
-        numero_ext,
-        Municipio,
-        numero_int,
-        ciudad,
-        cp,
-        latitud,
-        longitud,
-        telefono,
-        telefono_cel,
-        giro,
-        status,
-        ventas,
-        usuario
-      } = data;
-      formgroup.patchValue({
-        nombre,
-        alias,
-        razon_social,
-        rfc,
-        fecha_alta,
-        calle,
-        Colonia,
-        numero_ext,
-        Municipio,
-        numero_int,
-        ciudad,
-        cp,
-        latitud,
-        longitud,
-        telefono,
-        telefono_cel,
-        giro,
-        status,
-      })
-      if(ventas.length > 0){
-        formgroup.patchValue({
-          id_ventas:ventas[0].id
-        })
-      }
-      if(usuario.length > 0){
-        formgroup.patchValue({
-          id_usuario:usuario[0].id
-        })
-      }
 
-    },
-    (error:any) => {
-      console.log(error);
-      alert('Error');
-    }
-  )
-}
-export function lotesId(service:any, url:any,formgroup:any){
-  service.get(url,token).subscribe(
-    (data:any) => {
-      console.log(data);
-      const {
-        codigo_interno,
-        fecha_arrivo,
-        fecha_caducidad,
-        fecha_adquisio,
-        costo,
-        compras,
-        productos
-      } = data;
-      formgroup.patchValue({
-        codigo_interno,
-        fecha_arrivo,
-        fecha_caducidad,
-        fecha_adquisio,
-        costo,
-      })
-      if(compras.length > 0){
-        formgroup.patchValue({
-          costo_compra:compras[0].id
-        })
-      }
-      if(productos.length > 0){
-        formgroup.patchValue({
-          nombre_producto:productos[0].id
-        })
-      }
-    },
-    (error:any) => {
-      console.log(error);
-      alert('Error');
-    }
-  )
-}
-export function metodoPagoId(service:any, url:any,formgroup:any){
-  service.get(url,token).subscribe(
-    (data:any) => {
-      console.log(data)
-      const {
-        numero_tarjeta,
-        mes,
-        anio,
-        cvc,
-        titular,
-        fecha_expedicion,
-        fecha_ingreso,
-        folio,
-        referencia,
-        tipo,
-        descripcion,
-        usuario,
-        venta,
-        creditos,
-        compras
-      } = data;
-      formgroup.patchValue({
-        numero_tarjeta,
-        mes,
-        anio,
-        cvc,
-        titular,
-        fecha_expedicion,
-        fecha_ingreso,
-        folio,
-        referencia,
-        tipo,
-        descripcion,
-      })
-      if(usuario){
-        formgroup.patchValue({
-          id_usuario:usuario.id
-        })
-      }
-      if(venta){
-        formgroup.patchValue({
-          id_venta:venta.id
-        })
-      }
-      if(creditos.length > 0){
-        formgroup.patchValue({
-          id_creditos:creditos[0].id
-        })
-      }
-      if(compras.length > 0){
-        formgroup.patchValue({
-          id_compras:compras[0].id
-        })
-      }
-
-    },
-    (error:any) => {
-      console.log(error);
-      alert('Error');
-    }
-  )
-}
-export function productosId(service:any, url:any,formgroup:any){
-  service.get(url,token).subscribe(
-    (data:any) => {
-      console.log(data)
-      const {
-        nombre,
-        codigo_barras,
-        codigo_interno,
-        peso_neto,
-        presentacion,
-        marca,
-        descripcion_generica,
-        precio,
-        costo,
-        inventario_disp,
-        value_min,
-        status,
-        venta_gramos,
-        dimension,
-        lote,
-        promociones,
-        proveedor,
-        carritos,
-      } = data;
-      formgroup.patchValue({
-        nombre,
-        codigo_barras,
-        codigo_interno,
-        peso_neto,
-        presentacion,
-        marca,
-        descripcion_generica,
-        precio,
-        costo,
-        inventario_disp,
-        value_min,
-        status,
-        venta_gramos,
-      })
-      if(dimension){
-        formgroup.patchValue({
-          id_dimension:dimension.id
-        })
-      }
-      if(lote){
-        formgroup.patchValue({
-          id_lote:lote.id
-        })
-      }
-      if(promociones.length > 0){
-        formgroup.patchValue({
-          id_promociones:promociones[0].id
-        })
-      }
-      if(proveedor){
-        formgroup.patchValue({
-          id_proveedor:proveedor.id
-        })
-      }
-      if(carritos.length > 0){
-        formgroup.patchValue({
-          id_carritos:carritos[0].id
-        })
-      }
-
-    },
-    (error:any) => {
-      console.log(error);
-      alert('Error');
-    }
-  )
-}
-export function promocionesId(service:any, url:any,formgroup:any){
-  service.get(url,token).subscribe(
-    (data:any) => {
-      const {
-        fecha_creacion,
-        fecha_vigencia,
-        valor_descuento,
-        codigo_ref,
-        condicion,
-        productos
-      } = data;
-
-      formgroup.patchValue({
-        fecha_creacion,
-        fecha_vigencia,
-        valor_descuento,
-        codigo_ref,
-        condicion
-      })
-      if(productos.length > 0){
-        formgroup.patchValue({
-          producto_nombre:productos[0].id
-        })
-      }
-
-    },
-    (error:any) => {
-      console.log(error);
-      alert('Error');
-    }
-  )
-}
-export function proveedoresId(service:any, url:any,formgroup:any){
-  service.get(url,token).subscribe(
-    (data:any) => {
-      const {
-        nombre,
-        razon_social,
-        rfc,
-        fecha_alta,
-        calle,
-        numero,
-        colonia,
-        cp,
-        municipio,
-        ciudad,
-        pais,
-        visita_programada,
-        status,
-        productos,
-        compras
-      } = data;
-      formgroup.patchValue({
-        nombre,
-        razon_social,
-        rfc,
-        fecha_alta,
-        calle,
-        numero,
-        colonia,
-        cp,
-        municipio,
-        ciudad,
-        pais,
-        visita_programada,
-        status,
-      })
-      if(productos.length > 0){
-        formgroup.patchValue({
-          producto_nombre:productos[0].id
-        })
-      }
-      if(compras.length > 0){
-        formgroup.patchValue({
-          id_compra:compras[0].id
-        })
-      }
-    },
-    (error:any) => {
-      console.log(error);
-      alert('Error');
-    }
-  )
-}
-export function rutasId(service:any, url:any,formgroup:any){
-  service.get(url,token).subscribe(
-    (data:any) => {
-      const {
-        descripcion,
-        lugar_origen,
-        destino,
-        fecha_salida,
-        fecha_llegada,
-        ruta_ciclica,
-        referencia,
-        nombre_mercancia_recibida,
-        comentarios,
-        estado,
-        ventas,
-        camions
-      } = data;
-      formgroup.patchValue({
-        descripcion,
-        lugar_origen,
-        destino,
-        fecha_salida,
-        fecha_llegada,
-        ruta_ciclica,
-        referencia,
-        nombre_mercancia_recibida,
-        comentarios,
-        estado,
-      })
-      if(ventas.length > 0){
-        formgroup.patchValue({
-          monto_venta:ventas[0].id
-        })
-      }
-      if(camions.length > 0){
-        formgroup.patchValue({
-          num_serie_camion:camions[0].id
-        })
-      }
-    },
-    (error:any) => {
-      console.log(error);
-      alert('Error');
-    }
-  )
-}
-export function usuariosId(service:any, url:any,formgroup:any){
-  service.get(url,token).subscribe(
-    (data:any) => {
-      const {
-        nombre,
-        ap_paterno,
-        ap_materno,
-        fecha_nac,
-        genero,
-        fecha_ins,
-        fecha_alta,
-        rfc,
-        curp,
-        nss,
-        tel_cel,
-        email,
-        tipo_sangre,
-        licencia,
-        alergias,
-        padecimientos,
-        nacionalidad,
-        calle,
-        numero,
-        colonia,
-        cp,
-        municipio,
-        ciudad,
-        pais,
-        ref_dir,
-        status,
-        comment,
-        abonos,
-        camiones,
-        carritos,
-        creditos,
-        gastos,
-        historiales,
-        locals,
-        ventas,
-        metodo_pagos,
-        tipo_rol
-      } = data;
-      formgroup.patchValue({
-        nombre,
-        ap_paterno,
-        ap_materno,
-        fecha_nac,
-        genero,
-        fecha_ins,
-        fecha_alta,
-        rfc,
-        curp,
-        nss,
-        tel_cel,
-        email,
-        tipo_sangre,
-        licencia,
-        alergias,
-        padecimientos,
-        nacionalidad,
-        calle,
-        numero,
-        colonia,
-        cp,
-        municipio,
-        ciudad,
-        pais,
-        ref_dir,
-        status,
-        comment,
-      })
-      if(tipo_rol){
-        formgroup.patchValue({
-          id_tipo_rol: tipo_rol.id
-        })
-      }
-      if(gastos.length > 0){
-        formgroup.patchValue({
-          monto_gasto:gastos[0].id
-        })
-      }
-      if(locals.length > 0){
-        formgroup.patchValue({
-          nombre_local:locals[0].id
-        })
-      }
-      if(ventas.length > 0){
-        formgroup.patchValue({
-          monto_venta:ventas[0].id
-        })
-      }
-      if(camiones.length > 0){
-        formgroup.patchValue({
-          num_serie_camion:camiones[0].id
-        })
-      }
-      if(carritos.length > 0){
-        formgroup.patchValue({
-          id_carrito:carritos[0].id
-        })
-      }
-      if(abonos.length > 0){
-        formgroup.patchValue({
-          cantidad_abono:abonos[0].id
-        })
-      }
-      if(creditos.length > 0){
-        formgroup.patchValue({
-          limite_credito:creditos[0].id
-        })
-      }
-      if(historiales.length > 0){
-        formgroup.patchValue({
-          fecha_historial:historiales[0].id
-        })
-      }
-      if(metodo_pagos.length > 0){
-        formgroup.patchValue({
-          numero_tarjeta_metodo_pago:metodo_pagos[0].id
-        })
-      }
-    },
-    (error:any) => {
-      console.log(error);
-      alert('Error');
-    }
-  )
-}
-export function VendedoresId(service:any, url:any,formgroup:any){
-  service.get(url,token).subscribe(
-    (data:any) => {
-      const {
-        nombre,
-        ventas
-      } = data;
-      formgroup.patchValue({
-        nombre
-      })
-      if(ventas.length > 0){
-        formgroup.patchValue({
-          monto_venta:ventas[0].id
-        })
-      }
-    },
-    (error:any) => {
-      console.log(error);
-      alert('Error');
-    }
-  )
-}
-export function VentasId(service:any, url:any,formgroup:any){
-  service.get(url,token).subscribe(
-    (data:any) => {
-      const {
-        monto,
-        monto_total,
-        fecha,
-        status,
-        clasificacion,
-        fecha_entrega,
-        entrega_pendiente,
-        pagada,
-        carritos,
-        local,
-        metodos_de_pagos,
-        rutas,
-        usuario,
-        vendedor//es
-      } = data;
-      formgroup.patchValue({
-        monto,
-        monto_total,
-        fecha,
-        status,
-        clasificacion,
-        fecha_entrega,
-        entrega_pendiente,
-        pagada,
-      })
-      if(usuario){
-        formgroup.patchValue({
-          nombre_usuario:usuario.id
-        })
-      }
-      if(local){
-        formgroup.patchValue({
-          nombre_local:local.id
-        })
-      }
-      if(rutas.length > 0){
-        formgroup.patchValue({
-          lugar_origen_ruta:rutas[0].id
-        })
-      }
-      if(vendedor.length > 0){
-        formgroup.patchValue({
-          nombre_vendedor:vendedor[0].id
-        })
-      }
-      if(carritos.length > 0){
-        formgroup.patchValue({
-          cantidad_carrito:carritos[0].id
-        })
-      }
-      if(metodos_de_pagos.length > 0){
-        formgroup.patchValue({
-          numero_tarjeta_metodo_pago:metodos_de_pagos[0].id
-        })
-      }
-    },
-    (error:any) => {
-      console.log(error);
-      alert('Error');
-    }
-  )
-}
-export function Add(url:any,body:any,service:any,router:any,mensaje:any, navigate:any){
-  service.add(url,body,token).subscribe(
-    (data:any) => {
-      alert(mensaje);
-      router.navigate([navigate]);
-      service.addCampo = true;
-    },
-    (error:any) => {
-      console.log(error);
-      alert('Error al agregar');
-    }
-  );
-}
-export function Update(url:any, id:any,body:any,router:any,service:any, mensaje:any, navigate:any){
-  service.update(url,id,body,token).subscribe(
-    (data:any) => {
-      alert(mensaje);
-      router.navigate([navigate]);
-      service.addCampo = true;
-    },
-    (error:any) => {
-      console.log(error);
-      alert('Error al actualizar');
-    }
-  );
-}
-
-export function Delete(id:string,service:any,url:string ){
-  service.delete(url, id,token).subscribe(
-    (data:any) => {
-      alert('Se ha eliminado');
-      location.reload();
-    },
-    (error:any) => {
-      alert('Error al eliminar');
-      console.log(error);
-    }
-  );
-}
-
-export function deleteMostrar(id:string, service:any, url:string){
-  const body = {
-    mostrar:false
-  }
-  console.log(id,service,url);
-  service.update(url, id, body,token).subscribe(
-    (data:any) => {
-      alert('Se ha eliminado correctamente');
-      location.reload();
-    },
-    (error:any) => {
-      alert('Error al eliminar');
-      console.log(error);
-    }
-  );
-}
-export function deleteDialogMostrar(id:string,service:any,url:any,title:any,dialog:any,component:any){
-  dialog.open(component, {
-    height:'230px',width:'520px',
-
-    data:{
-      id,
-      service,
-      url,
-      title,
-      mostrar:true
-    }
-  });
-}
 
 

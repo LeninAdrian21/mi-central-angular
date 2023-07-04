@@ -12,15 +12,15 @@ export class AbonoService {
   usuarios$ = this.usuariosSubject.asObservable();
   token: any = localStorage.getItem('token');
   constructor(private service: CrudService) {
-    this.creditos();
-    this.usuarios();
+    this.Creditos();
+    this.Usuarios();
   }
-  creditos(){
+  Creditos(){
     this.service.get('creditos',  this.token).subscribe(
       (data: any) => {
         this.creditosSubject.next(data);
       },
-      (error) => { 
+      (error) => {
         console.log(error);
         Swal.fire({
           icon: 'error',
@@ -30,7 +30,7 @@ export class AbonoService {
       }
     );
   }
-  usuarios(){
+  Usuarios(){
     this.service.get('usuarios', this.token).subscribe(
       (data: any) => {
         this.usuariosSubject.next(data);

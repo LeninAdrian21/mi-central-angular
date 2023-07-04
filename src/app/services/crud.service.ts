@@ -43,6 +43,10 @@ export class CrudService {
     return this.http.post('/api/'+url, body, {headers: this.Headers(token)})
     .pipe(catchError(this.handleError));
   }
+  public register(url:string, body:any,) {
+    return this.http.post('/api/'+url, body)
+    .pipe(catchError(this.handleError));
+  }
   public delete(url:string, id:string, token:any) {
     return this.http.delete('/api/'+ url +'/'+ id, {headers: this.Headers(token)})
     .pipe(catchError(this.handleError));

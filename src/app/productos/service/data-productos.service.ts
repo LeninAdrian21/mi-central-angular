@@ -1,6 +1,8 @@
+import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
-import { BehaviorSubject, catchError, map } from 'rxjs';
+import { BehaviorSubject, catchError, map, throwError } from 'rxjs';
+import { Mensaje } from 'src/functions/functions';
 import Swal from 'sweetalert2';
 const QUERY = gql`
 query{
@@ -140,6 +142,7 @@ const Pagination = gql`
 export class DataProductosService {
   private productosSubject = new BehaviorSubject<any>([]);
   productos$ = this.productosSubject.asObservable();
+  headers = new HttpHeaders().set( 'authorization','Bearer ' + localStorage.getItem('token'));
   constructor(private apollo: Apollo) {
     this.GetData();
   }
@@ -206,17 +209,18 @@ export class DataProductosService {
         promotions_date_creation,
         batches_internal_code,
         provider_name
+      },
+      context:{
+        headers: this.headers
       }
     })
     .valueChanges.pipe(
       map((result: any) => result.data.paginationProduct),
-      catchError((error: any) => {
-        console.log('Error occurred:', error);
-        return Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: 'Error al mostrar los productos',
-        })
+      catchError((error:any) => {
+        console.error('Ocurrió un error:', error);
+        Mensaje(error);
+        return throwError(error);
+        // Mensaje(errorMessage)
       })
     );
   }

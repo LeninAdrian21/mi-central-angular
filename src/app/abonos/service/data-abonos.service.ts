@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { gql,Apollo } from 'apollo-angular';
-import { BehaviorSubject, Observable, map } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, map, throwError } from 'rxjs';
 import Swal from 'sweetalert2';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Mensaje } from 'src/functions/functions';
 
 const QUERY = gql`
 query {
@@ -119,7 +120,16 @@ export class DataAbonosService {
       }
     })
     .valueChanges.pipe(
-      map((result: any) => result.data.paginationpayments)
+      map((result: any) => result.data.paginationpayments),
+      catchError((error:any) => {
+        // Aquí puedes realizar el manejo del error y mostrar el mensaje al usuario
+        console.error('Ocurrió un error:', error);
+        // Puedes mostrar el mensaje al usuario de alguna manera, como mostrarlo en un componente o enviarlo a través de un Subject
+        // Ejemplo: this.errorMessageSubject.next(errorMessage);
+        Mensaje(error);
+        return throwError(error);
+        // Mensaje(errorMessage)
+      })
     );
   }
 }

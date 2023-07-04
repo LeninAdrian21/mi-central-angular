@@ -1,12 +1,18 @@
 import { HttpClient,HttpErrorResponse} from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { throwError as observableThrowError} from 'rxjs';
+import { BehaviorSubject, throwError as observableThrowError} from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { CrudService } from 'src/app/services/crud.service';
+import Swal from 'sweetalert2';
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  constructor(private http:HttpClient) { }
+  private rolsSubject = new BehaviorSubject<any>([]);
+  rols$ = this.rolsSubject.asObservable();
+  constructor(private http:HttpClient, private service: CrudService) {
+    this.Rols();
+  }
   handleError(error: HttpErrorResponse) {
     return observableThrowError(error.message );
   }
@@ -51,5 +57,20 @@ export class AuthService {
             .pipe(
               catchError(this.handleError)
             );
+  }
+  Rols(){
+    this.service.get('tipo-rols',localStorage.getItem('token')!).subscribe(
+      (data: any) => {
+        this.rolsSubject.next(data);
+      },
+      (error) => {
+        console.log(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Error a mostrar los creditos en el formulario',
+        })
+      }
+    );
   }
 }

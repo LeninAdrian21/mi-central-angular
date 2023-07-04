@@ -6,6 +6,7 @@ export const environment = {
   production: false,
   API_URL: "http://localhost:1337",
   useValue: "6Ldi6mgkAAAAAPyFgTgeIli5r_dDNK_Iu8Hu_CYA",
+  User: '64a32140e36daf2da8ca7570',
   Administrador: '633cc31197ead65f9859ab6f',
   Delivery_man: '633cc33497ead65f9859ab70',
   Manager: '633cc35097ead65f9859ab71',

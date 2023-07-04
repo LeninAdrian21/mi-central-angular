@@ -4,9 +4,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Observable, map, startWith } from 'rxjs';
 import { DialogcomponentComponent } from 'src/app/dialogcomponent/dialogcomponent.component';
-import { PopUpComponent } from 'src/app/pop-up/pop-up.component';
+
 import { CrudService } from 'src/app/services/crud.service';
-import { deleteDialog, openDialog } from 'src/functions/functions';
 import { table } from 'src/functions/table';
 import { DataVendedoresService } from '../../service/data-vendedores.service';
 import { Vendedor } from '../../functions/functions';
