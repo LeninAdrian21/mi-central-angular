@@ -12,26 +12,35 @@ export function Mensaje(mensaje: string, icon: any = 'error') {
 }
 export const Funcions = {
   ListaAutoComplete(data: any, options: any) {
-    for (const item of options) {
-      for (const key in item) {
-        if (key != '__typename' && item[key]) {
-          if (key == 'usuario') {
-            if (!data[key].includes(item[key].nombre)) {
-              data[key].push(item[key].nombre);
-            }
-          } else if (key == 'credito') {
-            if (!data[key].includes(item[key].intereses)) {
-              console.log(item[key].intereses);
-              data[key].push(item[key].intereses);
-            }
-          } else {
-            if (!data[key].includes(item[key])) {
-              data[key].push(item[key]);
-            }
-          }
-        }
-      }
-    }
+    console.log(data);
+    console.log(options);
+    // for (const item of options) {
+    //   for (const key in item) {
+    //     if (key != '__typename' && item[key]) {
+    //       if (key == 'usuario') {
+    //         if (!data[key].includes(item[key].nombre)) {
+    //           data[key].push(item[key].nombre);
+    //         }
+    //       } else if (key == 'credito') {
+    //         if (!data[key].includes(item[key].intereses)) {
+    //           console.log(item[key].intereses);
+    //           data[key].push(item[key].intereses);
+    //         }
+    //       } else {
+    //         if (!data[key].includes(item[key])) {
+    //           data[key].push(item[key]);
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
+  },
+  Dialog(dialog:any, component:any,height:any,width:any,data?:any){
+    dialog.open(component, {
+      height,
+      width,
+      data,
+    });
   },
   OpenDialog(
     id: any,

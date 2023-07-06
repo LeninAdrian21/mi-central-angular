@@ -1,7 +1,98 @@
-<div >
-  <h1 mat-dialog-title >Filter</h1>
-    <div mat-dialog-actions>
-      <button mat-button (click)="onNoClick()" class="bg-info">Close</button>
-    </div>
-  <br><br>
-</div>
+ <div>
+  <div class="container">
+    <mat-card >
+      <mat-toolbar class="justify-content-center" color="primary" >
+        <h1 mat-dialog-title class="text-center">Filter</h1>
+      </mat-toolbar>
+      <form [formGroup]="filterForm" class="w-100 mt-3">
+        <div formArrayName="filters">
+          <div *ngFor="let filter of filters.controls;let i = index">
+            <button mat-mini-fab color="primary" (click)="deleteFilter(i)" type="button">
+              <mat-icon>remove</mat-icon>
+            </button>
+            <div [formGroupName]="i" class="w-100">
+              <div class="row mt-2">
+                <div class="form-group col-4">
+                  <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{inputText[keyword]}}</mat-label>
+                    <mat-select matNativeControl formControlName="field">
+                      <mat-option *ngFor="let item of keywords"[value]="item">{{inputText[item]}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-error *ngIf="filter.get('field')?.invalid && filter.get('field')?.touched">Este campo es requerido</mat-error>
+                </div>
+              <div class="form-group col-4">
+                <mat-form-field appearance="fill" class="w-100">
+                  <mat-label>Operador</mat-label>
+                  <mat-select matNativeControl formControlName="operator">
+                    <mat-option value="igual">Igual a (==)</mat-option>
+                    <mat-option value="diferente">Diferente a (!=)</mat-option>
+                    <mat-option value="mayorIgual">Mayor o igual que (>=)</mat-option>
+                    <mat-option value="menorIgual">Menor o igual que (<=)</mat-option>
+                    <mat-option value="rango">Rango</mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <mat-error *ngIf="filter.get('operator')?.invalid && filter.get('operator')?.touched">Este campo es requerido</mat-error>
+              </div>
+              <div class="form-group col-4"  *ngIf="filter.get('operator')?.value !== 'mayorIgual' && filter.get('operator')?.value !== 'menorIgual' && filter.get('operator')?.value !== 'rango' && filter.get('operator')?.value !== ''">
+                <mat-form-field appearance="fill" class="w-100">
+                  <mat-label>Valor</mat-label>
+                  <input matInput type="text" formControlName="value" [matAutocomplete]="auto">
+                  <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                    <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                      {{option.name}}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+                <mat-error *ngIf="filter.get('value')?.invalid && filter.get('value')?.touched">Este campo es requerido</mat-error>
+              </div>
+              <div class="form-group col-4" *ngIf="filter.get('operator')?.value == 'menorIgual' && filter.get('operator')?.value !== ''">
+                <mat-form-field appearance="fill" class="w-100">
+                  <mat-label>Valor mínimo:</mat-label>
+                  <input matInput type="number" formControlName="rangeMin">
+                </mat-form-field>
+                <mat-error *ngIf="filter.get('rangeMin')?.invalid && filter.get('rangeMin')?.touched">Este campo es requerido</mat-error>
+              </div>
+              <div class="form-group col-4" *ngIf="filter.get('operator')?.value == 'mayorIgual' && filter.get('operator')?.value !== ''">
+                <mat-form-field appearance="fill" class="w-100">
+                  <mat-label>Valor máximo:</mat-label>
+                  <input matInput type="number" formControlName="rangeMax">
+                  <mat-error *ngIf="filter.get('rangeMax')?.invalid && filter.get('rangeMax')?.touched">Este campo es requerido</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="form-group col-4 w-100" *ngIf="filter.get('operator')?.value == 'rango' && filter.get('operator')?.value !== ''">
+                <div class="row">
+                  <div class="form-group col-6">
+                    <mat-form-field appearance="fill" class="w-100">
+                      <mat-label>Valor mínimo:</mat-label>
+                      <input matInput type="number" formControlName="rangeMin">
+                    </mat-form-field>
+                    <mat-error *ngIf="filter.get('rangeMin')?.invalid && filter.get('rangeMin')?.touched">Este campo es requerido</mat-error>
+                  </div>
+                  <div class="form-group col-6">
+                    <mat-form-field appearance="fill" class="w-100">
+                      <mat-label>Valor máximo:</mat-label>
+                      <input matInput type="number" formControlName="rangeMax">
+                      <mat-error *ngIf="filter.get('rangeMax')?.invalid && filter.get('rangeMax')?.touched">Este campo es requerido</mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+          </div>
+        <div class="row">
+          <button mat-mini-fab type="button" color="warn"(click)="addFilter()" class="ml-3">
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+      </form>
+      <br><br>
+      <div mat-dialog-actions class="d-flex justify-content-around" style="gap: 10px;">
+        <button mat-button type="button" class="bg-success" cdkFocusInitial (click)="Filter()">Accept</button>
+        <button mat-button (click)="onNoClick()" class="bg-danger">Close</button>
+      </div>
+      <br><br>
+    </mat-card>
+  </div>
