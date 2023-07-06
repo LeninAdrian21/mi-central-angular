@@ -32,8 +32,9 @@ export class NavComponent implements OnInit {
   Logout() {
     this.service.get('usuarios/session_out',this.token).subscribe(data => {
       console.log(data);
-      // localStorage.clear();
-      // this.router.navigate(['/auth/login']);
+
+      localStorage.clear();
+      this.router.navigate(['/auth/login']);
     },
     (error) => {
       console.log(error);
