@@ -32,7 +32,7 @@ export class NavComponent implements OnInit {
   Logout() {
     this.service.get('usuarios/session_out',this.token).subscribe(data => {
       console.log(data);
-      Mensaje('Se a iniciado session correctamente')
+      Mensaje('Se a iniciado session correctamente','success')
       setTimeout(() => {
         localStorage.clear();
         this.router.navigate(['/auth/login']);
