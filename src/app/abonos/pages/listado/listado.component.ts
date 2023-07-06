@@ -9,6 +9,8 @@ import { MatDialog } from '@angular/material/dialog';
 // import { Abono } from '../../function/functions';
 import { DialogcomponentComponent } from 'src/app/dialogcomponent/dialogcomponent.component';
 import { Funcions, Mensaje } from 'src/functions/functions';
+import { VariablesService } from 'src/app/core/services/variables.service';
+import { FilterComponent } from 'src/app/filter/filter.component';
 @Component({
   selector: 'app-listado',
   templateUrl: './listado.component.html',
@@ -64,6 +66,7 @@ export class ListadoComponent implements OnInit {
     private data: DataAbonosService,
     private service: CrudService,
     private dialog: MatDialog,
+    private variables:VariablesService
   ) { }
 
   ngOnInit(): void {
@@ -146,6 +149,7 @@ export class ListadoComponent implements OnInit {
    */
   ListarData() {
     this.$abonos.subscribe(element =>{
+      this.variables.FilterObservableData = element;
       Funcions.ListaAutoComplete(this.info,element);
     })
   }
@@ -214,6 +218,9 @@ export class ListadoComponent implements OnInit {
    */
   openDialog(id:string, url:string,title:string, table:string){
     Funcions.OpenDialog(id,url,title,table,this.dialog,DialogcomponentComponent);
+  }
+  Filter(){
+    Funcions.FilterDialog(this.dialog, FilterComponent);
   }
 /**
  * The function "Delete" deletes an item with a specific ID from a service and displays a success

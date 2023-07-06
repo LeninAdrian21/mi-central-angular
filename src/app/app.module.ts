@@ -16,12 +16,15 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RECAPTCHA_V3_SITE_KEY, RecaptchaV3Module } from "ng-recaptcha";
 import { CoreModule } from './core/core.module';
 import { environment } from 'src/environments/environment';
+import { HomeComponent } from './home/pages/home/home.component';
+import { FilterComponent } from './filter/filter.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavComponent,
     DialogcomponentComponent,
+    FilterComponent
     // PopUpComponent
   ],
   imports: [

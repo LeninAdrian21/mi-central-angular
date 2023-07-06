@@ -8,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
   data:any;
+  selectedOperador = 'igual'
   constructor()
   {
     // this.data$ = core.JwtObservable;

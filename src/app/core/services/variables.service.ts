@@ -8,11 +8,18 @@ import Swal from 'sweetalert2';
 })
 export class VariablesService {
   private rolObservable = new BehaviorSubject<any>({role:''});
+  private filterObservable = new BehaviorSubject<any>({filter:[]})
   get RolObservable(){
     return this.rolObservable.asObservable();
   }
   set RolObservableData(rol:any){
     this.rolObservable.next(rol)
+  }
+  get FilterObservable(){
+    return this.filterObservable.asObservable();
+  }
+  set FilterObservableData(filter:any){
+    this.filterObservable.next(filter)
   }
   constructor(private rol:GetRolService ) {
     if(localStorage.getItem('token') !== null){

@@ -52,6 +52,14 @@ export const Funcions = {
       },
     });
   },
+  FilterDialog( dialog: any,
+    component: any,data?: any){
+      dialog.open(component, {
+        height: '700px',
+        width: '1000px',
+        data: data,
+      });
+  },
   Relations(form: any, collection: string, date?: any) {
     return relations(form, collection, date);
   },

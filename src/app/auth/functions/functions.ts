@@ -18,11 +18,11 @@ export const Auth ={
   login(service:any,form:any,router:any, variable:any, rol:any){
     service.Login(form.value).subscribe(
       (data:any)=>{
-        
+
         const {refreshToken} = data;
         const {token} = data;
         localStorage.setItem('token', token);
-        variable.JwtObservableData = {jwt:token} ;
+        // variable.JwtObservableData = {jwt:token} ;
         localStorage.setItem('refresh',refreshToken);
         Swal.fire({
           position: 'center',
