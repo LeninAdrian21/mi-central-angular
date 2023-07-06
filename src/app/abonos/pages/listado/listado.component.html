@@ -13,70 +13,25 @@
             <div class="row">
               <div class="col-11">
                 <div class="row justify-content-around ">
-                  <!-- <mat-form-field appearance="fill">
-                    <mat-label >{{ inputTex[keyword]  }}</mat-label>
-                    <mat-select [(ngModel)] ="keyword">
-                      <mat-option *ngFor="let item of keywords" [value]="item">
-                        {{inputTex[item]}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field> -->
                   <div>
-
                     <button mat-fab class="bg-secondary text-white" (click)="Filter()">
                       <mat-icon>filter_list</mat-icon>
                     </button>
                   </div>
                   <div>
-
-                    <!-- <div class="ng-autocomplete col-10">
-                      <form class="example-form">
-                        <mat-form-field class="example-full-width" appearance="fill">
-                          <mat-label>Assignee</mat-label>
-                          <input type="text" matInput [formControl]="busqueda" [matAutocomplete]="auto" (keydown.enter)="Buscador($event)">
-                          <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-                            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-                              {{option}}
-                            </mat-option>
-                          </mat-autocomplete>
-                        </mat-form-field>
-                      </form>
-                      <button mat-raised-button class="bg-secondary mt-3" (click)="Vaciar()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
-          <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z" />
-          <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z" />
-          </svg>
-          Vaciar
-      </button> -->
-                      <!-- <ng-autocomplete
-                        [data]="data$ | async"
-                        [searchKeyword]="keyword"
-                        placeholder="Select a search"
-                        [itemTemplate]="itemTemplate"
-                        [notFoundTemplate]="notFoundTemplate">
-                      </ng-autocomplete>
-
-                      <ng-template #itemTemplate let-item>
-                        <a [innerHTML]="item[keyword].toString()"></a>
-                      </ng-template>
-
-                      <ng-template #notFoundTemplate let-notFound>
-                      <div [innerHTML]="notFound"></div>
-                      </ng-template> -->
-                    <!-- </div> -->
-                    <button mat-fab class="bg-success text-white" (click)="Filter()">
+                    <button mat-fab class="bg-success text-white" (click)="Export()">
                       <mat-icon> save </mat-icon>
                     </button>
                   </div>
                 </div>
               </div>
-              <div class="col-1 pr-4">
-                <div class="row justify-content-end">
+              <div class="col-1 pr-4 pt-2">
+                <div class="row justify-content-around">
                   <button mat-mini-fab class="bg-success text-white"[routerLink]="['/abonos/agregar']">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd"
-                    d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z" />
-                    </svg>
+                    <!-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                      <path fill-rule="evenodd" stroke-width="2" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z" />
+                    </svg> -->
+                    <mat-icon class="mat-18">add</mat-icon>
                   </button>
                 </div>
               </div>
