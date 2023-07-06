@@ -18,7 +18,7 @@ export class NavComponent implements OnInit {
   nav:any[] = [];
   decoded:any;
   GetRol:any[] = [];
-  token: any = localStorage.getItem('token');
+  token: any = localStorage.getItem('refresh');
   constructor(private router:Router, private core:VariablesService, private service: CrudService) {
   }
   ngOnInit(): void {
@@ -31,8 +31,9 @@ export class NavComponent implements OnInit {
   }
   Logout() {
     this.service.get('usuarios/session_out',this.token).subscribe(data => {
-      localStorage.clear();
-      this.router.navigate(['/auth/login']);
+      console.log(data);
+      // localStorage.clear();
+      // this.router.navigate(['/auth/login']);
     },
     (error) => {
       console.log(error);

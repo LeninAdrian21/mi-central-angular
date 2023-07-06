@@ -126,6 +126,7 @@ export class DataAbonosService {
         console.error('Ocurrió un error:', error);
         // Puedes mostrar el mensaje al usuario de alguna manera, como mostrarlo en un componente o enviarlo a través de un Subject
         // Ejemplo: this.errorMessageSubject.next(errorMessage);
+        
         Mensaje(error);
         return throwError(error);
         // Mensaje(errorMessage)
