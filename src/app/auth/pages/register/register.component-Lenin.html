@@ -1,0 +1,519 @@
+<div class="container py-4">
+  <mat-card >
+    <mat-toolbar class="justify-content-center bg-warning">
+      <span>Register</span>
+    </mat-toolbar>
+    <mat-card-content>
+      <form [formGroup] = "registerForm" (submit)="Register()" class="w-100">
+        <div class="row mt-3">
+          <div class="form-group  col-4" *ngFor="let field of fields" [ngSwitch]="field.type">
+            <ng-container *ngSwitchCase="'text'">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label>{{field.label}}</mat-label>
+                <input matInput [type]="field.type"
+                 [placeholder]="field.placeholder" [formControlName]="field.name">
+              </mat-form-field>
+            </ng-container>
+            <ng-container  *ngSwitchCase="'date'">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label>{{field.label}}</mat-label>
+                <input matInput [matDatepicker]="datepicker"  [formControlName]="field.name">
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+                <mat-datepicker #datepicker>
+                  <mat-datepicker-actions>
+                    <button mat-button matDatepickerCancel>Cancel</button>
+                    <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+                  </mat-datepicker-actions>
+                </mat-datepicker>
+              </mat-form-field>
+            </ng-container>
+            <ng-container  *ngSwitchCase="'time'">
+              <label for="meeting-time" class="m-0">{{field.placeholder}}</label>
+              <input type="time" id="meeting-time" name="meeting-time" value="2018-06-12T19:30" min="2018-06-07T00:00" max="2018-06-14T00:00"style="height: 34px;" class="w-100"  [formControlName]="field.name">
+            </ng-container>
+            <ng-container  *ngSwitchCase="'select'">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label>{{field.label}}</mat-label>
+                <!-- *ngIf="field.name != 'rol'" -->
+                <mat-select [formControlName]="field.name" >
+                  <mat-option  *ngFor="let option of field.options" [value]="option.value">{{ option.label }}</mat-option>
+                </mat-select>
+                <!-- <mat-select [formControlName]="field.name" *ngIf="field.name == 'rol'">
+                  <mat-option *ngFor="let rol of  rols$ | async" [value]="rol.id">
+                    {{rol.rol}}
+                  </mat-option>
+                </mat-select> -->
+              </mat-form-field>
+            </ng-container>
+            <ng-container *ngSwitchCase="'email'">
+              <mat-form-field  appearance="fill" class="w-100">
+                <mat-label>{{field.label}}</mat-label>
+                <input matInput [type]="field.type" [placeholder]="field.placeholder" [formControlName]="field.name">
+              </mat-form-field>
+            </ng-container>
+            <ng-container *ngSwitchCase="'password'">
+              <mat-form-field  appearance="fill" class="w-100">
+                <mat-label>{{field.label}}</mat-label>
+                <input matInput [type]="field.type" [placeholder]="field.placeholder" [formControlName]="field.name">
+              </mat-form-field>
+            </ng-container>
+            <ng-container *ngSwitchCase="'number'">
+              <mat-form-field  appearance="fill" class="w-100">
+                <mat-label>{{field.label}}</mat-label>
+                <input matInput [type]="field.type" [placeholder]="field.placeholder" [formControlName]="field.name">
+              </mat-form-field>
+            </ng-container>
+            <ng-container *ngSwitchCase="'textarea'">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label>{{field.label}}</mat-label>
+                <textarea matInput  [placeholder]="field.placeholder" [formControlName]="field.name"></textarea>
+              </mat-form-field>
+            </ng-container>
+            <ng-container *ngSwitchCase="'checkbox'">
+              <mat-slide-toggle class="w-100" [formControlName]="field.name">{{field.label}}</mat-slide-toggle>
+            </ng-container>
+            <mat-error *ngIf="registerForm.controls[field.name].invalid && registerForm.controls[field.name].touched" class="text-danger">
+              <p *ngIf="registerForm.controls[field.name].hasError('required')"> Campo requerido </p>
+              <p *ngIf="registerForm.controls[field.name].hasError('minlength')"> El numero minimo de caracteres son {{field.minLength}}</p>
+              <p *ngIf="registerForm.controls[field.name].hasError('maxlength')"> El numero maximo de caracteres son {{field.maxLength}} </p>
+              <div *ngIf="field.name =='tel_cel' || field.name == 'nss'">
+                <p *ngIf="registerForm.controls[field.name].hasError('pattern')"> Solo se permite numeros </p>
+              </div>
+              <div *ngIf="field.name =='email'">
+                <p *ngIf="registerForm.controls[field.name].hasError('pattern')">El correo electrónico debe tener el siguiente formato: nombredeusuario@dominio.extension. Asegúrate de que el dominio sea uno de los siguientes: gmail, outlook, yahoo, aol, icloud, protonmail, zoho, mail, gmx, yandex, tutanota, fastmail, hushmail, disroot o riseup.</p>
+              </div>
+              <div *ngIf="field.name =='password'">
+                <p *ngIf="registerForm.controls[field.name].hasError('pattern')"> Al menos una letra miniscula, al menos una letra mayuscula, al menos un digito al menos un caracter especial ($@$!%*?&) y ningun digito duplicado y sin espacios</p>
+              </div>
+            </mat-error>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <button mat-raised-button type="submit" color="primary" class="w-25 mt-4 mb-2"  color="warn" > Register </button>
+        </div>
+      </form>
+      <!-- <form [formGroup]="registerForm" (submit)="Register()">
+        <div class="row mt-4">
+          <div class="form-group col-4">
+            <mat-form-field  appearance="fill" class="w-100">
+              <mat-label>Nombre</mat-label>
+              <input matInput type="text" placeholder="Nombre"  name="nombre" formControlName="nombre" required>
+            </mat-form-field>
+            <div *ngIf="submitted && registerForm.controls.nombre.errors" >
+              <mat-error *ngIf="submitted && registerForm.controls.nombre.errors.required" class="text-danger">
+                El nombre es requerido
+              </mat-error>
+              <mat-error *ngIf="submitted && registerForm.controls.nombre.errors.minlength" class="text-danger">
+                El numero minimo de caracteres son 3
+              </mat-error>
+            </div>
+          </div>
+          <div class="form-group col-4">
+            <mat-form-field  appearance="fill" class="w-100">
+              <mat-label>Apellido paterno</mat-label>
+              <input matInput type="text" placeholder="Apellido Paterno"  name="ap_paterno" formControlName="ap_paterno" required>
+            </mat-form-field>
+            <div *ngIf="submitted && registerForm.controls.ap_paterno.errors">
+              <mat-error *ngIf="submitted && registerForm.controls.ap_paterno.errors.required" class="text-danger">
+                El apellido paterno es requerido
+              </mat-error>
+              <mat-error *ngIf="submitted && registerForm.controls.ap_paterno.errors.minlength" class="text-danger">
+                El numero minimo de caracteres son 3
+              </mat-error>
+            </div>
+          </div>
+          <div class="form-group col-4">
+            <mat-form-field  appearance="fill" class="w-100">
+              <mat-label>Apellido materno</mat-label>
+              <input matInput type="text" placeholder="Apellido Materno"  name="ap_materno" formControlName="ap_materno" required="true" >
+            </mat-form-field>
+            <div *ngIf="submitted && registerForm.controls.ap_materno.errors">
+              <mat-error *ngIf="submitted && registerForm.controls.ap_materno.errors.required" class="text-danger">
+                El apellido materno es requerido
+              </mat-error>
+              <mat-error *ngIf="submitted && registerForm.controls.ap_materno.errors.minlength" class="text-danger">
+                El numero minimo de caracteres son 3
+              </mat-error>
+            </div>
+          </div>
+          <div class="form-group col-4">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Fecha de nacimiento</mat-label>
+              <input matInput type="date" name="fecha_nac"formControlName="fecha_nac">
+            </mat-form-field>
+            <div *ngIf="submitted && registerForm.controls.fecha_nac.errors">
+              <mat-error *ngIf="submitted && registerForm.controls.fecha_nac.errors.required" class="text-danger">
+                La fecha de nacimento es requerida
+              </mat-error>
+            </div>
+          </div>
+          <div class="form-group col-4">
+            <mat-form-field  appearance="fill" class="w-100">
+              <mat-label>Genero</mat-label>
+              <mat-select name="genero" formControlName="genero">
+                <mat-option  value="Masculino">
+                  Masculino
+                </mat-option>
+                <mat-option  value="Femenino">
+                  Femenino
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div *ngIf="submitted && registerForm.controls.genero.errors">
+              <mat-error *ngIf="submitted && registerForm.controls.genero.errors.required" class="text-danger">
+                El genero es requerido
+              </mat-error>
+            </div>
+          </div>
+          <div class="form-group col-4">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Fecha de inscripcion</mat-label>
+              <input matInput type="date" name="fecha_ins" formControlName="fecha_ins">
+            </mat-form-field>
+            <div *ngIf="submitted && registerForm.controls.fecha_ins.errors">
+              <mat-error *ngIf="submitted && registerForm.controls.fecha_ins.errors.required" class="text-danger">
+                La fecha de inscripcion es requerida
+              </mat-error>
+            </div>
+          </div>
+          <div class="form-group col-4">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Fecha de alta</mat-label>
+              <input matInput type="date" formControlName="fecha_alta">
+            </mat-form-field>
+            <div *ngIf="submitted && registerForm.controls.fecha_alta.errors">
+              <mat-error *ngIf="submitted && registerForm.controls.fecha_alta.errors.required" class="text-danger">
+                La fecha de alta es requerida
+              </mat-error>
+            </div>
+          </div>
+          <div class="form-group col-4">
+            <mat-form-field  appearance="fill" class="w-100">
+              <mat-label>RFC</mat-label>
+              <input matInput type="text" placeholder="RFC"  name="rfc" formControlName="rfc" required="true">
+            </mat-form-field>
+            <div *ngIf="submitted && registerForm.controls.rfc.errors">
+              <mat-error *ngIf="submitted && registerForm.controls.rfc.errors.required" class="text-danger">
+                El RFC es requerido
+              </mat-error>
+              <mat-error *ngIf="submitted && registerForm.controls.rfc.errors.minlength" class="text-danger">
+                El numero minimo de caracteres son 14
+              </mat-error>
+              <mat-error *ngIf="submitted && registerForm.controls.rfc.errors.maxlength" class="text-danger">
+                El numero maximo de caracteres son 14
+              </mat-error>
+            </div>
+          </div>
+          <div class="form-group col-4">
+            <mat-form-field  appearance="fill" class="w-100">
+              <mat-label>CURP</mat-label>
+              <input matInput type="text" placeholder="CURP"  name="curp" formControlName="curp" required="true">
+            </mat-form-field>
+            <div *ngIf="submitted && registerForm.controls.curp.errors">
+              <mat-error *ngIf="submitted && registerForm.controls.curp.errors.required" class="text-danger">
+                El CURP es requerido
+              </mat-error>
+              <mat-error *ngIf="submitted && registerForm.controls.curp.errors.minlength" class="text-danger">
+                El numero minimo de caracteres son 18
+              </mat-error>
+              <mat-error *ngIf="submitted && registerForm.controls.curp.errors.maxlength" class="text-danger">
+                El numero maximo de caracteres son 18
+              </mat-error>
+              <mat-error *ngIf="submitted && registerForm.controls.curp.errors.pattern" class="text-danger">
+                El numero maximo de caracteres son 18
+              </mat-error>
+            </div>
+          </div>
+          <div class="form-group col-4">
+            <mat-form-field  appearance="fill" class="w-100">
+              <mat-label>Numero de seguro social</mat-label>
+              <input matInput type="text" placeholder="Numero de seguro social"  name="nss" formControlName="nss" required="true" maxlength="8">
+            </mat-form-field>
+            <div *ngIf="submitted && registerForm.controls.nss.errors">
+              <mat-error *ngIf="submitted && registerForm.controls.nss.errors.required" class="text-danger">
+                El Numero de seguro social es requerido
+              </mat-error>
+              <mat-error *ngIf="submitted && registerForm.controls.nss.errors.minlength" class="text-danger">
+                El numero minimo de caracteres son 8
+              </mat-error>
+              <mat-error *ngIf="submitted && registerForm.controls.nss.errors.maxlength" class="text-danger">
+                El numero maximo de caracteres son 8
+              </mat-error>
+              <mat-error *ngIf="submitted && registerForm.controls.nss.errors.pattern" class="text-danger">
+                Solo se permiten numeros
+              </mat-error>
+            </div>
+          </div>
+          <div class="form-group col-4">
+            <mat-form-field  appearance="fill" class="w-100">
+              <mat-label>Telefono de celular</mat-label>
+              <input matInput type="text" placeholder="Telefono de celular"  name="tel_cel" formControlName="tel_cel" maxlength="10" required="true">
+            </mat-form-field>
+            <div *ngIf="submitted && registerForm.controls.tel_cel.errors">
+              <mat-error *ngIf="submitted && registerForm.controls.tel_cel.errors.required" class="text-danger">
+                El telefono celular es requerido
+              </mat-error>
+              <mat-error *ngIf="submitted && registerForm.controls.tel_cel.errors.minlength" class="text-danger">
+                El numero minimo de caracteres son 10
+              </mat-error>
+              <mat-error *ngIf="submitted && registerForm.controls.tel_cel.errors.maxlength" class="text-danger">
+                El numero maximo de caracteres son 10
+              </mat-error>
+              <mat-error *ngIf="submitted && registerForm.controls.tel_cel.errors.pattern" class="text-danger">
+                Solo se permite numeros
+              </mat-error>
+            </div>
+          </div>
+          <div class="form-group col-4">
+            <mat-form-field  appearance="fill" class="w-100">
+              <mat-label>Email</mat-label>
+              <input matInput type="email" placeholder="Email"  name="email" formControlName="email" required="true">
+            </mat-form-field>
+            <div *ngIf="submitted && registerForm.controls.email.errors">
+              <mat-error *ngIf="submitted && registerForm.controls.email.errors.required" class="text-danger">
+                El email es requerido
+              </mat-error>
+              <mat-error *ngIf="submitted && registerForm.controls.email.errors.email" class="text-danger">
+                Debe ser un email
+              </mat-error>
+            </div>
+          </div>
+          <div class="form-group col-4">
+            <mat-form-field  appearance="fill" class="w-100">
+              <mat-label>Password</mat-label>
+              <input matInput type="password" placeholder="Password"  name="password" formControlName="password" required="true">
+            </mat-form-field>
+            <div *ngIf="submitted && registerForm.controls.password.errors">
+              <mat-error *ngIf="submitted && registerForm.controls.password.errors.required" class="text-danger">
+                La contraseña es requerida
+              </mat-error>
+              <mat-error *ngIf="submitted && registerForm.controls.password.errors.minlength" class="text-danger">
+                El numero minimo de caracteres son 8
+              </mat-error>
+              <mat-error *ngIf="submitted && registerForm.controls.password.errors.maxlength" class="text-danger">
+                El numero maximo de caracteres son 15
+              </mat-error>
+              <mat-error *ngIf="submitted && registerForm.controls.password.errors!.pattern" class="text-danger">
+                Al menos una letra miniscula, al menos una letra mayuscula, al menos un digito al menos un caracter especial ($@$!%*?&) y ningun digito duplicado y sin espacios
+              </mat-error>
+            </div>
+          </div>
+          <div class="form-group col-4">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Tipo de sangre</mat-label>
+              <mat-select formControlName="tipo_sangre">
+                <mat-option  value="Tipo A+">
+                  Tipo A+
+                </mat-option>
+                <mat-option  value="Tipo A-">
+                  Tipo A-
+                </mat-option>
+                <mat-option  value="Tipo B+">
+                  Tipo B+
+                </mat-option>
+                <mat-option  value="Tipo B-">
+                  Tipo B-
+                </mat-option>
+                <mat-option  value="Tipo AB+">
+                  Tipo AB+
+                </mat-option>
+                <mat-option  value="Tipo AB-">
+                  Tipo AB-
+                </mat-option>
+                <mat-option  value="Tipo O+">
+                  Tipo O+
+                </mat-option>
+                <mat-option  value="Tipo O-">
+                  Tipo O-
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div *ngIf="submitted && registerForm.controls.tipo_sangre.errors">
+              <mat-error *ngIf="submitted && registerForm.controls.tipo_sangre.errors.required" class="text-danger">
+                El tipo de sangre es requerido
+              </mat-error>
+            </div>
+          </div>
+          <div class="form-group col-4">
+            <mat-form-field  appearance="fill" class="w-100">
+              <mat-label>Licencia</mat-label>
+              <input matInput type="text" placeholder="Licencia" formControlName="licencia"  required="true">
+            </mat-form-field>
+            <div *ngIf="submitted && registerForm.controls.licencia.errors">
+              <mat-error *ngIf="submitted && registerForm.controls.licencia.errors.required" class="text-danger">
+                La licencia es requerida
+              </mat-error>
+            </div>
+          </div>
+          <div class="form-group col-4">
+            <mat-form-field  appearance="fill" class="w-100">
+              <mat-label>Alergias</mat-label>
+              <input matInput type="text" placeholder="Alergias"  name="alergias" formControlName="alergias"  required="true">
+            </mat-form-field>
+            <div *ngIf="submitted && registerForm.controls.alergias.errors">
+              <mat-error *ngIf="submitted && registerForm.controls.alergias.errors.required" class="text-danger">
+                Las alergias son requeridas y si no tiene ponga Ninguna
+              </mat-error>
+            </div>
+          </div>
+          <div class="form-group col-4">
+            <mat-form-field  appearance="fill" class="w-100">
+              <mat-label>Padeciemitnos</mat-label>
+              <input matInput type="text" placeholder="Padecimientos"  name="padecimientos" formControlName="padecimientos" required="true">
+            </mat-form-field>
+            <div *ngIf="submitted && registerForm.controls.padecimientos.errors">
+              <mat-error *ngIf="submitted && registerForm.controls.padecimientos.errors.required" class="text-danger">
+                Padecimientos requerido y si no tiene ponga Ninguno
+              </mat-error>
+            </div>
+          </div>
+          <div class="form-group col-4">
+            <mat-form-field  appearance="fill" class="w-100">
+              <mat-label>Nacionalidad</mat-label>
+              <input matInput type="text" placeholder="Nacionalidad"  name="nacionalidad" formControlName="nacionalidad"   required="true">
+            </mat-form-field>
+            <div *ngIf="submitted && registerForm.controls.nacionalidad.errors">
+              <mat-error *ngIf="submitted && registerForm.controls.nacionalidad.errors.required" class="text-danger">
+                Nacionalidad requerida
+              </mat-error>
+            </div>
+          </div>
+          <div class="form-group col-4">
+            <mat-form-field  appearance="fill" class="w-100">
+              <mat-label>Calle</mat-label>
+              <input matInput type="text" placeholder="Calle"  name="calle" formControlName="calle" required="true">
+            </mat-form-field>
+            <div *ngIf="submitted && registerForm.controls.calle.errors">
+              <mat-error *ngIf="submitted && registerForm.controls.calle.errors.required" class="text-danger">
+                Calle requerida
+              </mat-error>
+            </div>
+          </div>
+          <div class="form-group col-4">
+            <mat-form-field  appearance="fill" class="w-100">
+              <mat-label>Numero</mat-label>
+              <input matInput type="number" placeholder="Numero" name="numero" formControlName="numero" required="true">
+            </mat-form-field>
+            <div *ngIf="submitted && registerForm.controls.numero.errors">
+              <mat-error *ngIf="submitted && registerForm.controls.numero.errors.required" class="text-danger">
+                Numero requerido
+              </mat-error>
+            </div>
+          </div>
+          <div class="form-group col-4">
+            <mat-form-field  appearance="fill" class="w-100">
+              <mat-label>Colonia</mat-label>
+              <input matInput type="text" placeholder="Colonia"  name="colonia" formControlName="colonia" required="true">
+            </mat-form-field>
+            <div *ngIf="submitted && registerForm.controls.colonia.errors">
+              <mat-error *ngIf="submitted && registerForm.controls.colonia.errors.required" class="text-danger">
+                Colonia requerida
+              </mat-error>
+            </div>
+          </div>
+          <div class="form-group col-4">
+            <mat-form-field  appearance="fill" class="w-100">
+              <mat-label>Codigo postal</mat-label>
+              <input matInput type="number" placeholder="Codigo postal"  name="cp" formControlName="cp" required="true">
+            </mat-form-field>
+            <div *ngIf="submitted && registerForm.controls.cp.errors">
+              <mat-error *ngIf="submitted && registerForm.controls.cp.errors.required" class="text-danger">
+                Codigo postal requerido
+              </mat-error>
+            </div>
+          </div>
+          <div class="form-group col-4">
+            <mat-form-field  appearance="fill" class="w-100">
+              <mat-label>Municipio</mat-label>
+              <input matInput type="text" placeholder="Municipio"  name="municipio" formControlName="municipio" required="true">
+            </mat-form-field>
+            <div *ngIf="submitted && registerForm.controls.municipio.errors">
+              <mat-error *ngIf="submitted && registerForm.controls.municipio.errors.required" class="text-danger">
+                Municipio requerido
+              </mat-error>
+            </div>
+          </div>
+          <div class="form-group col-4">
+            <mat-form-field  appearance="fill" class="w-100">
+              <mat-label>Ciudad</mat-label>
+              <input matInput type="text" placeholder="Ciudad"  name="ciudad" formControlName="ciudad" required="true">
+            </mat-form-field>
+            <div *ngIf="submitted && registerForm.controls.ciudad.errors">
+              <mat-error *ngIf="submitted && registerForm.controls.ciudad.errors.required" class="text-danger">
+                Ciudad requerida
+              </mat-error>
+            </div>
+          </div>
+          <div class="form-group col-4">
+            <mat-form-field  appearance="fill" class="w-100">
+              <mat-label>Pais</mat-label>
+              <input matInput type="text" placeholder="Pais"  name="pais"  formControlName="pais" required="true">
+            </mat-form-field>
+            <div *ngIf="submitted && registerForm.controls.pais.errors">
+              <mat-error *ngIf="submitted && registerForm.controls.pais.errors.required" class="text-danger">
+                Pais requerido
+              </mat-error>
+            </div>
+          </div>
+          <div class="form-group col-4">
+            <mat-form-field  appearance="fill" class="w-100">
+              <mat-label>Referencia directa</mat-label>
+              <input matInput type="text" placeholder="Referencia directa"  name="ref_dir" formControlName="ref_dir" required="true">
+            </mat-form-field>
+            <div *ngIf="submitted && registerForm.controls.ref_dir.errors">
+              <mat-error *ngIf="submitted && registerForm.controls.ref_dir.errors.required" class="text-danger">
+                Referencia Directa requerida
+              </mat-error>
+            </div>
+          </div>
+          <div class="form-group col-4">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Tipo de rol</mat-label>
+              <mat-select name="rol" formControlName="rol">
+                <mat-option  value="62924e40df2ee965d4c153bf">
+                  Administrador
+                </mat-option>
+                <mat-option  value="62928035317d3014486df399">
+                  Delivery man
+                </mat-option>
+                <mat-option  value="6292806d317d3014486df39a">
+                  Manager
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div *ngIf="submitted && registerForm.controls.rol.errors">
+              <mat-error *ngIf="submitted && registerForm.controls.rol.errors.required" class="text-danger">
+                El rol es requerido
+              </mat-error>
+            </div>
+          </div>
+          <div class="form-group col-4">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Comment</mat-label>
+              <textarea matInput placeholder="Comment" name="comment" formControlName="comment"></textarea>
+            </mat-form-field>
+            <div *ngIf="submitted && registerForm.controls.comment.errors">
+              <mat-error *ngIf="submitted && registerForm.controls.comment.errors.required" class="text-danger">
+                Comentarios requeridos
+              </mat-error>
+            </div>
+          </div>
+          <div class="form-group col-4">
+            <mat-slide-toggle class="w-100" formControlName="status">Status</mat-slide-toggle>
+            <div *ngIf="submitted && registerForm.controls.status.errors">
+              <mat-error *ngIf="submitted && registerForm.controls.status.errors.required" class="text-danger">
+               Estatus requerido
+              </mat-error>
+            </div>
+          </div>
+        </div>
+        <ngx-recaptcha2 #captchaElem [siteKey]="siteKey" formControlName="recaptcha"></ngx-recaptcha2>
+        <div class="row justify-content-center">
+          <button mat-raised-button type="submit" color="primary" class="w-25 mt-4 mb-2"  color="warn" > Register </button>
+        </div>
+      </form> -->
+    </mat-card-content>
+  </mat-card>
+</div>
+

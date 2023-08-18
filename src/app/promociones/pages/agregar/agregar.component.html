@@ -1,0 +1,48 @@
+<!-- <div *ngIf="addPromociones.value.fecha_creacion == '' && id" class="carga">
+  <mat-spinner></mat-spinner>
+</div>
+<div *ngIf="addPromociones.value.fecha_creacion !== '' || !id" class="container">
+  <mat-card class="card card-register">
+      <mat-toolbar color="primary" >
+          <span class="card__title">{{this.title}}</span>
+      </mat-toolbar>
+      <form [formGroup]="addPromociones" (submit)="addPromocion()">
+        <div class="card__form">
+          <mat-form-field appearance="fill">
+            <mat-label>Fecha de creacion</mat-label>
+            <input  matInput type="date" formControlName="fecha_creacion" >
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Fecha de vigencia</mat-label>
+            <input  matInput type="date" formControlName="fecha_vigencia" >
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Valor del descuento</mat-label>
+            <input matInput type="number" placeholder="Valor del descuebto"  formControlName="valor_descuento"  required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Codigo de Referencia</mat-label>
+            <input matInput type="number" placeholder="Codigo de referencia"  formControlName="valor_descuento"  required="true">
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Condicion</mat-label>
+            <textarea matInput placeholder="Condicion" formControlName="condicion"></textarea>
+          </mat-form-field>
+          <mat-form-field appearance="fill" >
+            <mat-label>Nombre del producto </mat-label>
+            <mat-select name="usuario_id" formControlName="producto_nombre">
+              <mat-option *ngFor="let producto of productos$ | async" value={{producto.id}}>
+                {{producto.nombre}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="flex">
+          <button mat-raised-button type="submit" color="primary" class="btn-register" >
+              {{this.btn}}
+          </button>
+        </div>
+      </form>
+  </mat-card>
+</div>
+ -->

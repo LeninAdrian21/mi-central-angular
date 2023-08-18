@@ -1,0 +1,172 @@
+<!-- <div *ngIf="addCreditos.value.limite == '' && id" class="carga">
+  <mat-spinner></mat-spinner>
+</div>
+<div  *ngIf="addCreditos.value.limite !== '' || !id" class="container">
+  <mat-card class="card card-register">
+      <mat-toolbar color="primary" class=>
+          <span class="card__title">{{title}}</span>
+      </mat-toolbar>
+      <form [formGroup]="addCreditos" (submit)="addCredito()">
+        <div class="card__form">
+
+
+
+
+
+
+
+
+
+        </div>
+
+        <div class="flex">
+          <button mat-raised-button type="submit" color="primary" class="btn-register" >
+             {{this.btn}}
+          </button>
+        </div>
+      </form>
+  </mat-card>
+</div>
+ -->
+ <div  class="carga row w-100  justify-content-center align-content-center" *ngIf="!cargaOptions && btn=='Agregar' || btn == 'Actualizar' && !cargaOptions">
+  <mat-spinner></mat-spinner>
+</div>
+<!--  -->
+<!-- Card de fomulario -->
+<div class="container pt-5" *ngIf="cargaOptions">
+  <mat-card >
+    <mat-toolbar class="justify-content-center bg-warning" >
+      <h1>{{title}}</h1>
+    </mat-toolbar>
+    <form action="">
+
+    </form>
+    <form [formGroup]="formCreditos" (submit)="formCredito()" class="w-100">
+      <div class="row mt-3">
+        <!-- Limite -->
+        <div class="form-group  col-4">
+          <mat-form-field  appearance="fill" class="w-100">
+            <mat-label>Limite</mat-label>
+            <input matInput type="number" placeholder="Limite"  name="limite" formControlName="limite"  required="true">
+          </mat-form-field>
+          <!--  -->
+          <div *ngIf="submitted && formCreditos.controls.limite.errors">
+            <!--  -->
+            <mat-error *ngIf="submitted && formCreditos.controls.limite.errors.required" class="text-danger">
+              Limite requerido
+            </mat-error>
+          </div>
+        </div>
+        <!-- fecha Alta -->
+        <div class="form-group  col-4">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Fecha de alta</mat-label>
+            <input matInput type="date" formControlName="fecha_alta">
+          </mat-form-field>
+          <div *ngIf="submitted && formCreditos.controls.fecha_alta.errors">
+            <!--  -->
+            <mat-error *ngIf="submitted && formCreditos.controls.fecha_alta.errors.required" class="text-danger">
+              Fecha baja requerida
+            </mat-error>
+          </div>
+        </div>
+        <!-- Fecha baja -->
+        <div class="form-group  col-4">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Fecha de baja</mat-label>
+            <input matInput type="date" formControlName="fecha_baja">
+          </mat-form-field>
+           <!--  -->
+          <div *ngIf="submitted && formCreditos.controls.fecha_baja.errors">
+            <!--  -->
+            <mat-error *ngIf="submitted && formCreditos.controls.fecha_baja.errors.required" class="text-danger">
+              Fecha baja requerida
+            </mat-error>
+          </div>
+        </div>
+        <!-- Vigencia -->
+        <div class="form-group  col-4">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Vigencia</mat-label>
+            <input matInput type="date" formControlName="vigencia">
+          </mat-form-field>
+           <!--  -->
+           <div *ngIf="submitted && formCreditos.controls.vigencia.errors">
+            <!--  -->
+            <mat-error *ngIf="submitted && formCreditos.controls.vigencia.errors.required" class="text-danger">
+              Vigencia requerida
+            </mat-error>
+          </div>
+        </div>
+        <!-- Intereses -->
+        <div class="form-group  col-4">
+          <mat-form-field  appearance="fill" class="w-100">
+            <mat-label>Intereses</mat-label>
+            <input matInput type="number" placeholder="Intereses"  name="intereses" formControlName="intereses"  required="true">
+          </mat-form-field>
+           <!--  -->
+          <div *ngIf="submitted && formCreditos.controls.intereses.errors">
+            <!--  -->
+            <mat-error *ngIf="submitted && formCreditos.controls.intereses.errors.required" class="text-danger">
+              Interese requerido
+            </mat-error>
+          </div>
+        </div>
+        <!-- Status -->
+        <div class="form-group  col-4">
+          <mat-slide-toggle class="card__status" color="warn" formControlName="status">Status</mat-slide-toggle>
+        </div>
+        <!-- id Usuario -->
+        <div class="form-group col-4">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Nombre de usuario</mat-label>
+            <mat-select name="usuario_id" formControlName="id_usuario">
+              <mat-option *ngFor="let usuario of usuario$ | async" value={{usuario.id}}>
+                {{usuario.nombre}} {{usuario.ap_paterno}} {{usuario.ap_materno}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <!-- id Metodo de pago -->
+        <div class="form-group col-4">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Numero de tarjeta</mat-label>
+            <mat-select name="usuario_id" formControlName="id_metodoPago">
+              <mat-option *ngFor="let metodo_pago of metodo_pago$ | async" value={{metodo_pago.id}}>
+                {{metodo_pago.numero_tarjeta}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <!--Id Abonos -->
+        <div class="form-group  col-4">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Cantidad de bono</mat-label>
+            <mat-select name="usuario_id" formControlName="id_abonos">
+              <mat-option *ngFor="let abono of abonos$ | async" value={{abono.id}}>
+                {{abono.cantidad_abono}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <!-- Button Agregar/Actualizar-->
+      <div class="row justify-content-center" *ngIf="!addUpdate">
+        <button mat-raised-button type="submit" color="warn" class="w-100 mb-3 mt-3 col-4">
+          {{btn}}
+        </button>
+      </div>
+      <!-- Buton de loading -->
+      <div class="row justify-content-center" *ngIf="addUpdate">
+        <button mat-raised-button disabled class="w-100 col-4 bg-warning mb-3 mt-3">
+            <span class="spinner-grow spinner-grow-sm c-black"  role="status" aria-hidden="true"></span>
+            <span class="spinner-grow spinner-grow-sm aria-hidden c-black"></span>
+            <span class="c-black">loading...</span>
+        </button>
+      </div>
+    </form>
+  </mat-card>
+</div>
+
+
+

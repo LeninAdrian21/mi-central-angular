@@ -1,0 +1,227 @@
+<!-- <div *ngIf="addUsuarios.value.nombre == '' && id" class="carga">
+  <mat-spinner></mat-spinner>
+</div>
+<div *ngIf="addUsuarios.value.nombre !== '' || !id" class="container">
+  <mat-card class="card card-register">
+      <mat-toolbar color="primary" >
+          <span class="card__title">{{this.title}}</span>
+      </mat-toolbar>
+      <form [formGroup]="addUsuarios" (submit)="addUsuario()">
+        <div class="card__form">
+          <mat-form-field  appearance="fill" class="card__field">
+            <mat-label>Nombre</mat-label>
+            <input matInput class="card__input" type="text" placeholder="Nombre"  name="nombre" formControlName="nombre" required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill" class="card__field">
+            <mat-label>Apellido paterno</mat-label>
+            <input matInput class="card__input" type="text" placeholder="Apellido Paterno"  name="ap_paterno" formControlName="ap_paterno" required="true" >
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Apellido materno</mat-label>
+            <input matInput class="card__input" type="text" placeholder="Apellido Materno"  name="ap_materno" formControlName="ap_materno" required="true" >
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Fecha de nacimiento</mat-label>
+            <input matInput class="card__input" type="date" name="fecha_nac"formControlName="fecha_nac">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Genero</mat-label>
+            <mat-select class="card__input" name="genero" formControlName="genero">
+              <mat-option  value="Masculino">
+                Masculino
+              </mat-option>
+              <mat-option  value="Femenino">
+                Femenino
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Fecha de inscripcion</mat-label>
+            <input matInput type="date" name="fecha_ins"formControlName="fecha_ins">
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Fecha de alta</mat-label>
+            <input matInput type="date" formControlName="fecha_alta">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>RFC</mat-label>
+            <input matInput type="text" placeholder="RFC"  name="rfc" formControlName="rfc" required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>CURP</mat-label>
+            <input matInput type="text" placeholder="CURP"  name="curp" formControlName="curp" required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Numero de seguro social</mat-label>
+            <input matInput type="number" placeholder="Numero de seguro social"  name="nss" formControlName="nss" required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Telefono de celular</mat-label>
+            <input matInput type="number" placeholder="Telefono de celular"  name="tel_cel" formControlName="tel_cel" maxlength="10" required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Email</mat-label>
+            <input matInput type="email" placeholder="Email"  name="email" formControlName="email" required="true">
+          </mat-form-field> -->
+          <!-- <mat-form-field  appearance="fill">
+            <mat-label>Password</mat-label>
+            <input matInput type="password" placeholder="Password"  name="password" formControlName="password" required="true">
+          </mat-form-field> -->
+          <!-- <mat-form-field appearance="fill">
+            <mat-label>Tipo de sangre</mat-label>
+            <mat-select formControlName="tipo_sangre">
+              <mat-option *ngFor="let sangre of tipo_sangre" value={{sangre}}>
+                {{sangre}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+           <mat-form-field  appearance="fill">
+            <mat-label>Licencia</mat-label>
+            <input matInput type="text" placeholder="Licencia"  name="licencia" formControlName="licencia"  required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Alergias</mat-label>
+            <input matInput type="text" placeholder="Alergias"  name="alergias" formControlName="alergias"  required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Padeciemitnos</mat-label>
+            <input matInput type="text" placeholder="Padecimientos"  name="padecimientos" formControlName="padecimientos" required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Nacionalidad</mat-label>
+            <input matInput type="text" placeholder="Nacionalidad"  name="nacionalidad" formControlName="nacionalidad"   required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Calle</mat-label>
+            <input matInput type="text" placeholder="Calle"  name="calle" formControlName="calle" required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Numero</mat-label>
+            <input matInput type="number" placeholder="Numero" name="numero" formControlName="numero" required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Colonia</mat-label>
+            <input matInput type="text" placeholder="Colonia"  name="colonia" formControlName="colonia" required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Codigo postal</mat-label>
+            <input matInput type="number" placeholder="Codigo postal"  name="cp" formControlName="cp" required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Municipio</mat-label>
+            <input matInput type="text" placeholder="Municipio"  name="municipio" formControlName="municipio" required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Ciudad</mat-label>
+            <input matInput type="text" placeholder="Ciudad"  name="ciudad" formControlName="ciudad" required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Pais</mat-label>
+            <input matInput type="text" placeholder="Pais"  name="pais"  formControlName="pais" required="true">
+          </mat-form-field>
+          <mat-form-field  appearance="fill">
+            <mat-label>Referencia directa</mat-label>
+            <input matInput type="text" placeholder="Referencia directa"  name="ref_dir" formControlName="ref_dir" required="true">
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Tipo de rol</mat-label>
+            <mat-select formControlName="rol_id">
+              <mat-option  value="62924e40df2ee965d4c153bf">
+                Administrador
+              </mat-option>
+              <mat-option  value="62928035317d3014486df399">
+                Delivery man
+              </mat-option>
+              <mat-option  value="6292806d317d3014486df39a">
+                Manager
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="example-full-width" appearance="fill" class="comment">
+            <mat-label>Comment</mat-label>
+            <textarea matInput placeholder="Comment" name="comment" formControlName="comment"></textarea>
+          </mat-form-field>
+          <mat-slide-toggle class="card__status" formControlName="status">Status</mat-slide-toggle>
+          <mat-form-field appearance="fill" >
+            <mat-label>Monto del gasto</mat-label>
+            <mat-select formControlName="monto_gasto">
+              <mat-option *ngFor="let gasto of gastos$ | async" value={{gasto.id}}>
+                {{gasto.monto}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="fill" >
+            <mat-label>Nombre del Local</mat-label>
+            <mat-select  formControlName="nombre_local">
+              <mat-option *ngFor="let local of locales$ | async" value={{local.id}}>
+                {{local.nombre}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="fill" >
+            <mat-label>Monto venta</mat-label>
+            <mat-select  formControlName="monto_venta">
+              <mat-option *ngFor="let venta of ventas$ | async" value={{venta.id}}>
+                {{venta.monto}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="fill" >
+            <mat-label>Numero de serie del camion</mat-label>
+            <mat-select  formControlName="num_serie_camion">
+              <mat-option *ngFor="let camion of camiones$ | async" value={{camion.id}}>
+                {{camion.num_serie}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="fill" >
+            <mat-label>Id Carrito</mat-label>
+            <mat-select  formControlName="id_carrito">
+              <mat-option *ngFor="let carrito of carritos$ | async" value={{carrito.id}}>
+                {{carrito.id}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="fill" >
+            <mat-label>Cantidad de abono</mat-label>
+            <mat-select  formControlName="cantidad_abono">
+              <mat-option *ngFor="let abono of abonos$ | async" value={{abono.id}}>
+                {{abono.cantidad_abono}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="fill" >
+            <mat-label>Limite de credito</mat-label>
+            <mat-select  formControlName="limite_credito">
+              <mat-option *ngFor="let credito of creditos$ | async" value={{credito.id}}>
+                {{credito.limite}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="fill" >
+            <mat-label>Fecha del historial</mat-label>
+            <mat-select  formControlName="fecha_historial">
+              <mat-option *ngFor="let historial of historiales$ | async" value={{historial.id}}>
+                {{historial.fecha}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="fill" >
+            <mat-label>Numero de tarjeta</mat-label>
+            <mat-select  formControlName="numero_tarjeta_metodo_pago">
+              <mat-option *ngFor="let metodoPago of metodoPago$ | async" value={{metodoPago.id}}>
+                {{metodoPago.numero_tarjeta}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="flex">
+          <button mat-raised-button type="submit" color="primary" class="btn-register" >
+              {{this.btn}}
+          </button>
+        </div>
+      </form>
+  </mat-card>
+</div> -->
+
+

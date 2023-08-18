@@ -1,0 +1,183 @@
+@import 'mixin';
+
+@mixin acciones{
+  .acciones{
+    padding: 0;
+    @include flex(space-around, center);
+    @include width(120%);
+    @include padding(5px 0);
+  }
+}
+@mixin buscar{
+  .flex{
+    @include flex(space-around, center);
+    @include width(90%);
+    @include margin(20px 0);
+    @include margin-auto;
+  }
+  .field{
+    @include width(75%);
+  }
+  .width-100 {
+    @include width(100%);
+  }
+}
+@mixin campos($px){
+  .id{
+    max-width: $px;
+  }
+  .descripcion{
+    max-width:150px;
+    @include padding(5px 0 5px 0);
+  }
+  .info{
+    margin: 0 0 0 5px;
+  }
+}
+@mixin contenedor{
+  .contenedor{
+    width: 95%;
+    margin: auto;
+    overflow-y: auto;
+  }
+}
+@mixin listas{
+  .lista{
+    @include padding-top(12px);
+  }
+}
+@mixin title{
+  .title{
+    @include margin(20px 0 5px 0);
+    @include text-align(center);
+  }
+}
+
+
+@mixin form-login {
+  .max-width{
+    @include width(370px);
+    .title{
+      @include margin-auto;
+      @include font-size(28px);
+    }
+    .form{
+      @include padding-top(10px);
+    }
+    .form__button{
+      @include width(50%);
+      @include margin-auto;
+      @include font-size(18px);
+    }
+    .register{
+      @include padding-top(15px);
+      @include text-align(center);
+      @include font-size(15px);
+    }
+    .register a{
+      @include color($color-white);
+      @include bold;
+      @include font-size(18px);
+      @include decoration-none;
+    }
+  }
+}
+@mixin card-register ($top) {
+  .carga{
+    height: 85%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .carga2{
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .container{
+    @include desktop(){
+      @include width(1000px);
+      @include margin-auto;
+    }
+  }
+  .card-register {
+    @include margin-top($top);
+  }
+  .card{
+    @include padding(0);
+    &__title{
+      @include margin-auto;
+    }
+    &__form{
+      @include margin-top(20px);
+      @include grid(1, 10px);
+      @include padding(10px);
+    }
+    &__form{
+      @include desktop(){
+        @include grid(3, 10px);
+        .btn{
+          grid-row-end: 13;
+          grid-column-start: 2;
+        }
+        .comment{
+          grid-column-start: 1;
+          grid-column-end: 3;
+        }
+        textarea{
+          height: 50px
+        }
+      }
+    }
+  }
+  .flex{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+  }
+  .btn-register{
+    @include width(90%);
+    margin-bottom: 25px;
+  }
+  @include desktop(){
+    .btn-register{
+      width: 32%;
+    }
+  }
+
+}
+@mixin abonos {
+  .width-100{
+    @include width(100%);
+  }
+  .text-center{
+    @include text-align(center);
+  }
+}
+
+@mixin table($px){
+  @include title;
+  @include buscar;
+  @include contenedor;
+  .table{
+    @include width(95%);
+    @include margin-auto;
+  }
+
+  @include campos($px);
+  @include listas;
+  @include acciones;
+  .text-center{
+    text-align: center;
+  }
+}
+// .carga{
+//   height: 85%;
+// }
+// .c-black{
+//   color:black;
+// }
+
+

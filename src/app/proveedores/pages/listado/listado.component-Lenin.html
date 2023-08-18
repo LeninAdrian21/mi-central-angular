@@ -1,0 +1,220 @@
+<div class="p-4">
+  <div class="row">
+    <div class="col-12">
+      <mat-card class="overflow-auto card p-0" (scroll)="onScrollHandler($event)">
+        <mat-card-header class="sticky-top p-3 header">
+          <mat-card-title>Proveedores</mat-card-title>
+          <mat-card-subtitle>Listar</mat-card-subtitle>
+          <div class="w-100">
+            <div class="row">
+              <div class="col-11">
+                <div class="row justify-content-between pl-5">
+                  <mat-form-field appearance="fill" class="select pl-5">
+                    <mat-label>{{inputText[keyword]}}</mat-label>
+                    <mat-select [(ngModel)] ="keyword">
+                      <mat-option *ngFor="let item of keywords" [value]="item">
+                        {{inputText[item]}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <form class="example-form">
+                    <mat-form-field class="example-full-width form" appearance="fill">
+                      <mat-label>Buscar</mat-label>
+                      <input type="text" matInput [formControl]="busqueda" [matAutocomplete]="auto" (keydown.enter)="Buscador($event)">
+                      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                          {{option}}
+                        </mat-option>
+                      </mat-autocomplete>
+                    </mat-form-field>
+                  </form>
+                  <div class="button">
+                    <button mat-raised-button class="bg-secondary mt-2" (click)="Vaciar()">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z" />
+                        <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z" />
+                        </svg>
+                        Vaciar
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-1 pr-4">
+                <div class="row justify-content-end">
+                  <button mat-mini-fab class="bg-success text-white mt-1 mr-2"[routerLink]="['/proveedores/agregar']">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                    d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="container-fluid overflow-auto m-auto">
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table tabla mt-2 mb-4">
+              <ng-container matColumnDef="nombre">
+                <th mat-header-cell *matHeaderCellDef class=" text-center"> Nombre </th>
+                <td mat-cell *matCellDef="let element" class="border-right text-center">
+                  <div *ngIf="element.nombre">
+                    {{element.nombre}}
+                  </div>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="razon_social">
+                <th mat-header-cell *matHeaderCellDef class=" text-center"> Razon social </th>
+                <td mat-cell *matCellDef="let element" class="border-right text-center">
+                  <div *ngIf="element.razon_social">
+                    {{element.razon_social}}
+                  </div>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="rfc">
+                <th mat-header-cell *matHeaderCellDef class=" text-center"> RFC </th>
+                <td mat-cell *matCellDef="let element" class="border-right text-center">
+                  <div *ngIf="element.rfc">
+                    {{element.rfc}}
+                  </div>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="fecha_alta">
+                <th mat-header-cell *matHeaderCellDef class=" text-center"> Fecha de alta </th>
+                <td mat-cell *matCellDef="let element" class="border-right text-center">
+                  <div *ngIf="element.fecha_alta">
+                    {{element.fecha_alta}}
+                  </div>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="calle">
+                <th mat-header-cell *matHeaderCellDef class=" text-center"> Calle </th>
+                <td mat-cell *matCellDef="let element" class="border-right text-center">
+                  <div *ngIf="element.calle">
+                    {{element.calle}}
+                  </div>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="numero">
+                <th mat-header-cell *matHeaderCellDef class=" text-center"> Numero </th>
+                <td mat-cell *matCellDef="let element" class="border-right text-center">
+                  <div *ngIf="element.numero">
+                    {{element.numero}}
+                  </div>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="colonia">
+                <th mat-header-cell *matHeaderCellDef class=" text-center"> Colonia </th>
+                <td mat-cell *matCellDef="let element" class="border-right text-center">
+                  <div *ngIf="element.colonia">
+                    {{element.colonia}}
+                  </div>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="cp">
+                <th mat-header-cell *matHeaderCellDef class=" text-center"> Codigo Postal</th>
+                <td mat-cell *matCellDef="let element" class="border-right text-center">
+                  <div *ngIf="element.cp">
+                    {{element.cp}}
+                  </div>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="municipio">
+                <th mat-header-cell *matHeaderCellDef class=" text-center"> Municipio </th>
+                <td mat-cell *matCellDef="let element" class="border-right text-center">
+                  <div *ngIf="element.municipio">
+                    {{element.municipio}}
+                  </div>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="ciudad">
+                <th mat-header-cell *matHeaderCellDef class=" text-center"> Ciudad </th>
+                <td mat-cell *matCellDef="let element" class="border-right text-center">
+                  <div *ngIf="element.ciudad">
+                    {{element.ciudad}}
+                  </div>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="pais">
+                <th mat-header-cell *matHeaderCellDef class=" text-center"> Pais </th>
+                <td mat-cell *matCellDef="let element" class="border-right text-center">
+                  <div *ngIf="element.pais">
+                    {{element.pais}}
+                  </div>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="visita_programada">
+                <th mat-header-cell *matHeaderCellDef class=" text-center"> Visita programada </th>
+                <td mat-cell *matCellDef="let element" class="border-right text-center">
+                  <div *ngIf="element.visita_programada">
+                    {{element.visita_programada}}
+                  </div>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef class=" text-center"> Status </th>
+                <td mat-cell *matCellDef="let element" class="border-right text-center">
+                  <div *ngIf="element.status">
+                    {{element.status}}
+                  </div>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="productos">
+                <th mat-header-cell *matHeaderCellDef class=" text-center">Productos</th>
+                <td mat-cell *matCellDef="let element" class="border-right text-center">
+                  <div *ngFor="let producto of element.productos" class="my-2">
+                    <div *ngIf="producto">
+                      {{producto.nombre}}
+                      <span>
+                        <button mat-mini-fab color="primary" class="ml-2"
+                          (click)="openDialog(producto.id,'productos','Producto','Productos')">
+                          <mat-icon>filter_list</mat-icon>
+                        </button>
+                      </span>
+                    </div>
+                  </div>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="compras">
+                <th mat-header-cell *matHeaderCellDef class=" text-center">Compras</th>
+                <td mat-cell *matCellDef="let element" class="border-right text-center">
+                  <div *ngFor="let compra of element.compras" class="my-2">
+                    <div *ngIf="compra">
+                      {{compra.costo}}
+                      <span>
+                        <button mat-mini-fab color="primary" class="ml-2"
+                          (click)="openDialog(compra.id,'compras','Compra','Compras')">
+                          <mat-icon>filter_list</mat-icon>
+                        </button>
+                      </span>
+                    </div>
+                  </div>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="acciones">
+                <th mat-header-cell *matHeaderCellDef class="text-center p-0">Acciones</th>
+                <td mat-cell *matCellDef="let element" class="border-right px-3 text-center">
+                  <div class="row justify-content-around">
+                    <button mat-mini-fab color="basic" class="mr-4" [routerLink]="['/proveedores/editar/' + element.id]">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-mini-fab color="primary" (click)="Delete(element.id)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
+                </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row;columns:displayedColumns;">
+                {{row}}{{displayedColumns}}
+              </tr>
+            </table>
+            <div *ngIf="cargar" class="spinner">
+              <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

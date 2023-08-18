@@ -1,0 +1,303 @@
+<!-- <div *ngIf="addProductos.value.nombre == '' && id" class="carga">
+  <mat-spinner></mat-spinner>
+</div>
+<div *ngIf="addProductos.value.nombre !== '' || !id" class="container">
+  <mat-card class="card card-register">
+      <mat-toolbar color="primary" class=>
+          <span class="card__title">{{title}}</span>
+      </mat-toolbar>
+      <form [formGroup]="addProductos" (submit)="addProducto()" enctype="multipart/form-data">
+        <div class="card__form">
+
+
+
+
+
+
+
+
+
+
+
+
+
+          <mat-form-field appearance="fill" >
+            <mat-label>Id de la promocion</mat-label>
+            <mat-select name="credito_id" formControlName="id_promociones">
+              <mat-option *ngFor="let promocion of  promociones$ | async" value={{promocion.id}}>
+                 {{promocion.id}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+
+        </div>
+        <div class="flex">
+          <button mat-raised-button type="submit" color="primary" class="btn-register">
+              {{this.btn}}
+          </button>
+        </div>
+      </form>
+  </mat-card>
+</div>
+ -->
+ <div  class="carga row w-100  justify-content-center align-content-center" *ngIf="!cargaOptions && btn=='Agregar' || btn == 'Actualizar' && !cargaOptions">
+  <mat-spinner></mat-spinner>
+</div>
+<!--  -->
+<!-- Card de fomulario -->
+<div class="container pt-5" *ngIf="cargaOptions">
+  <mat-card >
+    <mat-toolbar class="justify-content-center bg-warning" >
+      <h1>{{title}}</h1>
+    </mat-toolbar>
+    <form [formGroup]="formProductos" (submit)="formProducto()" class="w-100">
+      <div class="row mt-3">
+        <!-- nombre -->
+        <div class="form-group  col-4">
+          <mat-form-field  appearance="fill">
+            <mat-label>Nombre</mat-label>
+            <input matInput type="text" placeholder="Nombre"  name="" formControlName="nombre"  required="true">
+          </mat-form-field>
+          <!--  -->
+          <div *ngIf="submitted && formProductos.controls.nombre.errors">
+            <!--  -->
+            <mat-error *ngIf="submitted && formProductos.controls.nombre.errors.required" class="text-danger">
+              Nombre requerido
+            </mat-error>
+          </div>
+
+        </div>
+        <!-- Codigo de barras -->
+        <div class="form-group  col-4">
+          <mat-form-field  appearance="fill">
+            <mat-label>Codigo de barras</mat-label>
+            <input matInput type="number" placeholder=""  formControlName="codigo_barras"  required="true">
+          </mat-form-field>
+          <!--  -->
+          <div *ngIf="submitted && formProductos.controls.codigo_barras.errors">
+            <!--  -->
+            <mat-error *ngIf="submitted && formProductos.controls.codigo_barras.errors.required" class="text-danger">
+              Codigo de barras requerido
+            </mat-error>
+          </div>
+        </div>
+        <!-- Codigo interno -->
+        <div class="form-group  col-4">
+          <mat-form-field  appearance="fill">
+            <mat-label>Codigo interno</mat-label>
+            <input matInput type="number" placeholder="Codigo Interno"  formControlName="codigo_interno"  required="true">
+          </mat-form-field>
+          <!--  -->
+          <div *ngIf="submitted && formProductos.controls.codigo_interno.errors">
+            <!--  -->
+            <mat-error *ngIf="submitted && formProductos.controls.codigo_interno.errors.required" class="text-danger">
+              Codigo interno requerido
+            </mat-error>
+          </div>
+        </div>
+        <!-- Peso neto -->
+        <div class="form-group  col-4">
+          <mat-form-field  appearance="fill">
+            <mat-label>Peso neto</mat-label>
+            <input matInput type="number" placeholder="Peso neto"  formControlName="peso_neto"  required="true">
+          </mat-form-field>
+          <!--  -->
+          <div *ngIf="submitted && formProductos.controls.peso_neto.errors">
+            <!--  -->
+            <mat-error *ngIf="submitted && formProductos.controls.peso_neto.errors.required" class="text-danger">
+              Peso neto requerido
+            </mat-error>
+          </div>
+        </div>
+        <!-- Presentacion -->
+        <div class="form-group  col-4">
+          <mat-form-field  appearance="fill">
+            <mat-label>Presentacion</mat-label>
+            <input matInput type="text" placeholder="Presentacion"  formControlName="presentacion"  required="true">
+          </mat-form-field>
+          <!--  -->
+          <div *ngIf="submitted && formProductos.controls.presentacion.errors">
+            <!--  -->
+            <mat-error *ngIf="submitted && formProductos.controls.presentacion.errors.required" class="text-danger">
+              Presentacion requerido
+            </mat-error>
+          </div>
+        </div>
+        <!-- Marca -->
+        <div class="form-group  col-4">
+          <mat-form-field  appearance="fill">
+            <mat-label>Marca</mat-label>
+            <input matInput type="text" placeholder="Marca"  formControlName="marca"  required="true">
+          </mat-form-field>
+          <!--  -->
+          <div *ngIf="submitted && formProductos.controls.presentacion.errors">
+            <!--  -->
+            <mat-error *ngIf="submitted && formProductos.controls.presentacion.errors.required" class="text-danger">
+              Presentacion requerido
+            </mat-error>
+          </div>
+        </div>
+        <!-- Descripcion generica -->
+        <div class="form-group  col-4">
+          <mat-form-field appearance="fill">
+            <mat-label>Descripcion generica</mat-label>
+            <textarea matInput placeholder="Descripcion generica"  formControlName="descripcion_generica"></textarea>
+          </mat-form-field>
+          <!--  -->
+          <div *ngIf="submitted && formProductos.controls.presentacion.errors">
+            <!--  -->
+            <mat-error *ngIf="submitted && formProductos.controls.presentacion.errors.required" class="text-danger">
+              Presentacion requerido
+            </mat-error>
+          </div>
+        </div>
+        <!-- Precio -->
+        <div class="form-group  col-4">
+          <mat-form-field  appearance="fill">
+            <mat-label>Precio</mat-label>
+            <input matInput type="number" placeholder="Precio"  formControlName="precio"  required="true">
+          </mat-form-field>
+          <!--  -->
+          <div *ngIf="submitted && formProductos.controls.precio.errors">
+            <!--  -->
+            <mat-error *ngIf="submitted && formProductos.controls.precio.errors.required" class="text-danger">
+              Precio requerido
+            </mat-error>
+          </div>
+        </div>
+        <!-- Costo -->
+        <div class="form-group  col-4">
+          <mat-form-field  appearance="fill">
+            <mat-label>Costo</mat-label>
+            <input matInput type="number" placeholder="Costo"   formControlName="costo"  required="true">
+          </mat-form-field>
+          <!--  -->
+          <div *ngIf="submitted && formProductos.controls.costo.errors">
+            <!--  -->
+            <mat-error *ngIf="submitted && formProductos.controls.costo.errors.required" class="text-danger">
+              Costo requerido
+            </mat-error>
+          </div>
+        </div>
+        <!-- Inventario disponible -->
+        <div class="form-group  col-4">
+          <mat-form-field  appearance="fill">
+            <mat-label>Inventario disponible</mat-label>
+            <input matInput type="number" placeholder="Inventario disponible"  name="" formControlName="inventario_disp"  required="true">
+          </mat-form-field>
+          <!--  -->
+          <div *ngIf="submitted && formProductos.controls.inventario_disp.errors">
+            <!--  -->
+            <mat-error *ngIf="submitted && formProductos.controls.inventario_disp.errors.required" class="text-danger">
+              Inventario disponible requerido
+            </mat-error>
+          </div>
+        </div>
+        <!-- Value min -->
+        <div class="form-group  col-4">
+          <mat-form-field  appearance="fill">
+            <mat-label>Valor minimo</mat-label>
+            <input matInput type="number" placeholder="Valor minimo"  formControlName="value_min"  required="true">
+          </mat-form-field>
+          <!--  -->
+          <div *ngIf="submitted && formProductos.controls.value_min.errors">
+            <!--  -->
+            <mat-error *ngIf="submitted && formProductos.controls.value_min.errors.required" class="text-danger">
+              Valor minimo requerido
+            </mat-error>
+          </div>
+        </div>
+        <!-- Status -->
+        <div class="form-group  col-4">
+          <mat-slide-toggle color="warn" formControlName="status">Status</mat-slide-toggle>
+        </div>
+        <!-- Venta Gramos -->
+        <div class="form-group  col-4">
+          <mat-form-field  appearance="fill">
+            <mat-label>Venta en gramos</mat-label>
+            <input matInput type="text" placeholder="Venta en gramos"  name="" formControlName="venta_gramos"  required="true">
+          </mat-form-field>
+          <!--  -->
+          <div *ngIf="submitted && formProductos.controls.venta_gramos.errors">
+            <!--  -->
+            <mat-error *ngIf="submitted && formProductos.controls.venta_gramos.errors.required" class="text-danger">
+              Ventas en gramos requerida
+            </mat-error>
+          </div>
+        </div>
+        <!-- Dimensiones -->
+        <div class="form-group col-4">
+          <mat-form-field appearance="fill" >
+            <mat-label>Nombre Dimension </mat-label>
+            <mat-select formControlName="id_dimension">
+              <mat-option *ngFor="let dimension of  dimensiones$ | async" value={{dimension.id}}>
+                 {{dimension.nombre}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <!--Id Lote -->
+        <div class="form-group  col-4">
+          <mat-form-field appearance="fill" >
+            <mat-label>Codigo interno del lote</mat-label>
+            <mat-select formControlName="id_lotes">
+              <mat-option *ngFor="let lote of  lotes$ | async" value={{lote.id}}>
+                 {{lote.codigo_interno}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <!--Id Proveedor -->
+        <div class="form-group  col-4">
+          <mat-form-field appearance="fill" >
+            <mat-label>Nombre del proveedor</mat-label>
+            <mat-select  formControlName="id_proveedor">
+              <mat-option *ngFor="let proveedor of  proveedores$ | async" value={{proveedor.id}}>
+                 {{proveedor.nombre}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <!--Id Carritos -->
+        <div class="form-group  col-4">
+          <mat-form-field appearance="fill" >
+            <mat-label>Id del carrito</mat-label>
+            <mat-select  formControlName="id_carritos">
+              <mat-option *ngFor="let carrito of  carritos$ | async" value={{carrito.id}}>
+                 {{carrito.id}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="form-group  col-4">
+          <mat-form-field appearance="fill" >
+            <mat-label>Id de la promocion</mat-label>
+            <mat-select formControlName="id_promociones">
+              <mat-option *ngFor="let promocion of  promociones$ | async" value={{promocion.id}}>
+                 {{promocion.id}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- Button Agregar/Actualizar-->
+      <div class="row justify-content-center" *ngIf="!addUpdate">
+        <button mat-raised-button type="submit" color="warn" class="w-100 mb-3 mt-3 col-4">
+          {{btn}}
+        </button>
+      </div>
+      <!-- Buton de loading -->
+      <div class="row justify-content-center" *ngIf="addUpdate">
+        <button mat-raised-button disabled class="w-100 col-4 bg-warning mb-3 mt-3">
+            <span class="spinner-grow spinner-grow-sm c-black"  role="status" aria-hidden="true"></span>
+            <span class="spinner-grow spinner-grow-sm aria-hidden c-black"></span>
+            <span class="c-black">loading...</span>
+        </button>
+      </div>
+    </form>
+  </mat-card>
+</div>
+
+

@@ -1,0 +1,118 @@
+<div  class="carga row w-100  justify-content-center align-content-center" *ngIf="!cargaOptions && btn=='Agregar' || btn == 'Actualizar' && !cargaOptions">
+  <mat-spinner></mat-spinner>
+</div>
+<!-- Card de fomulario -->
+<div class="container pt-5" *ngIf="cargaOptions">
+  <mat-card >
+    <mat-toolbar class="justify-content-center bg-warning" >
+      <h1>{{title}}</h1>
+    </mat-toolbar>
+    <form [formGroup]="formCarritos" (submit)="formCarrito()" class="w-100">
+      <div class="row mt-3">
+        <!-- Cantidad -->
+        <div class="form-group  col-4">
+          <mat-form-field  appearance="fill" class="w-100">
+            <mat-label>Cantidad</mat-label>
+            <input matInput type="number" placeholder="Cantidad"   formControlName="cantidad" required="true">
+          </mat-form-field>
+          <!--  -->
+          <div *ngIf="submitted && formCarritos.controls.cantidad.errors">
+            <!--  -->
+            <mat-error *ngIf="submitted && formCarritos.controls.cantidad.errors.required" class="text-danger">
+              Cantidad de carrito requerida
+            </mat-error>
+          </div>
+
+        </div>
+        <!-- Productos -->
+        <div class="form-group  col-4">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Nombre del Producto</mat-label>
+            <mat-select formControlName="id_productos">
+              <mat-option *ngFor="let producto of  productos$ | async" value={{producto.id}}>
+                 {{producto.nombre}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <!-- Usuario -->
+        <div class="form-group col-4">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Nombre de usuario</mat-label>
+            <mat-select formControlName="id_usuario">
+              <mat-option *ngFor="let usuario of usuarios$ | async" value={{usuario.id}}>
+                {{usuario.nombre}} {{usuario.ap_paterno}} {{usuario.ap_materno}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <!--venta-->
+        <div class="form-group col-4">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Monto de venta</mat-label>
+            <mat-select formControlName="id_venta">
+              <mat-option *ngFor="let venta of ventas$ | async" value={{venta.id}}>
+                {{venta.monto}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- Button Agregar/Actualizar-->
+      <div class="row justify-content-center" *ngIf="!addUpdate">
+        <button mat-raised-button type="submit" color="warn" class="w-100 mb-3 mt-3 col-4">
+          {{btn}}
+        </button>
+      </div>
+      <!-- Buton de loading -->
+      <div class="row justify-content-center" *ngIf="addUpdate">
+        <button mat-raised-button disabled class="w-100 col-4 bg-warning mb-3 mt-3">
+            <span class="spinner-grow spinner-grow-sm c-black"  role="status" aria-hidden="true"></span>
+            <span class="spinner-grow spinner-grow-sm aria-hidden c-black"></span>
+            <span class="c-black">loading...</span>
+        </button>
+      </div>
+    </form>
+  </mat-card>
+</div>
+
+
+
+<!-- <div *ngIf="addCarritos.value.cantidad !== '' || !id" class="container">
+  <mat-card class="card card-register">
+      <mat-toolbar color="primary" >
+          <span class="card__title">{{title}}</span>
+      </mat-toolbar>
+      <form [formGroup]="addCarritos" (submit)="addCarrito()">
+        <div class="card__form">
+          <mat-form-field  appearance="fill">
+            <mat-label>Cantidad</mat-label>
+            <input matInput type="number" placeholder="Cantidad"  name="cantidad" formControlName="cantidad" required="true">
+          </mat-form-field>
+          <mat-form-field appearance="fill" >
+            <mat-label>Nombre del Producto</mat-label>
+            <mat-select formControlName="id_productos">
+              <mat-option *ngFor="let producto of  productos$ | async" value={{producto.id}}>
+                 {{producto.nombre}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="fill" >
+            <mat-label>Nombre de usuario</mat-label>
+            <mat-select name="usuario_id" formControlName="id_usuario">
+              <mat-option *ngFor="let usuario of usuarios$ | async" value={{usuario.id}}>
+                {{usuario.nombre}} {{usuario.ap_paterno}} {{usuario.ap_materno}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="flex">
+          <button mat-raised-button type="submit" color="primary" class="btn-register">
+            {{btn}}
+          </button>
+        </div>
+      </form>
+  </mat-card>
+</div>
+ -->

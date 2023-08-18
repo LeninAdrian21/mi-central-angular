@@ -1,0 +1,27 @@
+<div *ngIf="!dataId && !error" class="carga">
+  <mat-spinner></mat-spinner>
+</div>
+<div *ngIf="error" class="carga">
+  <p>No se puede mostrar la informacion, hubo algun error</p>
+</div>
+<div *ngIf="dataId">
+  <h1 mat-dialog-title >{{this.data.title}}</h1>
+    <div>
+      <ul>
+        <li *ngFor="let columns of table[this.data.table].data ; let i = index ">
+          <div *ngIf="columns">
+            <div *ngIf="columns == 'placas'" class="lista-placas">
+              <pre *ngIf="dataId" class="contenedor-placas text-white">{{table[this.data.table].campo[i]}}: <span *ngFor="let placa of dataId[columns]" class="placas text-white"><span *ngIf="placa.activa == true">{{placa.placa}}</span></span></pre>
+            </div>
+            <pre *ngIf="dataId && columns != 'placas' && columns!='tipo_rol'" class="text-white">{{table[this.data.table].campo[i]}}: {{dataId[columns]}}</pre>
+            <pre *ngIf="dataId && columns != 'placas' && columns == 'tipo_rol'" class="text-white">{{table[this.data.table].campo[i]}}: {{dataId[columns].rol}}</pre>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div mat-dialog-actions>
+      <button mat-button (click)="onNoClick()" class="bg-info">Close</button>
+    </div>
+  <br><br>
+</div>
+<!-- {{dataId | json}} -->

@@ -1,0 +1,79 @@
+<div  class="carga row w-100  justify-content-center align-content-center" *ngIf="!cargaOptions">
+  <mat-spinner></mat-spinner>
+</div>
+ <div class="container pt-5" *ngIf="cargaOptions" >
+  <mat-card >
+    <mat-toolbar class="justify-content-center bg-warning" >
+      <h1>{{title}}</h1>
+    </mat-toolbar>
+    <form [formGroup]="formAbonos" (submit)="formAbono()" class="w-100">
+      <div class="row mt-3">
+        <!-- Cantidad de abono -->
+        <div class="form-group  col-4" *ngFor="let field of fields" [ngSwitch]="field.type">
+          <ng-container *ngSwitchCase="'text'">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>{{field.label}}</mat-label>
+              <input matInput [type]="field.type"
+               [placeholder]="field.placeholder" [formControlName]="field.name">
+            </mat-form-field>
+          </ng-container>
+          <ng-container  *ngSwitchCase="'date'">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>{{field.label}}</mat-label>
+              <input matInput [matDatepicker]="datepicker"  [formControlName]="field.name">
+              <mat-hint>MM/DD/YYYY</mat-hint>
+              <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+              <mat-datepicker #datepicker>
+                <mat-datepicker-actions>
+                  <button mat-button matDatepickerCancel>Cancel</button>
+                  <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+                </mat-datepicker-actions>
+              </mat-datepicker>
+            </mat-form-field>
+          </ng-container>
+          <ng-container  *ngSwitchCase="'time'">
+            <label for="meeting-time" class="m-0">{{field.placeholder}}</label>
+            <input type="time" id="meeting-time" name="meeting-time" value="2018-06-12T19:30" min="2018-06-07T00:00" max="2018-06-14T00:00"style="height: 34px;" class="w-100"  [formControlName]="field.name">
+          </ng-container>
+          <ng-container  *ngSwitchCase="'select'">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>{{field.label}}</mat-label>
+              <mat-select [formControlName]="field.name" *ngIf="field.name != 'id_usuario' && field.name != 'id_credito'">
+                <mat-option  *ngFor="let option of field.options" [value]="option.value">{{ option.label }}</mat-option>
+              </mat-select>
+              <mat-select [formControlName]="field.name" *ngIf="field.name == 'id_credito'">
+                <mat-option *ngFor="let credito of  creditos$ | async" [value]="credito.id">
+                  {{credito.limite}}
+               </mat-option>
+              </mat-select>
+              <mat-select [formControlName]="field.name" *ngIf="field.name == 'id_usuario'">
+                <mat-option *ngFor="let usuario of usuarios$ | async" [value]="usuario.id">
+                  {{usuario.nombre}} {{usuario.ap_paterno}} {{usuario.ap_materno}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </ng-container>
+
+          <mat-error *ngIf="formAbonos.controls[field.name].invalid && formAbonos.controls[field.name].touched" class="text-danger">
+            <span *ngIf="formAbonos.controls[field.name].hasError('required')"> Campo requerido </span>
+          </mat-error>
+        </div>
+      </div>
+      <!-- Button Agregar/Actualizar-->
+      <div class="row justify-content-center" *ngIf="!addUpdate">
+        <button mat-raised-button type="submit" color="warn" class="w-100 mb-3 mt-3 col-4">
+          {{btn}}
+        </button>
+      </div>
+      <!-- Buton de loading -->
+      <div class="row justify-content-center" *ngIf="addUpdate">
+        <button mat-raised-button disabled class="w-100 col-4 bg-warning mb-3 mt-3">
+            <span class="spinner-grow spinner-grow-sm c-black"  role="status" aria-hidden="true"></span>
+            <span class="spinner-grow spinner-grow-sm aria-hidden c-black"></span>
+            <span class="c-black">loading...</span>
+        </button>
+      </div>
+    </form>
+  </mat-card>
+</div>
+

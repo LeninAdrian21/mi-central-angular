@@ -1,0 +1,355 @@
+<!-- <div  class="carga row w-100  justify-content-center align-content-center" *ngIf="!cargaOptions && btn=='Agregar' || btn == 'Actualizar' && !cargaOptions">
+  <mat-spinner></mat-spinner>
+</div> -->
+<!--  -->
+<!-- Card de fomulario -->
+<!-- <div class="container pt-5" *ngIf="cargaOptions">
+  <mat-card >
+    <mat-toolbar class="justify-content-center bg-warning" >
+      <h1>{{title}}</h1>
+    </mat-toolbar>
+    <form [formGroup]="formCamiones" (submit)="formCamion()" class="w-100">
+      <div class="row mt-3"> -->
+        <!-- Numero de serie -->
+        <!-- <div class="form-group  col-4">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Numero de serie</mat-label>
+            <input matInput type="text" id="num_serie" [ngClass]="{'is-invalid':submitted && formCamiones.controls.num_serie.errors}" placeholder="Numero de serie" formControlName="num_serie">
+          </mat-form-field> -->
+          <!--  -->
+          <!-- <div *ngIf="submitted && formCamiones.controls.num_serie.errors"> -->
+            <!--  -->
+            <!-- <mat-error *ngIf="submitted && formCamiones.controls.num_serie.errors.required" class="text-danger">
+              Numero de serie es requerido
+            </mat-error> -->
+            <!--  -->
+            <!-- <mat-error *ngIf="submitted && formCamiones.controls.num_serie.errors.minlength" class="text-danger">
+              El minimo de datos son 17
+            </mat-error> -->
+            <!--  -->
+            <!-- <mat-error *ngIf="submitted && formCamiones.controls.num_serie.errors.maxlength" class="text-danger">
+              El maximo de datos son 17
+            </mat-error>
+            <mat-error *ngIf="submitted && formCamiones.controls.num_serie.errors.pattern" class="text-danger">
+              Solo se permite numeros
+            </mat-error>
+          </div>
+
+        </div> -->
+        <!-- NIV -->
+        <!-- <div class="form-group  col-4">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Numero de identificacion vehicular</mat-label>
+            <input matInput type="text" id="niv" [ngClass]="{'is-invalid':submitted && formCamiones.controls.niv.errors}" placeholder="Numero de identificacion vehicular" formControlName="niv">
+          </mat-form-field> -->
+          <!--  -->
+          <!-- <div *ngIf="submitted && formCamiones.controls.niv.errors"> -->
+            <!--  -->
+            <!-- <mat-error *ngIf="submitted && formCamiones.controls.niv.errors.required" class="text-danger">
+              Numero de serie es requerido
+            </mat-error> -->
+            <!--  -->
+            <!-- <mat-error *ngIf="submitted && formCamiones.controls.niv.errors.minlength" class="text-danger">
+              El minimo de datos son 17
+            </mat-error> -->
+            <!--  -->
+            <!-- <mat-error *ngIf="submitted && formCamiones.controls.niv.errors.maxlength" class="text-danger">
+              El maximo de datos son 17
+            </mat-error>
+            <mat-error *ngIf="submitted && formCamiones.controls.niv.errors.pattern" class="text-danger">
+              Solo se permite numeros
+            </mat-error> -->
+            <!--  -->
+          <!-- </div>
+        </div> -->
+        <!--Id Historial -->
+        <!-- <div class="form-group  col-4">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Fecha del historial</mat-label>
+            <mat-select formControlName="id_historial">
+              <mat-option *ngFor="let historial of historiales$ | async" value="{{historial.id}}">{{historial.fecha}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div> -->
+        <!--Id Gasto -->
+        <!-- <div class="form-group  col-4">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Monto de gasto</mat-label>
+            <mat-select formControlName="id_gastos">
+              <mat-option *ngFor="let gasto of gastos$ | async" value="{{gasto.id}}">{{gasto.monto}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div> -->
+        <!-- Id Rutas -->
+        <!-- <div class="form-group  col-4">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Lugar de origen (Ruta)</mat-label>
+            <mat-select formControlName="id_rutas">
+              <mat-option *ngFor="let ruta of rutas$ | async" value="{{ruta.id}}">{{ruta.lugar_origen}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div> -->
+        <!-- Id Usuario -->
+        <!-- <div class="form-group  col-4">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Nombre del usuario</mat-label>
+            <mat-select formControlName="id_usuario">
+              <mat-option *ngFor="let usuario of usuario$ | async" value="{{usuario.id}}">{{usuario.nombre}} {{usuario.ap_paterno}} {{usuario.ap_materno}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div> -->
+      <!-- Form Array Name Placas  -->
+      <!-- <div formArrayName="placas">
+        <div *ngFor="let placa of placas.controls;let i = index"> -->
+          <!-- button -->
+          <!-- button -->
+          <!-- <button mat-mini-fab color="primary" (click)="deletePlaca(i)" type="button">
+            <mat-icon>remove</mat-icon>
+          </button> -->
+        <!-- Form Group Name -->
+          <!-- <div [formGroupName]="i" class="w-100">
+            <div class="row mt-3"> -->
+            <!-- Placa -->
+              <!-- <div class="form-group col-4">
+                <mat-form-field appearance="fill" class="w-100">
+                  <mat-label>Placa</mat-label>
+                  <input matInput type="text" placeholder="Placa" formControlName="placa">
+                </mat-form-field> -->
+                <!--Required-->
+                <!-- <mat-error *ngIf="submitted && errorsPlacaPlacas[i]?.required" class="text-danger">
+                  La placa es requerida
+                </mat-error> -->
+                <!-- minlength -->
+                <!-- <mat-error *ngIf="submitted && errorsPlacaPlacas[i]?.minlength" class="text-danger">
+                  El minimo de caracteres son 5
+                </mat-error> -->
+                <!-- maxlength -->
+                <!-- <mat-error *ngIf="submitted && errorsPlacaPlacas[i]?.maxlength" class="text-danger">
+                  El maximo de caracteres son 6
+                </mat-error> -->
+                <!-- pattern -->
+                <!-- <mat-error *ngIf="submitted && errorsPlacaPlacas[i]?.pattern" class="text-danger">
+                  Solo se permite numeros y letras exeptuando la ñ
+                </mat-error> -->
+                <!-- ValidatorPlaca -->
+                <!-- <mat-error *ngIf="submitted && errorsPlacaPlacas[i]?.validatorPlaca" class="text-danger">
+                  No se permite los guiones y las letras (ioq-IOQ)
+                </mat-error>
+              </div> -->
+            <!-- Activa -->
+            <!-- <div class="form-group col-4">
+              <mat-slide-toggle formControlName="activa">Placa</mat-slide-toggle>
+            </div> -->
+            <!-- Estado de la placa -->
+            <!-- <div class="form-group col-4">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label>Estado de la placa</mat-label>
+                <input matInput type="text" placeholder="Placa" classs="text-uppercase"formControlName="estado" >
+              </mat-form-field>
+              <mat-error *ngIf="submitted && errorsEstadoPlacas[i]?.required" >
+                El estado es Requerido
+              </mat-error>
+              <mat-error *ngIf="submitted && errorsEstadoPlacas[i]?.minlength">
+                El minimo de caracteres son 4
+              </mat-error>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div> -->
+        <!-- Form Array Name Add Placas-->
+        <!-- <div formArrayName="addplacas">
+          <div *ngFor="let placa of addplacas.controls;let i = index"> -->
+            <!-- button -->
+            <!-- <button mat-mini-fab color="primary" (click)="deletePlaca(i)" type="button">
+                <mat-icon>remove</mat-icon>
+            </button> -->
+            <!-- Form Group Name -->
+            <!-- <div [formGroupName]="i" class="w-100">
+              <div class="row mt-3"> -->
+                <!-- Placa -->
+                <!-- <div class="form-group col-4">
+                  <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>Placa</mat-label>
+                    <input matInput type="text" placeholder="Placa" formControlName="placa">
+                  </mat-form-field> -->
+                  <!--Required-->
+                  <!-- <mat-error *ngIf="submitted && errorsPlacaAddPlacas[i]?.required" class="text-danger">
+                    La placa es requerida
+                  </mat-error> -->
+                  <!-- minlength -->
+                  <!-- <mat-error *ngIf="submitted && errorsPlacaAddPlacas[i]?.minlength" class="text-danger">
+                    El minimo de caracteres son 5
+                  </mat-error> -->
+                  <!-- maxlength -->
+                  <!-- <mat-error *ngIf="submitted && errorsPlacaAddPlacas[i]?.maxlength" class="text-danger">
+                    El maximo de caracteres son 6
+                  </mat-error> -->
+                  <!-- pattern -->
+                  <!-- <mat-error *ngIf="submitted && errorsPlacaAddPlacas[i]?.pattern" class="text-danger">
+                    Solo se permite numeros y letras exeptuando la ñ
+                  </mat-error> -->
+                  <!-- ValidatorPlaca -->
+                  <!-- <mat-error *ngIf="submitted && errorsPlacaAddPlacas[i]?.validatorPlaca" class="text-danger">
+                    No se permite los guiones y las letras (ioq-IOQ)
+                  </mat-error>
+                </div> -->
+                <!-- Activa -->
+                <!-- <div class="form-group col-4">
+                  <mat-slide-toggle formControlName="activa">Placa</mat-slide-toggle>
+                </div> -->
+                <!-- Estado de la placa -->
+                <!-- <div class="form-group col-4">
+                  <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>Estado de la placa</mat-label>
+                    <input matInput type="text" placeholder="Placa" classs="text-uppercase"formControlName="estado" >
+                  </mat-form-field>
+                  <mat-error *ngIf="submitted && errorsEstadoAddPlacas[i]?.required">
+                    El estado es requerido
+                  </mat-error>
+                  <mat-error *ngIf="submitted && errorsEstadoAddPlacas[i]?.minlength">
+                    EEl minimo de caracteres son 4
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> -->
+        <!-- Button Add Placa -->
+        <!-- <div class="row">
+          <button mat-raised-button type="button" color="warn" (click)="addPlaca()" class="ml-3">
+            <mat-icon>add</mat-icon>
+            Agregar placa
+          </button>
+        </div> -->
+
+      <!-- Button Agregar/Actualizar-->
+      <!-- <div class="row justify-content-center" *ngIf="!addUpdate">
+        <button mat-raised-button type="submit" color="warn" class="w-100 mb-3 mt-3 col-4">
+          {{btn}}
+        </button>
+      </div> -->
+      <!-- Buton de loading -->
+      <!-- <div class="row justify-content-center" *ngIf="addUpdate">
+        <button mat-raised-button disabled class="w-100 col-4 bg-warning mb-3 mt-3">
+            <span class="spinner-grow spinner-grow-sm c-black"  role="status" aria-hidden="true"></span>
+            <span class="spinner-grow spinner-grow-sm aria-hidden c-black"></span>
+            <span class="c-black">loading...</span>
+        </button>
+      </div>
+    </form>
+  </mat-card>
+</div> -->
+<!-- <div  class="carga row w-100  justify-content-center align-content-center" *ngIf="!cargaOptions">
+  <mat-spinner></mat-spinner>
+</div> -->
+ <div class="container pt-5" >
+  <mat-card >
+    <mat-toolbar class="justify-content-center bg-warning" >
+      <h1>{{title}}</h1>
+    </mat-toolbar>
+    <form [formGroup]="formCamiones" (submit)="formCamion()" class="w-100">
+      <div class="row mt-3">
+        <div class="form-group col-4" *ngFor="let field of fields" [ngSwitch]="field.type">
+          <ng-container *ngSwitchCase="'text'">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>{{field.label}}</mat-label>
+              <input matInput [type]="field.type"
+               [placeholder]="field.placeholder" [formControlName]="field.name">
+            </mat-form-field>
+          </ng-container>
+          <ng-container  *ngSwitchCase="'select'">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>{{field.label}}</mat-label>
+              <mat-select [formControlName]="field.name" *ngIf="field.name != 'id_historial' && field.name != 'id_gastos' && field.name != 'id_rutas' && field.name != 'id_usuario'">
+                <mat-option  *ngFor="let option of field.options" [value]="option.value">{{ option.label }}</mat-option>
+              </mat-select>
+              <mat-select [formControlName]="field.name" *ngIf="field.name == 'id_historial'">
+                <mat-option *ngFor="let historial of  historiales$ | async" [value]="historial.id">
+                  {{historial.fecha}}
+               </mat-option>
+              </mat-select>
+              <mat-select [formControlName]="field.name" *ngIf="field.name == 'id_gastos'">
+                <mat-option *ngFor="let gasto of  gastos$ | async" [value]="gasto.id">
+                  {{gasto.monto}}
+               </mat-option>
+              </mat-select>
+              <mat-select [formControlName]="field.name" *ngIf="field.name == 'id_rutas'">
+                <mat-option *ngFor="let ruta of  rutas$ | async" [value]="ruta.id">
+                  {{ruta.lugar_origen}}
+               </mat-option>
+              </mat-select>
+              <mat-select [formControlName]="field.name" *ngIf="field.name == 'id_usuario'">
+                <mat-option *ngFor="let usuario of usuario$ | async" [value]="usuario.id">
+                  {{usuario.nombre}} {{usuario.ap_paterno}} {{usuario.ap_materno}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </ng-container>
+
+          <mat-error *ngIf="formCamiones.controls[field.name].invalid && formCamiones.controls[field.name].touched" class="text-danger">
+              <p *ngIf="formCamiones.controls[field.name].hasError('required')"> Campo requerido </p>
+              <p *ngIf="formCamiones.controls[field.name].hasError('minlength')"> El numero minimo de caracteres son {{field.minLength}}</p>
+              <p *ngIf="formCamiones.controls[field.name].hasError('maxlength')"> El numero maximo de caracteres son {{field.maxLength}} </p>
+              <div *ngIf="field.name == 'niv' || field.name == 'num_serie'">
+                <p *ngIf="formCamiones.controls[field.name].hasError('pattern')"> Solo se permite numeros </p>
+              </div>
+          </mat-error>
+        </div>
+      </div>
+      <p class="text-center">Gastos</p>
+      <div formArrayName = "gastos" class="row" >
+        <div  class="form-group col-4" *ngFor="let gasto of gastos.controls; let i = index">
+          <button mat-mini-fab color="primary" class="my-2" (click)="delete(i,'gasto')" type="button">
+            <mat-icon>remove</mat-icon>
+          </button>
+          <div [formGroupName]="i">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Monto de gasto</mat-label>
+              <mat-select formControlName="id">
+                <mat-option *ngFor="let gasto of gastos$ | async" [value]="gasto.id">{{gasto.monto}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <button mat-raised-button type="button" color="warn" (click)="add('gasto')" class="ml-3">
+          <mat-icon>add</mat-icon>
+          Agregar placa
+        </button>
+      </div>
+      <p class="text-center">Rutas</p>
+      <div formArrayName = "rutas" class="row" >
+        <div  class="form-group col-4" *ngFor="let ruta of rutas.controls; let i = index">
+          <button mat-mini-fab color="primary" class="my-2" (click)="delete(i,'ruta')" type="button">
+            <mat-icon>remove</mat-icon>
+          </button>
+          <div [formGroupName]="i">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Monto de gasto</mat-label>
+              <mat-select formControlName="id">
+                <mat-option *ngFor="let ruta of rutas$ | async" [value]="ruta.id">{{ruta.lugar_origen}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="row justify-content-center" *ngIf="!addUpdate">
+        <button mat-raised-button type="submit" color="warn" class="w-100 mb-3 mt-3 col-4">
+          {{btn}}
+        </button>
+      </div>
+      <!-- Buton de loading -->
+      <div class="row justify-content-center" *ngIf="addUpdate">
+        <button mat-raised-button disabled class="w-100 col-4 bg-warning mb-3 mt-3">
+            <span class="spinner-grow spinner-grow-sm c-black"  role="status" aria-hidden="true"></span>
+            <span class="spinner-grow spinner-grow-sm aria-hidden c-black"></span>
+            <span class="c-black">loading...</span>
+        </button>
+      </div>
+    </form>
+  </mat-card>
+</div>
+
