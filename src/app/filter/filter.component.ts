@@ -58,7 +58,7 @@ export class FilterComponent implements OnInit {
     return this.filterForm.get('filters') as FormArray;
   }
   ListarData(){
-    this.variables.FilterObservable.subscribe(data => {
+    this.variables.FilterObservable.subscribe((data: any) => {
       Funcions.ListaAutoComplete(this.info,data);
     })
   }
