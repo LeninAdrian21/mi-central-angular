@@ -14,13 +14,18 @@
               <div class="col-11">
                 <div class="row justify-content-around ">
                   <div>
+                    <button mat-fab class="bg-secondary text-white" (click)="Clear()">
+                      <mat-icon>cached</mat-icon>
+                    </button>
+                  </div>
+                  <div>
                     <button mat-fab class="bg-secondary text-white" (click)="Filter()">
                       <mat-icon>filter_list</mat-icon>
                     </button>
                   </div>
                   <div>
                     <button mat-fab class="bg-success text-white" (click)="Export()">
-                      <mat-icon> save </mat-icon>
+                      <mat-icon>save</mat-icon>
                     </button>
                   </div>
                 </div>

@@ -53,7 +53,8 @@ export class ListadoComponent implements OnInit{
   }
 
   getPaginator(filters?:any) {
-    this.data.GetPaginator(this.start,this.limit, filters).subscribe(({edges, totalCount, pageInfo}) => {
+    this.
+    data.GetPaginator(this.start,this.limit, filters).subscribe(({edges, totalCount, pageInfo}) => {
       this.totalCount = totalCount;
       this.NextPage = pageInfo?.hasNextPage;
       if(edges){
@@ -103,6 +104,9 @@ export class ListadoComponent implements OnInit{
       id,url,title,table
     }
     Funcions.Dialog(this.dialog,DialogcomponentComponent,'550px','500px',data);
+  }
+  Clear(){
+    this.getPaginator();
   }
   Filter(){
     this.ListarData();
@@ -199,13 +203,6 @@ export class ListadoComponent implements OnInit{
         console.log("Cancelado");
       }
     })
-
-
-    // if(this.filters.length > 0) {
-    //   console.log(this.filters);
-    // }else{
-    //   this.Filter();
-    // }
   }
   Delete(id:string){
     Funcions.delete(id,this.service,'abonos','update_mostrar','Abono eliminado correctamente');
